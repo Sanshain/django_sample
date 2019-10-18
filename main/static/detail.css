@@ -1,0 +1,30 @@
+/*область main*/
+.main{		
+	width:79%;
+	display:inline-block;
+}
+
+
+.btn{
+	padding: 10px;
+	border: 1px solid gold;
+	display: inline-block;
+	border-radius: 8px;		
+	cursor:pointer;			
+	transition: 0.3s linear;		
+}
+
+.btn a{
+	text-decoration: none;	
+	color:#5d1d31;					
+}
+.btn:hover{
+	background-color: orange;								
+}
+
+.friend_pick{	
+	transition:0.2s;
+}
+.friend_pick:hover{
+	background-color:beige;
+}

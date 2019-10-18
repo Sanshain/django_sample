@@ -1,0 +1,75 @@
+{% load template_ex %}
+
+<div class='user'>
+
+	<!--[if IE 8]><div style='margin-left:50px;'><![endif]--><!--увеличим расстояние от шапки-->
+
+
+
+		<div class='user_desc'>
+			<p class='atr'> 
+			
+				{{ profile|field_name:'Age' }}: 
+				<span class='ab' id='age'> 
+					{{ profile.Age }}
+				</span> 
+			</p>
+			<p class='atr'> 
+			
+				{{ profile|field_name:'City'}}: 
+					<span class='ab' id='city'> 
+						{{ profile.City }}					
+					</span>
+			</p>
+			<p class='atr'> 
+				{{ profile|field_name:'Sex' }}: 
+				<span class='ab' id='sex'> 
+					{{ profile.Sex }}
+				</span> 
+			</p>	
+			
+		</div>			
+
+			
+		<p class='atr ava'> 					
+		
+			{% if profile.Image %} 
+				<img id='image' src='{{profile.Image.url}}'/>
+			{% else %}
+				<div class='default_ava'>< /div>
+			{% endif %}
+		</p>
+
+		
+		<div class='user_action'>
+
+			{% if self %}
+			
+				
+				<a class='change' href="{% url 'edit_self' user.id %}">
+					<button>измениться</button>
+				</a>
+				
+				
+			{% else %}
+			
+				<script>
+	
+				</script>
+			
+				<button style="z-index:10;" onclick="
+				
+					to_dialog();
+				
+				">
+					Отправить сообщение
+				</button>				
+			{% endif %}	
+			
+			
+		</div>		
+		
+				
+<!--[if IE 8]></div><![endif]-->
+
+</div>

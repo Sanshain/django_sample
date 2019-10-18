@@ -1,0 +1,43 @@
+<div id="win" style="display:none;" onkeydown ="
+	{		
+		if (event.keyCode == 27) HideModal();		
+	}
+">
+		
+	<form action='#' onsubmit='note_submit(this, event);' method='post' id='note'>
+		{% csrf_token %}
+		{{create_articles.as_p}}
+		
+		<input form='note' class='btn'  type='submit' value='Поделиться' style='
+			float:right;
+			min-width:7em;
+			min-height: 40px; 
+			margin-right: 5%;'>
+		
+		<button class='btn' style='
+			float:left;
+			min-width:7em;
+			min-height: 40px; 
+			margin-left: 5%;'>Скрыть</button>
+		
+	</form>	
+
+
+	
+</div>
+
+<article>
+	{% if articles %}				
+				
+		<div class='articles_list'>
+	{% for article in articles %}
+	
+			<div class='Anote'>
+				<h4 style='margin-top:5px'>{{article.Title}}</h4>
+				<div>{{article.Content}}</div>
+			</div>
+	{% endfor %}
+		</div>
+			
+	{%endif%}
+</article>

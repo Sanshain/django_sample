@@ -1,0 +1,70 @@
+/*область aside*/
+.aside{
+	width:25vw;	
+	display:inline-block;
+	z-index:1;
+	/*padding-top: 50px;		*/
+	
+	position:absolute;
+	right:0;
+	top:150px;
+
+	width:21%;
+	max-width: 15em;
+}
+
+.aside_menu{
+	min-height: 70vh;	
+	border: 1px solid lightgray;
+	border-radius: 8px 0px 0px 8px;
+	/*margin-top: 10px;*/
+	margin-right: -1px;
+	overflow: hidden;
+}
+
+.aside_menu .aside_btn{
+	width: 100%;
+	box-sizing:border-box;
+	border: None;
+	border-bottom: 1px solid orange;
+	border-radius: 0px;
+}
+
+
+
+
+.aside_menu .btn{
+	width: 100%;	
+	box-sizing:border-box;
+	border: None;
+	border-bottom: 1px solid orange;
+	border-radius: 0px;
+	margin: 0px;
+}
+
+
+
+
+.aside_btn{
+	
+	padding: 10px;
+	border: 1px solid brown;
+	display: inline-block;
+	border-radius: 8px;		
+	cursor:pointer;			
+	transition: 0.5s linear;		
+	
+	font-family: sans-serif;
+    color: darkgray;	
+}
+
+
+
+.aside_btn a{
+	text-decoration: none;		
+	color:#5d1d31;						
+}
+.aside_btn:hover{
+	background-color: orange;
+	color: brown;
+}

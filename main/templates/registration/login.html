@@ -1,0 +1,17 @@
+{% extends "base.html" %}{% load staticfiles %}
+
+	
+{% block links %}<link rel="stylesheet" href="{% static 'login.css' %}">{% endblock %}
+	
+{% block nav %}
+	<a href="{% url 'signup' %}" class='sign me'>Регистрация</a>	
+	<a href="{% url 'users' %}" class='sign'>Участники</a>	
+{% endblock %}
+	
+{% block content %}
+	
+	<fieldset>		
+		{{ form }}
+	</fieldset>
+		
+{% endblock %}

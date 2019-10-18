@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+		
+{% block links %}				
+	{% include 'main/profile_list/links.html' %}	
+		
+{% endblock %}		
+
+{% block script %}	
+	{% include 'main/profile_list/behavior.js' %}	
+	
+{% endblock %}
+
+
+
+{% block header %}Участники:{% endblock %}	
+
+{% block main %}
+	<ul class=blocklist>
+		{% for User in Users %}
+			<li id='us_{{User.id}}' onclick='user_click(this, event)' onmousedown='user_mousedown(this,event)'>
+				{{ User.username  }}
+				{{ User.last_name }}
+				
+				{% if User.Recipient %}						
+					<button class='to_friend sended'>Раздумать</button> 
+				{% elif User.Sender %}						
+					<button class='to_friend sended' style='right:125px;background-color:#ffa50082'>Отказаться</button>
+					<button class='to_friend sended' style='background-color:greenyellow'>Согласиться</button>
+				{% elif User.Friend %}						
+					<button class='friend to_friend' style='background-color:burlywood;'>Ваш друг</button>  					
+				{% elif User.Me %}	
+					<button class='to_friend' name='self' style='border:1px solid orange;'>К себе</button>
+				{% else %}
+					<button class='to_friend'>Дружить</button> 
+				{% endif %}
+			</li>
+		{% endfor  %}
+		
+		{% csrf_token %}
+	<ul>		
+
+{% endblock %}
+		

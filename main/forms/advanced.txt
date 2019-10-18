@@ -1,0 +1,26 @@
+        #self.fields['username'].validators=[EmailValidator(message="Пользователь с таким именем уже существует")]
+        #self['username'].label = 'asasasasasasasasa'    									#тоже работает, но меняет лишь содержимое тега  
+        """
+        for field in self.fields.itervalues():
+            field.widget.attrs.update({'class':'user'}) 									#назначаем класс для каждого widgets
+        """
+
+#def form_valid(self, form):
+#def get_initial(self):
+#def get_default_attrs(self):
+	
+
+
+	
+	
+	
+"""Какая-то экспериментальная TextInput. Она должна быть не в этом файле, а в спец для польз. виджетов:
+Здесь временно:
+
+Пока под вопросом. ведь можно через [input] назначать стили, либо в форме. + лдя всех форм они разные. А если одинаковые, то проще либо наследовать формы. чем виджет. Впрочем, посмотрим
+"""	
+class PrettyWidget(forms.TextInput): # subject = TextField(widget=PrettyWidget)
+    class Media:
+        css = {
+            'all': ('pretty.css',)
+        }

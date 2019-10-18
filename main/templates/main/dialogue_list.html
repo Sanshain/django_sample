@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+		
+{% block links %}				
+	{% load staticfiles %}
+
+	{% for link in links %}
+		<link rel="stylesheet" href="{{ link }}">
+	{% endfor %}
+		
+		
+	<link rel="stylesheet" href="{% static 'aside.css' %}"> 	
+	
+{% endblock %}	
+	
+		
+		
+{% block main %}
+	<ul class=blocklist>
+		{% for dialog in object_list %}
+			<li id='{{dialog.id}}'>
+				<a href='{% url "multidialog" dialog.id %}' style='height:100%; display: inline-block; width: 99%;padding-left:90px;box-sizing: border-box;'>
+				
+				<span class=last_mess>
+				{% if dialog.lastMess %}
+					
+					{{ dialog.lastMess|truncatechars:50 }} <span style=
+					'color:lightgray;font-size:small;float:right;padding-right:3em;'>{{dialog.time}}</span>
+
+					{# dialog.Partakers.first #}
+					
+					{# dialog.time #}
+					
+					<!--{{ dialog.message.Content }}	
+					{{ dialog.count }}-->
+				{% endif %}
+				</span>
+								
+				{% if dialog.unread %}
+					
+						<div class=unread>{{ dialog.unread }}</div>		
+					
+				{% endif %}						
+				
+				
+				</a>
+				
+				<div style='display:inline-block;position:absolute;left:0;color:red;width:60px;background-color:azure;margin-right:5px;margin-left:5px;border-radius:5px;padding:2px;'> 
+							
+				
+				{% if dialog.SenderImg %}
+					<img src="{{ MEDIA_URL }}{{dialog.SenderImg }}" height=30 width=50>
+				{% elif dialog.SenderName %}
+					{{dialog.SenderName|slice:"1"}}
+				{% else %}					
+					...
+				{% endif %}	
+				</div>
+				
+			</li>
+		{% endfor  %}
+		
+		{% csrf_token %}
+	<ul>		
+
+{% endblock %}
+
+
+
+{% block aside %}
+	
+	<div class='aside'>
+		<aside>	
+			
+			<div class='aside_menu'>
+				<a href="{% url 'users'%}"><div class='aside_btn'>Друзья</div></a> 
+			</div>
+			
+		</aside>
+	</div>
+
+{% endblock %}
+		

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+	<head>{% load staticfiles %}
+		<meta charset="utf-8" />
+		
+		<title>{% block title %}{{ header }}{% endblock %}</title>
+		
+		<link rel="stylesheet" href="{% static 'base.css' %}">
+		
+{% block links %}
+
+{% endblock %}	
+		
+		<style>
+		
+			{% block style %}				
+
+			{% endblock %}					
+			
+		</style>
+		
+		<script>
+		
+			{% block script %}{% endblock %}
+
+		</script>
+		
+	</head>
+
+	<body>
+
+		<header>
+				
+			<div class='header'>
+				<div class='nav'>
+				
+					{% if request.user.is_authenticated and user.Image %}
+						<a style='display:inline-block;float:left;position:relative;cursor:pointer;z-index:10' href="{% url 'user' user.id %}">
+							<img style='border-radius: 25px;position:relative;top:5px;left:45px;' src='{{user.Image.url}}' height=50 width=50 />
+						</a>
+					{% endif %}		
+				
+					<nav>						
+						{% block nav %}				
+							
+						    <a id='me' name='{{user.id}}' href="{% url 'user' user.id %}" class='section_nav'>К себе</a><!--						
+							--><a href="{% url 'dialogs' %}" class='section_nav'>Сообщения</a><!--
+
+							--><a href="{% url 'signout' %}" 							
+						{% endblock %}		
+						
+					</nav>			
+				</div>
+				<h2 id='header'>{% block header %} {% endblock %}</h2>
+				
+			</div>				
+			
+		</header>
+	
+		<content>
+		
+			
+		
+			<div class='content'>				
+		
+						
+				{% block content %}				
+					
+					{% block main %}{% endblock %}				
+								
+					{% block aside %}{% endblock %}
+					
+					
+				{% endblock %}
+			
+			</div>		
+		</content>
+		
+	</body>
+
+</html>

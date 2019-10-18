@@ -1,0 +1,16 @@
+{% extends "user.html" %}{% load staticfiles %}
+
+
+{% block links %}
+	{{ block.super }}
+	<script src="{% static 'photo_up.js' %}"></script>	
+	
+{% endblock %}
+
+
+{% block main %}
+	{{ form }}
+	
+{% endblock %}
+
+{% block aside %}{% endblock %}

@@ -1,0 +1,49 @@
+{% extends "base.html" %}{% load staticfiles %}
+
+{% block title %}
+
+	{{ header }}
+	
+{% endblock %}
+
+
+{% block links %}
+
+	<link rel="stylesheet" href="{% static 'detail.css' %}"> 
+	{% for link in links %}
+
+		<link rel="stylesheet" href="{{link}}"> 		
+		
+	{% endfor %}
+	
+{% endblock %}
+
+{% block main %}
+	
+	<div class='general'>
+		<main>
+		
+			<form action='#' method='post'>{% csrf_token %}
+				{{form.as_p}}
+				<!--<div contenteditable=true style="width:60vw;min-height:50px;border:1px solid black">g</div>-->
+				<input type='submit' value='ok'>
+			</form>
+		
+		</main>		
+	</div>		
+
+{% endblock %}
+
+{% block aside %}
+	
+	<div class='aside' style='position:fixed;'>
+		<aside>
+			
+			<div class='aside_menu'>
+				<a href="{% url 'users'%}"><div class='btn'>Все</div></a> 
+			</div>
+			
+		</aside>
+	</div>
+
+{% endblock %}

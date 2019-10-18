@@ -1,0 +1,42 @@
+	{% if profile.id == user.id %}
+		<button style='float:left;' id='note_create' onclick='note_create(this,event);'>Создать запись</button>
+		
+		<div id="win" style="display:none;" onkeydown ="function()
+			{
+				alert(6);
+				 (event.keyCode == 27) HideModal();
+			}();
+		";
+			
+			<!--<div contenteditable=true-->
+			<form action='#' onsubmit='note_submit(this, event);' method='post' id='note'>
+				{% csrf_token %}
+				{{create_articles.as_p}}
+									
+			</form>				
+			
+		</div>
+		
+		<!--
+		<div id="win" style="display:none;">"
+			<div class="overlay"></div>
+			<div class="visible" onkeydown ="if (event.keyCode == 27) HideModal();">
+
+			<button type="button" onClick="HideModal()">закрыть</button>
+			<button type="button" onClick="ExpandModal()">Развернуть</button>
+
+			<h2 class='modal_header'>Что у вас нового?...</h2>
+
+			<div class="modal_content">
+
+				<form action='#' onsubmit='note_submit(this, event);' method='post' id='note'>
+					{% csrf_token %}
+					{{create_articles.as_p}}
+					<!--<div contenteditable=true style="width:60vw;min-height:50px;">g</div>--><!--					
+				</form>			
+
+			</div>		
+			<input form='note' type='submit' value='Поделиться' style='width: 96%; min-height: 40px; color: burlywood; font-size: medium; font-family: Segoe Print; margin: 2%;'>
+		  </div>
+		</div>	-->			
+	{% endif %}

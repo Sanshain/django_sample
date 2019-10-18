@@ -1,0 +1,37 @@
+<div class='dialog_container'>
+	<div class="dialog">
+		<ul class="messages">
+			{% now "dmy" as td %}
+		
+			{# messages|slice:":10" as msgs #}
+			{% for message in messages reversed %}
+			
+			
+					{% ifchanged message.Time|date %}
+						<div class="day">
+							{{ message.Time|date }}
+						</div>
+					{% endifchanged %}
+				
+					<li class="{%if message.sender_id != user.id%}y{%endif%} message">
+						<span class="mess_id">{{message.id}}</span>						
+						
+						{{message.Content}}
+						
+						<sub class='mess_time'>
+							{% if message.Time|date:"dmy" == td %}							
+								Сегодня 
+							{% endif %}
+													
+							{{message.Time|time:"H:i"}}		
+						</sub>
+
+					</li>						
+								
+			{% endfor  %}
+		</ul>
+	</div>	
+	<form method='post'>{% csrf_token %}
+		<textarea autofocus onkeydown='enter(this, event)' onmousedown='/*customizeEnter*/'></textarea>
+	</form>
+</div>

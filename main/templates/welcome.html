@@ -1,0 +1,19 @@
+{% extends "base.html" %}{% load staticfiles %}
+
+	
+{% block links %}
+	<link rel="stylesheet" href="{% static 'form.css' %}">
+	<script src="{% static 'ajax.js' %}"></script>	
+{% endblock %}
+	
+{% block nav %}
+	<a href="{% url 'signin' %}" class='sign me'>Вход</a></a>	
+	<a href="{% url 'users' %}" class='sign'>Участники</a>	
+{% endblock %}
+	
+{% block content %}		
+	{{ form }}
+	
+{% endblock %}
+
+

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>{{ header }}</title>
+		
+		<style>
+			.blocklist{
+				list-style-type: none;
+			}
+			.blocklist > li{
+				padding: 0.5em;
+				border: 1px solid lightgray;
+				margin-bottom: 1px;
+				border-radius: 5px;
+				cursor: pointer;
+				background-color: #f3ecd9;/*#e5f7f6;*/
+			}		
+			.blocklist > li:hover{
+				background-color: #ffd78f;/*#d9f1eb;		*/	
+			}				
+		</style>	
+	</head>
+	<body>
+		<h1>Create:</h1><hr>
+		
+		<form action="" method="post">{% csrf_token %}
+			{{ form.as_p }}
+			<input type="submit" value="Create" />
+		</form>
+		
+	</body>
+</html>

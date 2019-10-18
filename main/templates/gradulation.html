@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Hello Django{% endblock %}
+
+{% block style %}
+	{{ block.super }}
+	.me{
+		left: 30px;	
+	}
+	div{
+		margin-left:30px;
+	}
+{% endblock %}
+
+{% block nav %}<a href="{% url 'signin' %}" class='sign me'>Вход</a>{% endblock %}
+
+{% block content %}
+	<div>
+		<h1>Поздравляем с регистрацией в Django!</h1>
+		<p>Вам на почту отправлено письмо для подтверждения адреса</p>
+	</div>
+{% endblock %}

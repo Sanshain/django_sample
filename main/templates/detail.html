@@ -1,0 +1,182 @@
+{% extends "base.html" %}{% load staticfiles %}
+
+{% block title %}
+
+	{{ header }}
+	
+{% endblock %}
+
+
+{% block script %}
+	
+	window.onload = function(){
+		var ajax = new Ajax("{% url 'get_friends' %}",function(response){
+			
+			var stack = [];
+						
+			window.onpopstate = function(){
+			
+				console.time('checkFor');
+			
+				//здесь немного тормозит, поэтому нужен прелоадер
+			
+                var c = (stack.pop());          //JSON.stringify
+                stack.push({
+					'main':document.querySelector('.main').innerHTML,
+					'articles':document.querySelector('.articles').innerHTML
+				});
+				
+				for(key in c) {
+					document.querySelector('.'+key).innerHTML=c[key];
+				}
+				
+				console.timeEnd('checkFor');
+
+			};
+			
+			
+			
+			var len = response.length;
+			var index = 0;
+			var unitSeparator = String.fromCharCode(30);		
+			
+			while(index <len){
+				
+				//var users = response.split(unitSeparator);
+				
+				var currentUserDesc = response.indexOf(unitSeparator, index);		//длина json до 30-го символа
+				var UserDesc = response.slice(index, currentUserDesc);
+				var User = JSON.parse(UserDesc);
+				var imglen = response.slice(currentUserDesc+=1, currentUserDesc+=5);				
+				index = currentUserDesc + Number(imglen);				
+				User.img = response.substr(currentUserDesc, imglen);
+				
+				//alert(User.img.length);
+				
+				var user_div = document.createElement('div');
+				user_div.id = 'un' + User.id;
+				user_div.style.cursor = 'Pointer';
+				user_div.style.marginBottom = '10px';
+				user_div.style.lineHeight = '40px';
+				user_div.onclick = function(){
+					
+					//document.location.href = "/users/"+User.id;
+					
+					stack.push(
+					{
+					'main':document.querySelector('.main').innerHTML,
+					'articles':document.querySelector('.articles').innerHTML
+					});					
+					
+					//replaceState
+					history.pushState(null,null,'/users/'+User.id+'/');
+					
+					var ajax = new Ajax(null ,function(response)
+					{						
+						
+						var next_user = JSON.parse(response);
+						
+						if (typeof next_user == "string") next_user = JSON.parse(next_user);						
+						
+						Object.keys(next_user).forEach(
+							function(attr)
+							{
+								var field = document.getElementById(attr.toLowerCase());
+								if (field.src){
+									field.src = next_user[attr];
+								}
+								else{
+								
+									var property = next_user[attr].startsWith('<')
+										? 'innerHTML'
+										: 'innerText';
+									field[property]=next_user[attr];
+								}
+							});
+							
+						document.querySelector('#note_create').style.display = 'none';
+						
+						document.querySelector('.change').onclick = 	
+							function(event)
+							{
+								event.preventDefault();
+							
+								document.location.href=
+									"/messages/to_"+ 
+									User.id;							
+								
+								//alert('prevent');
+							}
+							
+						document.querySelector('.change').querySelector('button').innerText = "Отправить сообщение";
+						
+						//Написать о ней
+						
+					});
+					ajax.postData(User.id);					
+					
+				};
+				//user_div.style.borderBottom = '1px solid lightgray';
+				user_div.style.whiteSpace = 'nowrap';
+				user_div.style.lineHeight = '60px';
+				user_div.className = 'friend_pick';
+				
+				var img = document.createElement('img');
+				img.style.float = 'left';		
+				img.style.borderRadius = '20px';
+				img.style.margin = "10px 0 0 10px";
+				user_div.appendChild(img);
+				
+				var username = document.createElement('span');
+				username.innerText = User.username+'sgdgdgdfg';
+				username.style.paddingLeft = '9%';				
+				user_div.appendChild(username);
+				
+				var asd = document.querySelector('.aside_menu');
+				asd.appendChild(user_div);
+				img.src='data:image/jpeg;base64, '+ User.img;					//User.img;	// setAttribute
+				
+			}
+						
+			//							
+			
+		});
+		ajax.postData('id=0');
+		
+	}
+{% endblock %}
+
+{% block links %}
+
+	<link rel="stylesheet" href="{% static 'aside.css' %}"> 
+	<link rel="stylesheet" href="{% static 'detail.css' %}"> 
+	{% for link in links %}
+
+		<link rel="stylesheet" href="{{link}}"> 		
+		
+	{% endfor %}
+	
+{% endblock %}
+
+{% block main %}
+	<div class='detail'>
+		{% block user %} Пользователь {% endblock %}		
+		{% block articles %} Его статьи {% endblock %}	
+	</div>
+{% endblock %}
+
+{% block aside %}
+	
+	<div class='aside' style='position:fixed;'>
+		<aside>
+			
+			<div class='aside_menu'>
+				<a href="{% url 'users'%}"><div class='aside_btn'>Все</div></a> 
+			</div>
+			
+			{% block aside_inside %}{% endblock %}
+			
+		</aside>
+	</div>
+
+{% endblock %}

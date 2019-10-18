@@ -1,0 +1,104 @@
+	.content{
+		/*top: 80px;*/
+	}
+	form{
+		position:fixed;
+		bottom:2vw;
+		left:2.5%;
+		height:3em;
+		/*width:94%;*/
+		right:1em;
+	}
+	
+
+	
+	textarea{		
+		width:98%;
+		border-radius: 10px;
+		padding: 10px;
+		outline: none;		
+	}
+	.dialog_container{
+		margin-right: 16em;
+		
+		
+		/*position:absolute;
+		top:0;
+		bottom:100px;
+		right:16em;
+		left:0;*/
+	}	
+	.dialog{
+		
+		width:90vw;
+		width: 70%; /*ie8*/
+		width: 94%; /*70 vw*/
+		
+		background-color:#c5ec98;
+		height:70vh;		
+		left: 3%; /*2.5vw;*/
+		padding-left:40px;		
+		
+		overflow-y:scroll;
+	}
+	.messages{
+		position: absolute;
+		bottom: 0;
+		right:0;
+		left:0;
+		list-style-type: none;
+		
+		height:auto;
+	}
+	.message{
+		display:block;
+		background-color:azure;
+		padding:7px;
+		border-radius: 7px;
+		width: max-content;
+		margin-bottom: 5px;
+		max-width:90%;
+	}
+	.i{
+
+	}	
+	.y{
+		margin-left: auto;		
+		margin-right: 20px;		
+	}		
+	.mess_id{
+		 display:none;
+	}
+	.mess_time{
+		font-size:xx-small;
+		color:#bbbba4;
+		display:block;
+		font-family:Segoe Print;
+	}
+	.day{
+	    background-color:azure;		
+		width:max-content;
+		max-width:8em;
+		margin: 0px auto;
+		margin-bottom:3px;
+		padding:5px;
+		border-radius:5px;
+		color:gray; 
+		font-family: Calibri;
+		text-align: center;
+	}
+	
+@media screen and (max-height: 800px) {
+	form{
+		right:16em;
+	}
+	.content, .aside{
+		top: 80px;
+	}
+}	
+@media screen and (max-height: 500px) {
+	.dialog, .aside{
+		height:65vh;
+		/*min-height:65vh; - in aside.css*/ 
+	}
+}		

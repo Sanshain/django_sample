@@ -1,0 +1,88 @@
+{% extends "detail.html" %}
+
+
+
+
+{% block links %}{% load staticfiles %}
+	{{ block.super }}
+	<!--<link rel="stylesheet" href="{% static 'style/modal.css' %}"> -->
+	<script src="{% static 'ajax.js' %}"></script>
+	<script src="{% static 'js/custom.js' %}"></script>
+	<script src="{% static 'js/user.js' %}"></script>
+{% endblock %}
+
+
+{% block header %} 
+	<b id='username'>
+		{{ profile.first_name }} 
+		{{ profile.last_name }} 
+	</b>
+
+{% endblock %}
+
+{% block script %}
+		{{ block.super }}
+
+
+		
+		var _note_create = "{% url 'note_create' %}";
+		var _get_dialog = '{% url 'get_dialog' %}';
+		var _dialog = "{% url 'dialog' profile.id %}";
+		
+		
+
+		window.onscroll = function(e){
+			
+			if (document.body.clientWidth > 800) return true;
+			
+			document.querySelector('#header').innerText = pageYOffset;
+			if (pageYOffset == 0){
+				document.querySelector('.main').style.display = 'block';
+				document.querySelector('.main').style.top = '150px';	
+			}
+			if (pageYOffset < 500){//>
+				document.querySelector('.main').style.top =(150 - pageYOffset) + 'px';
+				document.querySelector('.main').style.display = 'block';
+			}
+			else if (pageYOffset > 500)
+			{
+				document.querySelector('.main').style.display = 'none';
+				document.querySelector('.main').style.top = '-50px';
+			}
+		}
+{% endblock %}
+
+{% block style %}
+	{{ block.super }}
+	.modal_header{
+		 padding-left:30px;
+		 font-family:calibri;
+		 color:gray;width:70%;
+	}
+{% endblock %}
+
+
+{% block user %}	
+	
+	<div class='main'>
+		<main>
+			{% include "fragments/user_profile.html" %}		
+		</main>	
+	</div>		
+{% endblock %}
+
+
+{% block articles %}	
+	
+	<div class='articles' id='articles_block'>
+	
+		{% include "fragments/articles_main.html" %}					
+	</div>
+	
+{% endblock %}	
+
+
+{% block aside_inside %}
+	
+	{% include "fragments/newnote_modalform.html" %}
+{% endblock %}
