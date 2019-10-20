@@ -47,7 +47,7 @@
 						    <a id='me' name='{{user.id}}' href="{% url 'user' user.id %}" class='section_nav'>К себе</a><!--						
 							--><a href="{% url 'dialogs' %}" class='section_nav'>Сообщения</a><!--
 
-							--><a href="{% url 'signout' %}" 							
+							--><a href="{% url 'signout' %}" class='section_nav'>Выйти</a> 							
 						{% endblock %}		
 						
 					</nav>			
@@ -60,14 +60,11 @@
 	
 		<content>
 		
-			
-		
 			<div class='content'>				
 		
-						
 				{% block content %}				
 					
-					{% block main %}{% endblock %}				
+					{% block main %}{% endblock %}
 								
 					{% block aside %}{% endblock %}
 					
