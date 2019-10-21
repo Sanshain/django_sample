@@ -64,9 +64,9 @@
 
 {% block user %}	
 	
-	<div class='main'>
+	<div class='main' id='user_block'>
 		<main>
-			{% include "fragments/user_profile.html" %}		
+			{% include "fragments/_user_profile.html" %}
 		</main>	
 	</div>		
 {% endblock %}
@@ -76,7 +76,7 @@
 	
 	<div class='articles' id='articles_block'>
 	
-		{% include "fragments/articles_main.html" %}					
+		{% include "fragments/articles_main.html" %}
 	</div>
 	
 {% endblock %}	

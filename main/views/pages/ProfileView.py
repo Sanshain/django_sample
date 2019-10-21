@@ -136,21 +136,55 @@ class UserView(CSSMixin, DetailView):
 
     def post(self, *args, **kwargs):
         user_id= self.request.body.split('&')[-1:][0]
-        cuser = Profile.objects.get(id=user_id)                                     #(id=user_id).first()   # .values('id','username')
 
-        articles = Article.objects.filter(From=cuser)
-##        articles = cuser.inote.all()
-##        print articles
+        cuser = Profile.objects.get(id=user_id)                                      # .values('id','username')
+        articles = Article.objects.filter(From=cuser)                               ## articles = cuser.inote.select_related('article').filter(article__isnull=False))
 
-        user_fields=('Age','City','Sex','Image')
-        user_dict = model_to_dict(cuser, user_fields)
-        user_dict['Image']=cuser.Image.url
-        user_dict['username'] = cuser.first_name + ' ' +  cuser.last_name
-        if user_dict['Age']:
-            user_dict['Age'] = user_dict['Age'].strftime("%d.%m.%Y")
+        preferer = self.request.META.get('HTTP_REFERER','')
 
-        articles_block = render_to_string("fragments/articles_main.html",context={'articles':articles})
-        user_dict['articles_block'] = articles_block
+        user_dict = {}
+        if 'user' in preferer:
+
+            user_fields=('Age','City','Sex','Image')
+            user_dict = model_to_dict(cuser, user_fields)
+
+            user_dict['Image'] = cuser.Image.url
+            user_dict['username'] = '{} {}'.format(cuser.first_name, cuser.last_name)
+            user_dict['Age'] = user_dict['Age'].strftime("%d.%m.%Y") if user_dict['Age'] else ''
+            user_dict['action'] = {
+                'innerHTML':'<button>Отправить сообщение</button>',
+                'onclick' : 'event.preventDefault();alert(0);'
+            }
+
+            articles_block = render_to_string(
+                "fragments/articles_main.html",
+                context={
+                    'articles':articles
+                }
+            )
+            user_dict['articles_block'] = articles_block
+
+        else:
+            user_block = render_to_string(
+                "fragments/_user_profile.html",
+                context={
+                    'profile':cuser
+                }
+            )
+            articles_block = render_to_string(
+                "fragments/articles_main.html",
+                context={
+                    'articles':articles
+                }
+            )
+            user_dict['main'] = '{}{}{}{}{}{}'.format(
+                "<div class='main' id='user_block'>",
+                    user_block.strip(),
+                '</div>',
+                "<div class='articles' id='articles_block'>",
+                    articles_block,
+                "</div>")
+            user_dict['dynamic_link'] = settings.STATIC_URL + 'user.css'
 
         ret = json.dumps(user_dict)                                                 # работает, если убрать связь 1:8
 

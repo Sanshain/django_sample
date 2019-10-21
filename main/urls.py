@@ -34,7 +34,7 @@ from .views.fragments.Dialog import bring_dialog
 
 urlpatterns = [
     url(r'^user/$', ProfileView.Mirror, name='Me'),                                             # я сам
-    url(r'^users/(?P<pk>[0-9]+)/',login_required(ProfileView.UserView.as_view()), name = 'user'),         # число в аргументе, страница польз-ля
+    url(r'^users/(?P<pk>[0-9]+)/$',login_required(ProfileView.UserView.as_view()), name = 'user'),         # число в аргументе, страница польз-ля
     url(r'^users/$', ProfileView.UserList.as_view(), name='users'),                                         # список друзей
     url(r'^$', ProfileView.Load, name='Profile_Load'),
 	url(r'^about/$', TemplateView.as_view(template_name="about.htm")),

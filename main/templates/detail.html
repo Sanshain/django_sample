@@ -13,22 +13,32 @@
 		var ajax = new Ajax("{% url 'get_friends' %}",function(response){
 			
 			var stack = [];
+			var keys_by_stack = ['main','articles'];
 						
 			window.onpopstate = function(){
 			
 				console.time('checkFor');
-			
 				//здесь немного тормозит, поэтому нужен прелоадер
 			
-                var c = (stack.pop());          //JSON.stringify
-                stack.push({
-					'main':document.querySelector('.main').innerHTML,
-					'articles':document.querySelector('.articles').innerHTML
-				});
+                var view = (stack.pop());          //JSON.stringify
+				var stored_page = {};
 				
-				for(key in c) {
-					document.querySelector('.'+key).innerHTML=c[key];
+				for(key in view) {
+										
+					if(key=="dynamic_link"){
+						var link = document.getElementsByName("dynamic_link")[0];
+						stored_page[key]=link.href;
+						link.href = view[key];
+					}
+					else{
+						var container = document.querySelector('.'+key);
+						stored_page[key]=container.innerHTML;
+						container.innerHTML=view[key];						
+					}
 				}
+				stack.push(stored_page);
+				
+				alert(history.state);
 				
 				console.timeEnd('checkFor');
 
@@ -58,64 +68,163 @@
 				user_div.style.cursor = 'Pointer';
 				user_div.style.marginBottom = '10px';
 				user_div.style.lineHeight = '40px';
-				user_div.onclick = function(){
+				user_div.onclick = function()
+				{				
 					
 					//document.location.href = "/users/"+User.id;
 					
-					stack.push(
-					{
-					'main':document.querySelector('.main').innerHTML,
-					'articles':document.querySelector('.articles').innerHTML
-					});					
-					
-					//replaceState
-					history.pushState(null,null,'/users/'+User.id+'/');
-					
-					var ajax = new Ajax(null ,function(response)
+					var render_page = function(response)
 					{						
 						
 						var next_user = JSON.parse(response);
 						
 						if (typeof next_user == "string") next_user = JSON.parse(next_user);						
 						
-						Object.keys(next_user).forEach(
-							function(attr)
-							{
-								var field = document.getElementById(attr.toLowerCase());
-								if (field.src){
-									field.src = next_user[attr];
+						var render_fields = function(attr)
+						{
+							//var field = document.getElementById();
+							
+							//var field = doc.get();
+							
+							var field = 
+								document.getElementById(attr.toLowerCase())||document.getElementsByName(attr)[0];
+							
+							var value = next_user[attr];
+							if (typeof value == typeof ""){
+							
+								if (field.tagName == 'LINK'){
+									field.href = value;
+								}
+								else if (field.src){
+									field.src = value;
 								}
 								else{
 								
-									var property = next_user[attr].startsWith('<')
+									var property = value.startsWith('<')
 										? 'innerHTML'
 										: 'innerText';
-									field[property]=next_user[attr];
+									field[property]=value;
 								}
-							});
+							
+							} else if (typeof value == "object")
+							{
+							
+								Object.keys(value).forEach(
+									function(key){
+										if (field[key]!= null)
+											//innerHTML
+											field[key] = value[key];
+										else 
+											//onclick
+											field.setAttribute(key,value[key]); 
+											
+											//для onclick. ниже он переопределен, но это временно
+											
+											// пишут, что не работает в ie, до какой версии неизвестно
+											//можно воспользоваться addEventListener (поддержка от 9-ки), onpopstate - from 10ie
+									}
+								);
+							
+								
+								field.onclick = function(event){
+							
+									event.preventDefault();
+							
+									var ajax_dialog = new Ajax(
+										'/get_dialog/',
+										function(resp){
+											render_page(resp);
+										}
+									);
+											
+									ajax_dialog.postData('id='+User.id);
+									
+									
+									stack.push(
+									{
+										'detail':document.querySelector('.detail').innerHTML,
+										'dynamic_link' : document.getElementsByName('dynamic_link')[0].href
+									});					
+									
+									
+									//replaceState	
+									history.pushState(
+										['detail','dynamic_link'],
+										null,
+										'/messages/to_'+User.id+'/'
+									); 								
+									
+								};	
+							}
+						};
+					
+						
+						Object.keys(next_user).forEach(render_fields);
 							
 						document.querySelector('#note_create').style.display = 'none';
 						
+						
+						/*
 						document.querySelector('.change').onclick = 	
 							function(event)
 							{
 								event.preventDefault();
-							
-								document.location.href=
-									"/messages/to_"+ 
-									User.id;							
+
+								//var loc = document.location;
+								//loc.href="/messages/to_"+User.id;	
 								
-								//alert('prevent');
 							}
 							
 						document.querySelector('.change').querySelector('button').innerText = "Отправить сообщение";
-						
+						*/
 						//Написать о ней
 						
-					});
-					ajax.postData(User.id);					
+					}
 					
-				};
+					//({%url "user" 0%}).replace(/\d+/,User.id)
+					
+					var ajax_user = new Ajax(
+						'/users/'+User.id + '/',  
+						render_page);
+					ajax_user.postData(User.id);	
+
+					console.log(history.state);
+
+					if (history.state){
+						var stored_page = {}
+						
+						history.state.forEach(
+							function(key){
+							
+								alert(key);
+								if(key=="dynamic_link"){
+									var link = document.getElementsByName("dynamic_link")[0];
+									stored_page[key]=link.href;								
+								}
+								else{
+									var container = document.querySelector('.'+key);
+									stored_page[key]=container.innerHTML;
+								}
+							}
+						);
+						
+						stack.push(stored_page);
+						
+						history.pushState(['main','articles'],
+							null,
+							'/users/'+User.id+'/'); //replaceState
+					}else{
+						stack.push(
+						{
+						'main':document.querySelector('.main').innerHTML,
+						'articles':document.querySelector('.articles').innerHTML
+						});	
+
+						history.pushState(null,null,'/users/'+User.id+'/'); //replaceState
+					}		
+					
+				};				
+				
 				//user_div.style.borderBottom = '1px solid lightgray';
 				user_div.style.whiteSpace = 'nowrap';
 				user_div.style.lineHeight = '60px';
@@ -134,8 +243,7 @@
 				
 				var asd = document.querySelector('.aside_menu');
 				asd.appendChild(user_div);
-				img.src='data:image/jpeg;base64, '+ User.img;					//User.img;	// setAttribute
-				
+				img.src='data:image/jpeg;base64, '+ User.img; 				
 			}
 						
 			//							
@@ -152,7 +260,7 @@
 	<link rel="stylesheet" href="{% static 'detail.css' %}"> 
 	{% for link in links %}
 
-		<link rel="stylesheet" href="{{link}}"> 		
+		<link name='dynamic_link' rel="stylesheet" href="{{link}}"> 
 		
 	{% endfor %}
 	
@@ -160,7 +268,7 @@
 
 {% block main %}
 
-	<div class='detail'>
+	<div class='detail' id='main'>
 		{% block user %} Пользователь {% endblock %}		
 		{% block articles %} Его статьи {% endblock %}	
 	</div>
@@ -173,6 +281,8 @@
 			
 			<div class='aside_menu'>
 				<a href="{% url 'users'%}"><div class='aside_btn'>Все</div></a> 
+				
+				<!--остальные юзеры добавляются динамически-->
 			</div>
 			
 			{% block aside_inside %}{% endblock %}

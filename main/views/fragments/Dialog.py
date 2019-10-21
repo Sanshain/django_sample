@@ -76,8 +76,8 @@ def bring_dialog(request):
 ##        os.system(file)
 
         context = {
-            'messages_block':messages_block,
-            'link': settings.STATIC_URL + 'message_list.css',
+            'main':messages_block,
+            'dynamic_link': settings.STATIC_URL + 'message_list.css',
         }
 
         data = json.dumps(context)
