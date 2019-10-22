@@ -90,7 +90,13 @@
 								document.getElementById(attr.toLowerCase())||document.getElementsByName(attr)[0];
 							
 							var value = next_user[attr];
-							if (typeof value == typeof ""){
+							
+							if (!field){
+								const script = document.createElement('script');
+								script.src = value;
+								document.head.appendChild(script);	
+							}
+							else if (typeof value == typeof ""){
 							
 								if (field.tagName == 'LINK'){
 									field.href = value;

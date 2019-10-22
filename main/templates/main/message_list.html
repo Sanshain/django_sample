@@ -14,19 +14,21 @@
 	<![endif]-->
 	<script src="{% static 'ajax.js' %}"></script>
 	<script src="{% static 'js/custom.js' %}"></script>
+	<script src="{% static 'js/message_list.js' %}" id='dynamic_c_list' >
+		
+	</script>
 	<link rel="stylesheet" href="{% static 'message_list.css' %}">
-	
 	
 {% endblock %}			
 		
 {% block style %}	{% endblock %}
 
 {% block script %}		
-	
 
 	window.onload = function(){
 		if (!document.addEventListener){				// ie8 и ниже
-		
+			//подгоняем дизайн:
+
 			document.querySelector('.content').style.top = "0px";
 			var dialog =  document.querySelector('.dialog');
 			dialog.style.height = 
@@ -42,20 +44,21 @@
 			txt.style.marginTop = "10px"; 
 			txt.style.border = "1px solid gray"; 
 		}
-		
+
 		var list = document.querySelector('.messages');
-		if (list.offsetHeight >= list.parentElement.offsetHeight - 35)						// создаем скролл
+		if (list.offsetHeight >= list.parentElement.offsetHeight - 35)
+		// создаем скролл
 		{
 			list.style.height = list.parentElement.offsetHeight - 35 + "px";
 			list.children[list.children.length-1].scrollIntoView(false);
 			document.querySelector('.dialog').scrollTop += 5;
 		}
-		
+
 		document.bell_get = new Bell("{% static 'music/get.mp3' %}");
 		document.bell_post = new Bell("{% static 'music/post.mp3' %}");
-		
+
 		setTimeout(Checking, 1000);		
-	}	
+	};
 	
 	var Checking = function(){
 		
@@ -65,7 +68,7 @@
 		
 		var data = 'check='+ up;
 		POST(data, checkMessages);		
-	}
+	};
 	
 	var checkMessages = function(response){
 	
@@ -89,56 +92,9 @@
 		}
 		
 		Checking();
-	}
+	};
 
-	var enter = function(sender, event){
-			
-		if(event.keyCode == 13){// && event.ctrlKey
-		
-			if (sender.value == "")
-			{
-				event.preventDefault();
-				return;
-			}
-		
-			//sender.parentElement.submit();				
-			var value = sender.value;	
-			
-			var data = 'value=' + sender.value;	
-				
-			this.success = function(result){
-			
-				
-				if (result == '_ok_'){
-					
-					var list = document.querySelector('.messages');
-					var li = AppendNewElemTo(list, Elem('li', value, 'message'));
-					AppendNewElemTo(li, Elem('sub', Time(), 'mess_time'));
-					
-					if (list.offsetHeight >= list.parentElement.offsetHeight - 35)			// в данном случае ==
-					{
-						list.style.height = list.parentElement.offsetHeight - 35 + "px";
-						
-						var offset = list.scrollHeight - list.clientHeight;
-					
-						list.parentElement.scrollTop = offset;							
-					}						
-					
-				}
-			}
-				
-			POST(data, success);
-			
-			document.bell_post();
-			
-			
-			sender.value = '';
-						
-			if (event.preventDefault) event.preventDefault();
-			else event.returnValue = false;	
-			
-		}
-	}
+
 	
 
 {% endblock %}

@@ -58,9 +58,13 @@ def bring_dialog(request):
 
         choose_sender = Max if int(request.user.id) < user_id else Min
 
-        messages = messages.annotate(sender_id=choose_sender('Sender__id')).order_by('-id')[:90]
+        messages = messages.annotate(sender_id=choose_sender('Sender__id'))
+        messages = messages.order_by('-id')[:90]
 
-        messages_block = render_to_string("fragments/messages_list.html",context={'messages':messages})
+        messages_block = render_to_string("fragments/messages_list.html",context={
+            'user' : request.user,
+            'messages':messages
+        })
 
         start = timeit.default_timer()
         messages_block = messages_block.replace('\t','')                            #сжимает с 35 до 14кб
@@ -78,6 +82,7 @@ def bring_dialog(request):
         context = {
             'main':messages_block,
             'dynamic_link': settings.STATIC_URL + 'message_list.css',
+            'dynamic_c_list': settings.STATIC_URL + 'js/message_list.js',
         }
 
         data = json.dumps(context)
