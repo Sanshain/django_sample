@@ -146,13 +146,14 @@ class UserView(CSSMixin, DetailView):
         user_dict = {}
         if 'user' in preferer:
 
+
+
             user_fields=('Age','City','Sex','Image')
             user_dict = model_to_dict(cuser, user_fields)
 
             user_dict['Image'] = cuser.Image.url
             user_dict['username'] = '{} {}'.format(cuser.first_name, cuser.last_name)
             user_dict['Age'] = user_dict['Age'].strftime("%d.%m.%Y") if user_dict['Age'] else ''
-
 
 ##            from os.path import dirname as up; print up(up(up(__file__)))
 ##            print os.path.abspath(os.path.join(__file__ ,"../../.."))
@@ -164,9 +165,16 @@ class UserView(CSSMixin, DetailView):
 ##            with open(pathname + 'js/_get_dialog.js') as file_handler:
 ##                js_func = file_handler.read()
 
+            url = reverse('dialog', args=[user_id])
+
+            print '************************************************'
+            print user_id
+
             user_dict['action'] = {
 ##                'innerHTML':'<button>Отправить сообщение</button>',
                 'innerHTML':'Отправить сообщение',                                    # <button>
+                'name' : reverse('get_dialog').strip('/'),
+                'formaction' : url
                 #'onclick' : js_func
             }
 

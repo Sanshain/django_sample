@@ -16,29 +16,32 @@
 			
 			var stack = [];
 			var keys_by_stack = ['main','articles'];
-						
+			
+			
 			window.onpopstate = function(){
 			
 				console.time('checkFor');
 				//здесь немного тормозит, поэтому нужен прелоадер
 			
+				/*
                 var view = (stack.pop());          
 				var stored_page = {};
 				
 				for(key in view) {
-										
-					if(key=="dynamic_link"){
-						var link = document.getElementById("dynamic_link");
-						stored_page[key]=link.href;
-						link.href = view[key];
+					
+					var container= document.getElementById(key);
+
+					if(container.href){
+						stored_page[key]=container.href;
+						container.href = view[key];
 					}
 					else{
-						var container = document.querySelector('.'+key);
 						stored_page[key]=container.innerHTML;
-						container.innerHTML=view[key];						
+						container.innerHTML=view[key];
 					}
 				}
 				stack.push(stored_page);
+				*/
 				
 				alert(history.state);
 				
@@ -69,72 +72,7 @@
 				user_div.style.marginBottom = '10px';
 				user_div.style.lineHeight = '40px';
 				user_div.onclick = function()
-				{
-					
-					var render_page = function(response)
-					{						
-						
-						var next_user = JSON.parse(response);
-						
-						if (typeof next_user == "string") next_user = JSON.parse(next_user);				
-
-						var go_to_dialog = function(){
-							event.preventDefault();
-
-							var user_id = document.location.pathname.match(/\d+/)[0];
-
-							var ajax_dialog = new Ajax(
-								'/get_dialog/',
-								function(resp){
-									render_page(resp);
-								}
-							);
-									
-							ajax_dialog.postData('id='+user_id);			//User.id
-
-							stack.push(
-							{
-								'detail':document.querySelector('.detail').innerHTML,
-								'dynamic_link' : document.getElementById('dynamic_link').href
-							});					
-
-
-							//replaceState	
-							history.pushState(
-								['detail','dynamic_link'],
-								null,
-								'/messages/to_'+user_id+'/'	//User.id
-							); 									
-						};						
-
-						for (attr in next_user)
-							render_field(
-								attr, 
-								next_user, 
-								go_to_dialog
-							);
-						
-
-							
-						var btnNoteCreate =document.querySelector('#note_create');
-						if (btnNoteCreate) btnNoteCreate.style.display = 'none';
-						
-						/*
-						document.querySelector('.change').onclick = 	
-							function(event)
-							{
-								event.preventDefault();
-
-								//var loc = document.location;
-								//loc.href="/messages/to_"+User.id;	
-								
-							}
-							
-						document.querySelector('.change').querySelector('button').innerText = "Отправить сообщение";
-						*/
-						//Написать о ней
-						
-					}
+				{					
 					
 					//({%url "user" 0%}).replace(/\d+/,User.id)
 					
@@ -147,6 +85,9 @@
 
 					if (history.state){
 						var stored_page = {};
+						
+						
+
 						
 						history.state.forEach(
 							function(key){
