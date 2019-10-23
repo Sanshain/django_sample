@@ -11,8 +11,8 @@
 .blocklist{
 	list-style-type: none;
 	
-	margin-right:30%;/*ie8*/
-	margin-right: 30vw;	
+    margin-right: 16em;
+    padding: 3em;
 	
 }
 .blocklist > li{

@@ -45,18 +45,19 @@
 			{% if self %}
 			
 				
-				<a class='change' id='action' href="{% url 'edit_self' user.id %}">
-					<button>измениться</button>
-				</a>
-				
+				<!--<a class='change' id='action' href="{% url 'edit_self' user.id %}">-->
+					<button id='action' 
+						onclick='{
+							document.location.href="{% url 'edit_self' user.id%}";
+						}'
+					>
+						измениться
+					</button>
+				<!--</a>-->
 				
 			{% else %}
 			
-				<script>
-	
-				</script>
-			
-				<button style="z-index:10;" onclick="
+				<button style="z-index:10;" id='action' onclick="
 				
 					to_dialog();
 				

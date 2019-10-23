@@ -59,7 +59,7 @@ function to_dialog(){
 	
 	//window.location.href = _dialog;return;
 	
-	new Ajax(_get_dialog, 
+	var _a = new Ajax(_get_dialog, 
 		function(answer){
 			//файл стиля диалога, кот надо добавить в хедер (если его там нет, т.к.он уже может быть в случае onpopstate)
 			//тело диалога
@@ -76,15 +76,17 @@ function to_dialog(){
 			
 			var el = document.createElement('link');
 			el.rel = 'stylesheet';
-			el.href = resp['link'];
+			el.href = resp['dynamic_link'];
 			document.querySelector('head').appendChild(el);
 			
-			document.querySelector('.detail').innerHTML = resp['messages_block'];
+			document.querySelector('.detail').innerHTML = resp['main'];
 			
 			history.pushState(null,null, _dialog);
 
 		}
-	).postData(data);						
+	)						
+	
+	_a.postData(data);
 }
 
 

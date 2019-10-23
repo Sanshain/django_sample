@@ -1,12 +1,9 @@
-
 /*!
 @brief Класс-элемент: создает html-элемент
-
 @param 1 - название HTML-элемента
 @param 2 - стиль (класс)
 @param 3 - содержимое
 @param 4 - ассоциативный массив атрибутов
-
  
 */
 function Elem(type_name, txt, css_cls){		
@@ -38,6 +35,7 @@ function AppendNewElemTo(container, elem){
 var doc = document;
 var loc = document.location;
 
+
 doc.get = function(attr, container){
 	
 	container = container || doc;
@@ -57,7 +55,7 @@ doc.get = function(attr, container){
 		{
 			console.log('warning: not id для doc.get ' +attr);
 		}
-	}else (elem == null){
+	}else if(elem == null){
 		alert('warning: not find by _doc.get_ the `' +attr + '`');
 	}//-
 	
@@ -113,5 +111,3 @@ function ie8(){
 	
 	return false;
 }
-
-

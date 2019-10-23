@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 # для процедурного стиля:
 
 import os
+from os.path import dirname as up;
 import io
 import json
 from PIL import Image
@@ -151,10 +152,25 @@ class UserView(CSSMixin, DetailView):
             user_dict['Image'] = cuser.Image.url
             user_dict['username'] = '{} {}'.format(cuser.first_name, cuser.last_name)
             user_dict['Age'] = user_dict['Age'].strftime("%d.%m.%Y") if user_dict['Age'] else ''
+
+
+##            from os.path import dirname as up; print up(up(up(__file__)))
+##            print os.path.abspath(os.path.join(__file__ ,"../../.."))
+            #https://askdev.ru/q/python-poluchit-katalog-na-dva-urovnya-vyshe-73156/
+
+
+##            pathname = up(up(up(__file__))) + settings.STATIC_URL                   #  settings.BASE_DIR
+##            js_func = ''
+##            with open(pathname + 'js/_get_dialog.js') as file_handler:
+##                js_func = file_handler.read()
+
             user_dict['action'] = {
-                'innerHTML':'<button>Отправить сообщение</button>',
-                'onclick' : 'event.preventDefault();alert(0);'
+##                'innerHTML':'<button>Отправить сообщение</button>',
+                'innerHTML':'Отправить сообщение',                                    # <button>
+                #'onclick' : js_func
             }
+
+
 
             articles_block = render_to_string(
                 "fragments/articles_main.html",
