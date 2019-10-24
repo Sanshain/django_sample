@@ -24,26 +24,31 @@
 				//здесь немного тормозит, поэтому нужен прелоадер
 			
 				/*
-                var view = (stack.pop());          
+                var view = (stack.pop()); */         
 				var stored_page = {};
 				
-				for(key in view) {
+				
+				for(key in history.state) {
 					
 					var container= document.getElementById(key);
 
+					if (!container) continue;
+
 					if(container.href){
 						stored_page[key]=container.href;
-						container.href = view[key];
+						container.href = history.state[key];
 					}
 					else{
 						stored_page[key]=container.innerHTML;
-						container.innerHTML=view[key];
+						container.innerHTML=history.state[key];
 					}
 				}
-				stack.push(stored_page);
-				*/
 				
-				alert(history.state);
+				
+				stack.push(stored_page);
+				/**/
+				
+				alert(JSON.stringify(history.state));
 				
 				console.timeEnd('checkFor');
 
@@ -63,83 +68,43 @@
 				var UserDesc = response.slice(index, currentUserDesc);
 				var User = JSON.parse(UserDesc);
 				var imglen=response.slice(currentUserDesc+=1, currentUserDesc+=5);
-				index = currentUserDesc + Number(imglen);				
-				User.img = response.substr(currentUserDesc, imglen);
+				index = currentUserDesc + Number(imglen);
+				User.img=response.substr(currentUserDesc,imglen);
+				
+				var ava_img = document.createElement('img');
+				ava_img.style.float = 'left';		
+				ava_img.style.borderRadius = '20px';
+				ava_img.style.margin = "10px 0 0 10px";	
+				ava_img.src='data:image/jpeg;base64,'+ User.img; 
+				
+				var username = document.createElement('span');
+				username.innerText = User.username+'sgdgdgdfg';
+				username.style.paddingLeft = '9%';
 				
 				var user_div = document.createElement('div');
 				user_div.id = 'un' + User.id;
 				user_div.style.cursor = 'Pointer';
 				user_div.style.marginBottom = '10px';
 				user_div.style.lineHeight = '40px';
-				user_div.onclick = function()
-				{					
-					
-					//({%url "user" 0%}).replace(/\d+/,User.id)
-					
-					var ajax_user = new Ajax(
-						'/users/'+User.id + '/',  
-						render_page);
-					ajax_user.postData(User.id);	
-
-					console.log(history.state);
-
-					if (history.state){
-						var stored_page = {};
-						
-						
-
-						
-						history.state.forEach(
-							function(key){
-							
-								//alert(key);
-								if(key=="dynamic_link"){
-									var link = document.getElementById("dynamic_link");
-									stored_page[key]=link.href;
-								}
-								else{
-									var container = document.querySelector('.'+key);
-									stored_page[key]=container.innerHTML;
-								}
-							}
-						);
-						
-						stack.push(stored_page);
-						
-						history.pushState(['main','articles'],
-							null,
-							'/users/'+User.id+'/'); //replaceState
-					}else{
-						stack.push(
-						{
-						'main':document.querySelector('.main').innerHTML,
-						'articles':document.querySelector('.articles').innerHTML
-						});	
-
-						history.pushState(null,null,'/users/'+User.id+'/'); //replaceState
-					}		
-					
-				};				
-				
-				//user_div.style.borderBottom = '1px solid lightgray';
 				user_div.style.whiteSpace = 'nowrap';
 				user_div.style.lineHeight = '60px';
-				user_div.className = 'friend_pick';
+				user_div.className = 'friend_pick';	
+				user_div.onclick = function()
+				{
+					var page = '/users/'+User.id + '/';
+					var ajax_user = new Ajax(
+						page,
+						render_page);					
+					ajax_user.postData(User.id);	
+					
+				};		
 				
-				var img = document.createElement('img');
-				img.style.float = 'left';		
-				img.style.borderRadius = '20px';
-				img.style.margin = "10px 0 0 10px";
-				user_div.appendChild(img);
-				
-				var username = document.createElement('span');
-				username.innerText = User.username+'sgdgdgdfg';
-				username.style.paddingLeft = '9%';				
-				user_div.appendChild(username);
+				user_div.appendChild(ava_img);				
+				user_div.appendChild(username);				
 				
 				var asd = document.querySelector('.aside_menu');
 				asd.appendChild(user_div);
-				img.src='data:image/jpeg;base64, '+ User.img; 				
+				
 			}
 						
 			//							

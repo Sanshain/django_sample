@@ -112,6 +112,7 @@ class UserView(CSSMixin, DetailView):
         context['header'] = "Профиль"
         context['articles'] = Article.objects.filter(From = self.object)[::-1]  #
         context['create_articles'] = create_note
+        #context['to_dialog'] = reverse('get_dialog').strip('/')
         if self.request.user.id == kwargs['object'].id:
             context['self'] = True
 
@@ -142,6 +143,7 @@ class UserView(CSSMixin, DetailView):
         articles = Article.objects.filter(From=cuser)                               ## articles = cuser.inote.select_related('article').filter(article__isnull=False))
 
         preferer = self.request.META.get('HTTP_REFERER','')
+        print preferer
 
         user_dict = {}
         if 'user' in preferer:
@@ -165,20 +167,14 @@ class UserView(CSSMixin, DetailView):
 ##            with open(pathname + 'js/_get_dialog.js') as file_handler:
 ##                js_func = file_handler.read()
 
-            url = reverse('dialog', args=[user_id])
-
-            print '************************************************'
-            print user_id
 
             user_dict['action'] = {
-##                'innerHTML':'<button>Отправить сообщение</button>',
-                'innerHTML':'Отправить сообщение',                                    # <button>
+                'innerHTML':'Отправить сообщение',
                 'name' : reverse('get_dialog').strip('/'),
-                'formaction' : url
-                #'onclick' : js_func
+                'formAction' : reverse('dialog', args=[user_id]),
+                'onclick' : 'go_to_dialog(this, event)'
             }
-
-
+            user_dict.update({'note_create' : {'style':'display:none'} })
 
             articles_block = render_to_string(
                 "fragments/articles_main.html",

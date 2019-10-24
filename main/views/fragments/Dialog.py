@@ -51,8 +51,12 @@ def bring_dialog(request):
     if request.method == "POST":
         user_id = request.POST.get("id",'')
 
+        print '----------------------'
+        print user_id
 
         dialog_id = Dialogue.get_private_Dialog(user_id, request.user.id).id
+
+
 
         messages = Message.objects.filter(Target_id=dialog_id)
 

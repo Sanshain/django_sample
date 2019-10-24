@@ -138,6 +138,9 @@ function POST(data, func, csrftoken){
 
 
 function Ajax(url, func, csrftoken) { 
+
+	//console.time('server_response_time');
+
 	this.url = url || document.location.href;
 	this.csrftoken = csrftoken;
 	this.func = func;
@@ -165,21 +168,20 @@ function Ajax(url, func, csrftoken) {
 			if (XMLHttpRequest['status']){										//для ie8
 				if (xhr.status != 200) 
 				{					
-					alert("Проверьте соединение с интернетом: " + xhr.statusText + ' в статусе ' + this.readyState);					
+					alert("Проверьте соединение с интернетом: " + xhr.statusText + ' в статусе ' + this.readyState);
+					
+					return;
 				}
+	
+			}
+			
+			if(this.readyState == 4 && this.status == 200)
+			{
+				func(this.responseText, url); 
+				
+				//console.timeEnd('server_response_time');
 			}			
-			
-			if (this.readyState > 3 && unresponsed) {		//>=
-			
-				if (!this.getResponseHeader('Content-Type').includes('bin')) //если не требудется полного получения
-				{
-					unresponsed = false;												
-					func(this.responseText);					
-				}
-				else if(this.readyState == 4 && this.status == 200){
-					func(this.responseText);
-				}
-			}									
+											
 		}		
 		
 		xhr.send(data);		

@@ -52,10 +52,11 @@ function ExpandModal(){
 }		
 
 
-
+//obsolete/ Insteade use go_to_dialog(this, event) 
 function to_dialog(){
 	
-	var data = 'id=' + window.location.pathname.match(/\d+/).pop();
+	var user_id = window.location.pathname.match(/\d+/).pop();
+	var data = 'id=' + user_id;
 	
 	//window.location.href = _dialog;return;
 	

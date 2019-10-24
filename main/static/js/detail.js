@@ -1,10 +1,10 @@
 
-var go_to_dialog = function(event){
+var go_to_dialog = function(sender, event){
 	event.preventDefault();
 
 	var user_id = document.location.pathname.match(/\d+/)[0];
-	var get_view = '/'+this.name+'/';
-	var set_url = this.formaction;
+	var get_view = '/'+sender.name+'/';
+	var set_url = sender.formAction;
 
 
 	var __review_detail = function (resp){ 
@@ -33,79 +33,95 @@ var go_to_dialog = function(event){
 
 
 
-var render_page = function(next_user)
+var render_page = function(next_user, to)
 {					
 
 
 	while(typeof next_user =="string") next_user=JSON.parse(next_user);
 
+	var field = new FieldViewer(	//obsolete:
+		go_to_dialog //в итоге подгрзится с сервера ссылка на этот метод
+	);
 	for (attr in next_user)
-		render_field(
+	{
+		field.render(
 			attr, 
-			next_user[attr], 
-			go_to_dialog
+			next_user[attr]
 		);
-	
-
+	}
 		
+	/*
 	var btnNoteCreate =document.querySelector('#note_create');
 	if (btnNoteCreate) btnNoteCreate.style.display = 'none';
-	
-	/*
-	document.querySelector('.change').onclick = 	
-		function(event)
-		{
-			event.preventDefault();
-
-			//var loc = document.location;
-			//loc.href="/messages/to_"+User.id;	
-			
-		}
-		
-	document.querySelector('.change').querySelector('button').innerText = "Отправить сообщение";
 	*/
-	//Написать о ней
+	
+	if (!to) return;//либо с сервера либо страница останется неизвестной
+	
+	var stored_page = {};
+	for (key in next_user){
+		
+		var el = document.getElementById( key.toLowerCase() );
+		
+		stored_page[key]=el.href ?
+			el.href:
+			el.innerHTML;
+	}
+	
+	history.pushState(stored_page, null, to);
 	
 }
 
 
-var render_field = function(key, view, e)
-{
+function FieldViewer(e){
 	
-	var field=document.getElementById(key.toLowerCase());	// по id
+	this.events = e;
 	
-	if (!field && key.startsWith('dynamic_c')){//если не найден скрипт
+	this.render = function(key, view)
+	{
 		
-		const script = document.createElement('script');
-		script.src = view;
-		script.id = key;
-		document.head.appendChild(script);	
-		return;
-	}
-	else if (typeof view == "string")
-	{	
+		var field=document.getElementById(key.toLowerCase());
+		
+		if (!field && key.startsWith('dynamic_c')){
+			//если не найден скрипт
+			
+			const script = document.createElement('script');
+			script.src = view;
+			script.id = key;
+			document.head.appendChild(script);	
+			return;
+		}
+		else if (typeof view == "string")
+		{	
 
-		if (field.href) field.href = view;
-		else if (field.src) field.src = view;
-		else
+			if (field.href) field.href = view;
+			else if (field.src) field.src = view;
+			else
+			{
+				var property=view.startsWith('<')?'innerHTML':'innerText';
+				field[property]=view;
+			}
+			
+		} else if (typeof view == "object")
 		{
-			var property=view.startsWith('<')?'innerHTML':'innerText';
-			field[property]=view;
+			for (k in view) 
+			{
+				
+				if (k.startsWith('on')) field.setAttribute(k, view[k]);
+				else 
+					field[k] = view[k];
+			}
 		}
 		
-	} else if (typeof view == "object")
-	{
-		for (k in view) field[k] = view[k];
-	}
+		
+		
+		else{
+			console.log('not find field for key - ' + key);
+		}
+	};	
 	
-	if (e && field) field.onclick = e;
-	
-	
-	
-	else{
-		console.log('not find field for key - ' + key);
-	}
-};
+}
+
+
 
 
 

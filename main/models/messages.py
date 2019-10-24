@@ -17,7 +17,7 @@ class Dialogue_Partakers(models.Model):
     Dialogue = models.ForeignKey('Dialogue', related_name='talkers')
 ##    Time = models.DateTimeField()
 ##    Last = models.ForeignKey('Message', null=True)
-    Last = models.IntegerField()
+##    Last = models.IntegerField()                                                # наверное уже obsolete: я просто тогда не умел делать запросы
 
 class Dialogue(models.Model):
 ##    class Meta:
@@ -33,14 +33,22 @@ class Dialogue(models.Model):
         а так же аннотирует картинку собеседника в talker_image этого диалога
         """
         partakers = [buddy_id, self_id]
+
+        buddy = Profile.objects.get(id=buddy_id)
+        me = Profile.objects.get(id=self_id)
+
         dialogs = Dialogue.objects.annotate(cnt=Count('Partakers')).filter(cnt=len(partakers))
 
         Image = Subquery(Profile.objects.filter(dialogs=OuterRef('id')).filter(id=buddy_id).values('Image')[:1])
         dialogs = dialogs.annotate(talker_image=Image)
 
         dialog, created = dialogs.filter(Partakers__id=self_id).get_or_create(Partakers__id=buddy_id)
-        if created:
-            dialog.Partakers = partakers
+
+        if created:                                                                                             ## dialog.Partakers = partakers - если нет пром модели
+            Dialogue_Partakers.objects.bulk_create([                                                             ## не будет вызван save и сигналы
+                Dialogue_Partakers(Dialogue=dialog, Profile_id=self_id),
+                Dialogue_Partakers(Dialogue=dialog, Profile_id=buddy_id)
+            ])
 
         return dialog
 

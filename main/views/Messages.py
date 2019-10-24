@@ -200,7 +200,8 @@ class Dialog(ListView):
         if created:
             buddy = Profile.objects.get(id=buddy_id)
 ##            dialog.Partakers = [buddy, self.request.user]                         ## работал без промежуточной таблицы (11 запросов)
-##            dialog.Partakers = [buddy_id, self.request.user.id]                     # то же самое
+##            dialog.Partakers = [buddy_id, self.request.user.id]                   # то же самое (11 запросов)
+##            dialog.Partakers.add(buddy,me)                                        # то же (количество запросов не проверял)
 
             # так 11 запросов
             Dialogue_Partakers.objects.create(Dialogue=dialog, Profile=self.request.user)
