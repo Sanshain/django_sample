@@ -1,3 +1,100 @@
+function async_get_friends(response){
+	
+	var stack = [];
+	var keys_by_stack = ['main','articles'];
+	
+	
+	window.onpopstate = function(){
+	
+		console.time('check_for_popstate');
+	      
+		var stored_page = {};
+		
+		for(key in history.state) {
+			
+			var container= document.getElementById( key.toLowerCase());
+
+			//if (!container) continue;
+
+			if(container.href){
+				stored_page[key]=container.href;
+				container.href = history.state[key];
+			}
+			else{
+				stored_page[key]=container.innerHTML;
+				container.innerHTML=history.state[key];
+			}
+		}
+	
+		stack.push(stored_page);
+		
+		if (history.state)
+			alert(JSON.stringify(Object.keys(history.state)));
+		else 
+			alert(0);
+		
+		
+		console.timeEnd('check_for_popstate');
+
+	};
+	
+	
+	
+	var len = response.length;
+	var index = 0;
+	var unitSeparator = String.fromCharCode(30);		
+	
+	while(index <len){
+		
+		//длина json до 30-го символа
+		var currentUserDesc = response.indexOf(unitSeparator, index);
+		
+		var UserDesc = response.slice(index, currentUserDesc);
+		var User = JSON.parse(UserDesc);
+		var imglen=response.slice(currentUserDesc+=1, currentUserDesc+=5);
+		index = currentUserDesc + Number(imglen);
+		User.img=response.substr(currentUserDesc,imglen);
+		
+		var ava_img = document.createElement('img');
+		ava_img.style.float = 'left';		
+		ava_img.style.borderRadius = '20px';
+		ava_img.style.margin = "10px 0 0 10px";	
+		ava_img.src='data:image/jpeg;base64,'+ User.img; 
+		
+		var username = document.createElement('span');
+		username.innerText = User.username+'sgdgdgdfg';
+		username.style.paddingLeft = '9%';
+		
+		var user_div = document.createElement('div');
+		user_div.id = 'un' + User.id;
+		user_div.style.cursor = 'Pointer';
+		user_div.style.marginBottom = '10px';
+		user_div.style.lineHeight = '40px';
+		user_div.style.whiteSpace = 'nowrap';
+		user_div.style.lineHeight = '60px';
+		user_div.className = 'friend_pick';	
+		user_div.onclick = function()
+		{
+			var page = '/users/'+User.id + '/';
+			var ajax_user = new Ajax(
+				page,
+				render_page);		
+			ajax_user.postData(User.id);	
+			
+		};		
+		
+		user_div.appendChild(ava_img);				
+		user_div.appendChild(username);				
+		
+		var asd = document.querySelector('.aside_menu');
+		asd.appendChild(user_div);
+		
+	}
+				
+	//							
+	
+}
+
 
 var go_to_dialog = function(sender, event){
 	event.preventDefault();
@@ -9,14 +106,16 @@ var go_to_dialog = function(sender, event){
 
 	var __review_detail = function (resp){ 
 		
-		render_page(resp); 
+		render_page(resp, set_url);
+		
+		/*
 		detail =
 		{
 			'detail':document.querySelector('.detail').innerHTML,
 			'dynamic_link':document.getElementById('dynamic_link').href
 		};	
 		
-		history.pushState(detail, null, set_url);
+		history.pushState(detail, null, set_url);//*/
 		//'/messages/to_'+user_id+'/'
 	}
 
@@ -37,47 +136,81 @@ var render_page = function(next_user, to)
 {					
 
 
+
 	while(typeof next_user =="string") next_user=JSON.parse(next_user);
 
-	var field = new FieldViewer(	//obsolete:
-		go_to_dialog //в итоге подгрзится с сервера ссылка на этот метод
-	);
-	for (attr in next_user)
-	{
-		field.render(
-			attr, 
-			next_user[attr]
-		);
+
+
+
+	var present_data_page = {};
+	for (key in next_user){
+		var el = document.getElementById( key.toLowerCase() );
+		
+		present_data_page[key]=el.href ?
+			el.href:
+			el.innerHTML;
 	}
+	
+	history.replaceState(present_data_page, null, null);
+	
+
+	var viewer = new Viewer(	
+		present_data_page
+	).render(next_user);
+		
 		
 	/*
 	var btnNoteCreate =document.querySelector('#note_create');
 	if (btnNoteCreate) btnNoteCreate.style.display = 'none';
 	*/
 	
-	if (!to) return;//либо с сервера либо страница останется неизвестной
+	//здесь можно проверить, является ли страница той же по маске
 	
-	var stored_page = {};
-	for (key in next_user){
-		
-		var el = document.getElementById( key.toLowerCase() );
-		
-		stored_page[key]=el.href ?
-			el.href:
-			el.innerHTML;
-	}
+	if (!to) return;
 	
-	history.pushState(stored_page, null, to);
+	// если это не происходит здесь, то остается
+	
+	
+	alert('меняем адрес в render_pagу: '
+		+ JSON.stringify(Object.keys(present_data_page)));	
+	
+	
+	history.pushState(null, null, to);
 	
 }
 
 
-function FieldViewer(e){
+function Viewer(data_page){
 	
-	this.events = e;
+	var stored_data = {};
 	
-	this.render = function(key, view)
+	this.render = function(view){
+
+		var present_data_page = {};
+	
+		for (key in view)
+		{
+			this.render_field(
+				key, 
+				view[key]
+			);
+		}
+
+		
+		
+
+
+		
+	}
+	
+	this.render_field = function(key, view)
 	{
+		
+		
+		stored_data[key]=el.href ?
+			el.href:
+			el.innerHTML;		
+		
 		
 		var field=document.getElementById(key.toLowerCase());
 		
@@ -93,11 +226,20 @@ function FieldViewer(e){
 		else if (typeof view == "string")
 		{	
 
-			if (field.href) field.href = view;
-			else if (field.src) field.src = view;
+			if (field.href) {
+				stored_data[key] = field['href'];
+				field['href'] = view;
+			}
+			else if (field.src) 
+			{
+				stored_data[key] = field['src'];
+				field['src'] = view;
+			}
 			else
 			{
-				var property=view.startsWith('<')?'innerHTML':'innerText';
+				var property=;
+				
+				stored_data[key] = field[property];
 				field[property]=view;
 			}
 			

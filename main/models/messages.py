@@ -52,6 +52,7 @@ class Dialogue(models.Model):
 
         return dialog
 
+    #obcolete
     @staticmethod
     def get_for_buddys(sender_id, recipient_id):
 
@@ -109,6 +110,7 @@ class Dialogue(models.Model):
         dialog = list(dialogs).pop() if len(dialogs) else None
 
         return dialog
+
 
 class Message(models.Model):
     Sender = models.ForeignKey(Profile, related_name='msgs', related_query_name="msgs")
