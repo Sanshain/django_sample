@@ -9,13 +9,20 @@
 
 {% block script %}
 
-	window.onload = function(){
+	/*!
+		detail	
+	*/
+	window.onload = function()
+	{
 		var ajax = new Ajax(
 			"{% url 'get_friends' %}",
 			async_get_friends);
-		ajax.postData('id=0');
+		ajax.postData('id=0');  //0- юзер сам. в бд от 1 счет
+				
+		{% block onload %} {% endblock %}
 		
 	}
+	
 {% endblock %}
 
 {% block links %}

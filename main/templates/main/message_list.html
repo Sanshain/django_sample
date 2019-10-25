@@ -21,44 +21,51 @@
 	
 {% endblock %}			
 		
-{% block style %}	{% endblock %}
+
+
+{% block onload %}
+
+	if (!document.addEventListener){	// ie8 и ниже
+		//подгоняем дизайн:
+
+		document.querySelector('.content').style.top = "0px";
+		var dialog =  document.querySelector('.dialog');
+		dialog.style.height = 
+			(document.documentElement.clientHeight - 
+			(document.querySelector('.nav').currentStyle.height != 'auto' ? document.querySelector('.nav').currentStyle.height.replace("px","") : 0) -				
+			100) + "px";
+		dialog.style.left = (document.documentElement.clientWidth * 0.025) + "px";
+		dialog.style.width = (document.documentElement.clientWidth * 0.9) + "px";
+		
+		var txt =  document.querySelector('textarea');
+		txt.style.width = dialog.style.width;
+		txt.style.left = dialog.style.left;
+		txt.style.marginTop = "10px"; 
+		txt.style.border = "1px solid gray"; 
+	}
+
+	var list = document.querySelector('.messages');
+	if (list.offsetHeight >= list.parentElement.offsetHeight - 35)
+	// создаем скролл
+	{
+		list.style.height = list.parentElement.offsetHeight - 35 + "px";
+		list.children[list.children.length-1].scrollIntoView(false);
+		document.querySelector('.dialog').scrollTop += 5;
+	}
+
+	document.bell_get = new Bell("{% static 'music/get.mp3' %}");
+	document.bell_post = new Bell("{% static 'music/post.mp3' %}");
+
+	setTimeout(Checking, 1000);	
+		
+{% endblock %}
+
+
+
 
 {% block script %}		
 
-	window.onload = function(){
-		if (!document.addEventListener){				// ie8 и ниже
-			//подгоняем дизайн:
-
-			document.querySelector('.content').style.top = "0px";
-			var dialog =  document.querySelector('.dialog');
-			dialog.style.height = 
-				(document.documentElement.clientHeight - 
-				(document.querySelector('.nav').currentStyle.height != 'auto' ? document.querySelector('.nav').currentStyle.height.replace("px","") : 0) -				
-				100) + "px";
-			dialog.style.left = (document.documentElement.clientWidth * 0.025) + "px";
-			dialog.style.width = (document.documentElement.clientWidth * 0.9) + "px";
-			
-			var txt =  document.querySelector('textarea');
-			txt.style.width = dialog.style.width;
-			txt.style.left = dialog.style.left;
-			txt.style.marginTop = "10px"; 
-			txt.style.border = "1px solid gray"; 
-		}
-
-		var list = document.querySelector('.messages');
-		if (list.offsetHeight >= list.parentElement.offsetHeight - 35)
-		// создаем скролл
-		{
-			list.style.height = list.parentElement.offsetHeight - 35 + "px";
-			list.children[list.children.length-1].scrollIntoView(false);
-			document.querySelector('.dialog').scrollTop += 5;
-		}
-
-		document.bell_get = new Bell("{% static 'music/get.mp3' %}");
-		document.bell_post = new Bell("{% static 'music/post.mp3' %}");
-
-		setTimeout(Checking, 1000);		
-	};
+	{{ block.super }}
 	
 	var Checking = function(){
 		

@@ -89,11 +89,7 @@ var do_action = function(sender, event){
 
 	var __review_detail = function (resp){ 
 
-		console.time('check_for_just_render');
-		
 		render_page(resp, set_url);
-		
-		console.timeEnd('check_for_just_render');
 
 	}
 
@@ -125,10 +121,10 @@ var render_page = function(data, url)
 	{
 		
 		var closed_page = view.create_stored_page_and_go(url);
-		
+		/*
 		alert('меняем адрес в render_pagу: '
 			+ JSON.stringify(Object.keys(closed_page)));
-	
+		*/
 	}
 	
 }
