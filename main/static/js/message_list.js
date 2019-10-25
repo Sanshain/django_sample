@@ -11,7 +11,7 @@ var Get_Messages = function(response){
 		}
 						
 		if (listMessages.offsetHeight >= listMessages.parentElement.offsetHeight - 35)
-		{	
+		{
 			listMessages.children[listMessages.children.length-1].scrollIntoView(false);				
 		}
 	
