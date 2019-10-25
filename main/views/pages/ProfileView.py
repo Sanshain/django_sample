@@ -172,7 +172,7 @@ class UserView(CSSMixin, DetailView):
                 'innerHTML':'Отправить сообщение',
                 'name' : reverse('get_dialog').strip('/'),
                 'formAction' : reverse('dialog', args=[user_id]),
-                'onclick' : 'go_to_dialog(this, event)'
+                'onclick' : 'do_action(this, event)'
             }
             user_dict.update({'note_create' : {'style':'display:none'} })
 

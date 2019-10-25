@@ -1,37 +1,17 @@
+
 function async_get_friends(response){
-	
-	var stack = [];
-	var keys_by_stack = ['main','articles'];
-	
 	
 	window.onpopstate = function(){
 	
 		console.time('check_for_popstate');
-	      
-		var stored_page = {};
-		
-		for(key in history.state) {
-			
-			var container= document.getElementById( key.toLowerCase());
 
-			//if (!container) continue;
+		new Viewer(history.state).render_back();		
 
-			if(container.href){
-				stored_page[key]=container.href;
-				container.href = history.state[key];
-			}
-			else{
-				stored_page[key]=container.innerHTML;
-				container.innerHTML=history.state[key];
-			}
-		}
-	
-		stack.push(stored_page);
-		
+		/*
 		if (history.state)
 			alert(JSON.stringify(Object.keys(history.state)));
 		else 
-			alert(0);
+			alert(0);//*/
 		
 		
 		console.timeEnd('check_for_popstate');
@@ -75,6 +55,7 @@ function async_get_friends(response){
 		user_div.className = 'friend_pick';	
 		user_div.onclick = function()
 		{
+			
 			var page = '/users/'+User.id + '/';
 			var ajax_user = new Ajax(
 				page,
@@ -96,27 +77,24 @@ function async_get_friends(response){
 }
 
 
-var go_to_dialog = function(sender, event){
+
+
+//obsolete name = go_to_dialog
+var do_action = function(sender, event){
 	event.preventDefault();
 
 	var user_id = document.location.pathname.match(/\d+/)[0];
-	var get_view = '/'+sender.name+'/';
-	var set_url = sender.formAction;
-
+	var set_url = sender.formAction; 	
+	var get_view = sender.name ? '/'+sender.name+'/' : set_url;
 
 	var __review_detail = function (resp){ 
+
+		console.time('check_for_just_render');
 		
 		render_page(resp, set_url);
 		
-		/*
-		detail =
-		{
-			'detail':document.querySelector('.detail').innerHTML,
-			'dynamic_link':document.getElementById('dynamic_link').href
-		};	
-		
-		history.pushState(detail, null, set_url);//*/
-		//'/messages/to_'+user_id+'/'
+		console.timeEnd('check_for_just_render');
+
 	}
 
 	var review = new Ajax(
@@ -131,86 +109,102 @@ var go_to_dialog = function(sender, event){
 
 
 
-
-var render_page = function(next_user, to)
+/*!
+	@param data - ответ от сервера (данные для рендеринга)
+	@param url - url для изменения в адресной строке браузера
+*/
+var render_page = function(data, url)
 {					
 
-
-
-	while(typeof next_user =="string") next_user=JSON.parse(next_user);
-
-
-
-
-	var present_data_page = {};
-	for (key in next_user){
-		var el = document.getElementById( key.toLowerCase() );
+	while(typeof data =="string") data = JSON.parse(data);
+	
+	var view = new Viewer(data).render();
+	
+	
+	if (url)// если это не происходит здесь, то остается (для несущ изм)
+	{
+		console.log(history.length);
 		
-		present_data_page[key]=el.href ?
-			el.href:
-			el.innerHTML;
+		var closed_page = view.create_stored_page_and_go(url);
+		
+		alert('меняем адрес в render_pagу: '
+			+ JSON.stringify(Object.keys(closed_page)));
+			
+		console.log(history.length);
+	
 	}
-	
-	history.replaceState(present_data_page, null, null);
-	
-
-	var viewer = new Viewer(	
-		present_data_page
-	).render(next_user);
-		
-		
-	/*
-	var btnNoteCreate =document.querySelector('#note_create');
-	if (btnNoteCreate) btnNoteCreate.style.display = 'none';
-	*/
-	
-	//здесь можно проверить, является ли страница той же по маске
-	
-	if (!to) return;
-	
-	// если это не происходит здесь, то остается
-	
-	
-	alert('меняем адрес в render_pagу: '
-		+ JSON.stringify(Object.keys(present_data_page)));	
-	
-	
-	history.pushState(null, null, to);
 	
 }
 
 
-function Viewer(data_page){
+function Viewer(data){
 	
 	var stored_data = {};
 	
-	this.render = function(view){
-
-		var present_data_page = {};
+	var new_view = data;
 	
-		for (key in view)
+
+	
+	
+	this.render_back = function(){
+		
+		for(key in history.state) {
+			
+			var field=document.getElementById(key.toLowerCase());
+			var view = history.state[key];
+			
+			if (typeof view == "string") 
+				
+				field[property(view, field)] = view;
+				
+			else if (typeof view == "object")
+			{
+				for (k in view) 
+				{
+
+					if (k.startsWith('on')) field.setAttribute(k, view[k]);
+					else 
+						field[k] = view[k];
+				}
+			}			
+		}		
+		
+	}	
+	
+
+	
+	this.render = function(){
+
+		for (key in new_view)
 		{
 			this.render_field(
 				key, 
-				view[key]
+				new_view[key]
 			);
 		}
-
 		
-		
-
-
-		
+		return this;
 	}
+	
+	/*!
+		@brief create_stored_page_and_go
+	*/
+	this.create_stored_page_and_go = function(to_url){
+		
+		if (stored_data){
+			history.replaceState(stored_data,null,document.location.pathname);
+			
+			history.pushState(null, null, to_url);			
+		}else 
+			new Error('stored_data is not defined. Call `render` first');
+		
+		return stored_data;
+	}
+	
+
 	
 	this.render_field = function(key, view)
 	{
-		
-		
-		stored_data[key]=el.href ?
-			el.href:
-			el.innerHTML;		
-		
 		
 		var field=document.getElementById(key.toLowerCase());
 		
@@ -220,33 +214,27 @@ function Viewer(data_page){
 			const script = document.createElement('script');
 			script.src = view;
 			script.id = key;
-			document.head.appendChild(script);	
-			return;
+			document.head.appendChild(script);	return;
+			
 		}
 		else if (typeof view == "string")
 		{	
-
-			if (field.href) {
-				stored_data[key] = field['href'];
-				field['href'] = view;
-			}
-			else if (field.src) 
-			{
-				stored_data[key] = field['src'];
-				field['src'] = view;
-			}
-			else
-			{
-				var property=;
-				
-				stored_data[key] = field[property];
-				field[property]=view;
-			}
+			
+			var attr = property(view,field);
+			
+			stored_data[key] = field[attr]; 
+			
+			field[attr] = view;
 			
 		} else if (typeof view == "object")
 		{
+			stored_data[key] = {};
 			for (k in view) 
 			{
+				if (1+['object','function'].indexOf(typeof field[k]))
+				{
+					stored_data[key][k]=field.getAttribute(k);
+				} else stored_data[key][k]=field[k];
 				
 				if (k.startsWith('on')) field.setAttribute(k, view[k]);
 				else 
@@ -259,107 +247,26 @@ function Viewer(data_page){
 		else{
 			console.log('not find field for key - ' + key);
 		}
+		
+		
+	};	
+	
+	var property = function(view,field){
+		var i=-1; var attr = ''; var attrs = [
+			'href',
+			'src',
+			view.trimLeft().startsWith('<')?'innerHTML':'innerText'
+		];
+					
+		while(!(field[ attr=attrs[++i] ])) if (i>1) break;	
+
+		return attr;		
 	};	
 	
 }
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-/*!
-	@brief Сменяет адрес в адресной строке на новый, 
-	а так же записывает в stack изображение этой страницы
-	
-	логирует history.state текущей страницы
-	
-*/
-function ChangePage(page,state){
-	if (history.state){
-		state = state || ['main','articles'];
-		var stored_page = {}
-		
-		//-
-		console.log(history.state);
-		//-
-		
-		history.state.forEach(
-			function(key){
-				
-				stored_page[key] = !key=="dynamic_link"?
-					document.querySelector('.'+key).innerHTML:
-					document.getElementsByName("dynamic_link")[0].href;				
-			}
-		);
-				
-		
-		stack.push(stored_page);
-		history.pushState(state, null, page); 
-			
-		return true;
-	}
-	
-	return false;
-}
-
-
-function page_popstate(){
-	
-	var view = (stack.pop());
-	var stored_page = {};
-	
-	for(key in view) {
-							
-		if(key=="dynamic_link"){
-			var link = document.getElementsByName("dynamic_link")[0];
-			stored_page[key]=link.href;
-			link.href = view[key];
-		}
-		else{
-			var container = document.querySelector('.'+key);
-			stored_page[key]=container.innerHTML;
-			container.innerHTML=view[key];						
-		}
-	}
-	stack.push(stored_page);
-	
-	alert(history.state);
-}
-
-
-
-function page_popstate_v1(){
-	
-	var view = (stack.pop());
-	var stored_page = {};
-	
-	for(key in view) {
-							
-		if(key=="dynamic_link"){
-			var link = document.getElementsByName("dynamic_link")[0];
-			stored_page[key]=link.href;
-			link.href = view[key];
-		}
-		else{
-			var container = document.querySelector('.'+key);
-			stored_page[key]=container.innerHTML;
-			container.innerHTML=view[key];						
-		}
-	}
-	stack.push(stored_page);
-	
-	alert(history.state);
-}
 
 
 

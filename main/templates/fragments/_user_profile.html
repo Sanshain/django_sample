@@ -63,12 +63,7 @@
 					id='action'  
 					name={{ dialog_url|cut:"/" }}
 					formaction = {% url 'dialog' profile.id %}
-					onclick="
-					
-						go_to_dialog(this, event);
-						//to_dialog();
-					
-					"
+					onclick="do_action(this,event);"
 					style="z-index:10;" 
 				>
 					Отправить сообщение
