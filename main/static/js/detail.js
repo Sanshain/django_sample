@@ -123,14 +123,11 @@ var render_page = function(data, url)
 	
 	if (url)// если это не происходит здесь, то остается (для несущ изм)
 	{
-		console.log(history.length);
 		
 		var closed_page = view.create_stored_page_and_go(url);
 		
 		alert('меняем адрес в render_pagу: '
 			+ JSON.stringify(Object.keys(closed_page)));
-			
-		console.log(history.length);
 	
 	}
 	
