@@ -17,7 +17,7 @@
 	<script src="{% static 'js/message_list.js' %}" id='dynamic_c_list' >
 		
 	</script>
-	<link rel="stylesheet" href="{% static 'message_list.css' %}">
+	<link rel="stylesheet" href="{% static 'message_list.css' %}" id='dynamic_link'>
 	
 {% endblock %}			
 		
@@ -67,42 +67,7 @@
 
 	{{ block.super }}
 	
-	var Checking = function(){
-		
-		var messages = document.querySelectorAll('.mess_id');
-				
-		var up = messages.length ? messages[messages.length-1].innerText : 0;
-		
-		var data = 'check='+ up;
-		POST(data, checkMessages);		
-	};
-	
-	var checkMessages = function(response){
-	
-		if (response != 'nop' && response != ''){
-			var messages = JSON.parse(response);
-			var listMessages = document.querySelector('.messages');
-			for (var key in messages)
-			{
-				var mess = AppendNewElemTo(listMessages, Elem('li', messages[key], 'y message'));
-				AppendNewElemTo(mess, Elem('span', key, 'mess_id'));
-				AppendNewElemTo(mess, Elem('sub', Time(), 'mess_time'));
-			}
-							
-			if (listMessages.offsetHeight >= listMessages.parentElement.offsetHeight - 35)
-			{	
-				listMessages.children[listMessages.children.length-1].scrollIntoView(false);				
-			}
-		
-			document.bell_get();
-				
-		}
-		
-		Checking();
-	};
 
-
-	
 
 {% endblock %}
 

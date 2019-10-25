@@ -1,3 +1,41 @@
+var Get_Messages = function(response){
+
+	if (response != 'nop' && response != ''){
+		var messages = JSON.parse(response);
+		var listMessages = document.querySelector('.messages');
+		for (var key in messages)
+		{
+			var mess = AppendNewElemTo(listMessages, Elem('li', messages[key], 'y message'));
+			AppendNewElemTo(mess, Elem('span', key, 'mess_id'));
+			AppendNewElemTo(mess, Elem('sub', Time(), 'mess_time'));
+		}
+						
+		if (listMessages.offsetHeight >= listMessages.parentElement.offsetHeight - 35)
+		{	
+			listMessages.children[listMessages.children.length-1].scrollIntoView(false);				
+		}
+	
+		document.bell_get();
+			
+	}
+	
+	Checking();
+};
+
+
+var Checking = function(){
+	
+	var messages = document.querySelectorAll('.mess_id');
+			
+	var up = messages.length ? messages[messages.length-1].innerText : 0;
+	
+	var data = 'check='+ up;
+	POST(data, Get_Messages);		
+};
+
+
+
+
 function enter(sender, event){
 		
 	if(event.keyCode == 13){// && event.ctrlKey
@@ -55,10 +93,12 @@ function enter(sender, event){
 	}
 };
 
+
+
 /*!
 	@brief Должен находиться в windows.onload
 	либо запускаться при динамической загрузке
 */
 function InitializePage(){
-		
+	
 }
