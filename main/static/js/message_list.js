@@ -22,15 +22,23 @@ var Get_Messages = function(response){
 	Checking();
 };
 
+var last_mess_id;					// for Checking
 
 var Checking = function(){
 	
 	var messages = document.querySelectorAll('.mess_id');
-			
-	var up = messages.length ? messages[messages.length-1].innerText : 0;
 	
-	var data = 'check='+ up;
-	POST(data, Get_Messages);		
+	if (messages){
+		last_mess_id = messages.length ? messages[messages.length-1].innerText : 0;
+		
+		var data = 'check='+ last_mess_id;
+		POST(data, Get_Messages);		
+	}
+	else if(last_mess_id)
+	{
+		//если last_mess_id уже был назначен
+	}
+		
 };
 
 
