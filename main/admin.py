@@ -23,7 +23,7 @@ from django.db import models
 
 
 from .models import Profile, Raiting, INote, Comment, Article, Mark, Friends
-from .forms.noteform import RatingForm
+from .forms import RatingForm
 from .forms.user2 import CreatePerson
 from .forms.common import ViewImageField, CustomImageField
 from .widgets import AdminImageWidget

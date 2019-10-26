@@ -204,7 +204,7 @@ function Viewer(data){
 		if (!field && key.startsWith('dynamic_c')){
 			//если не найден скрипт
 			
-			const script = document.createElement('script');
+			var script = document.createElement('script');
 			script.src = view;
 			script.id = key;
 			document.head.appendChild(script);	return;
