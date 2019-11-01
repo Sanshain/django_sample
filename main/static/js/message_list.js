@@ -16,7 +16,6 @@ var Get_Messages = function(response){
 		}
 	
 		document.bell_get();
-			
 	}
 	
 	Checking();
@@ -36,7 +35,7 @@ var Checking = function(){
 	}
 	else if(last_mess_id)
 	{
-		//если last_mess_id уже был назначен
+		//если last_mess_id уже был назначен ()
 	}
 		
 };
