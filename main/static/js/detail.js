@@ -79,7 +79,12 @@ function async_get_friends(response){
 
 
 
-//obsolete name = go_to_dialog
+//obsolete name be go_to_dialog. Now actual is this:
+/*its rule function*/
+/*!
+	Получает из атрибутов кнопки (пока только той, что под аватаркой) параметры для запроса
+	Делает запрос и рендерит страницу
+*/
 var do_action = function(sender, event){
 	event.preventDefault();
 
