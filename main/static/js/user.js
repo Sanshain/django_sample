@@ -1,15 +1,28 @@
+/*!
+	Показывает окно создания записи
+	
+	Вызов лежит в aside_inside блоке юзера
+*/
 var note_create = function(sender, e){
-	//alert('d');
 	//document.location.href = "{% url 'note_create' %}";
+	
 	//document.getElementById('id_Title').focus();
 	//document.getElementById('id_Title').value = '';
+	
 	document.getElementById('win').removeAttribute('style');			
 	document.getElementById('id_Content').focus();
 	
 	
 	//document.querySelector('.visible').style.height = '80vh';
-}
+}//*/
 
+
+/*!
+	Добавляет статью (запись) в поток записей (статей) страницы. 
+	И отправляет на сервер 
+	
+	
+*/
 var note_submit = function(sender, e){
 	e.preventDefault();
 	
@@ -38,21 +51,35 @@ var note_submit = function(sender, e){
 	
 }
 
+/*!
+	Скрывает окно создания записей (обратная note_create)
+*/
 function HideModal(){
 	document.getElementById('win').style.display='none';
 	document.querySelector('.visible').style.height = '10vh';
 }
 
+
+
+/*! Что-то похожее на note_create
+	
+	legacy: выскакивало диалоговое окно от ввода. Сейчас просто note_create
+*//*
 function ExpandModal(){
 	document.querySelector('.visible').style.height = '100vh';
 	document.querySelector('.visible').style.width = '100vw';
 	document.querySelector('.visible').style.left = '-15px';
 	document.querySelector('.visible').style.marginTop = '0vh';
 	document.querySelector('#id_Content').style.height = '65vh';
-}		
+}//*/	
 
 
-//obsolete/ Insteade use go_to_dialog(this, event) 
+//obsolete/ Insteade use (this, event) 
+
+/*! нуждается в проверке. Если легаси - удалить 
+	
+	(сейчас вроде заменен на do_action)
+*//*
 function to_dialog(){
 	
 	var user_id = window.location.pathname.match(/\d+/).pop();
@@ -68,12 +95,12 @@ function to_dialog(){
 			//alert(answer);
 			var resp = JSON.parse(answer);
 			
-			/*
+			//*//*
 			var main = document.querySelector('main');
 			var articles = document.querySelector('articles');
 			var parent = main.parentNode;
 			parent.removeChild(main);
-			parent.removeChild(articles);//*/
+			parent.removeChild(articles);//*//*
 			
 			var el = document.createElement('link');
 			el.rel = 'stylesheet';
@@ -88,9 +115,7 @@ function to_dialog(){
 	)						
 	
 	_a.postData(data);
-}
-
-
+}//*/
 
 
 
