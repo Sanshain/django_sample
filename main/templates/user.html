@@ -26,16 +26,13 @@
 		{{ block.super }}
 
 
-		
+		// параметры, передаваемые в статические файлы:
 		var _note_create = "{% url 'note_create' %}";
 		var _get_dialog = '{% url 'get_dialog' %}';
-		
-		//исходная страница юзера с неизм ид профиля
-		var _dialog = "{% url 'dialog' profile.id %}";
+		var _dialog = "{% url 'dialog' profile.id %}";  //исходная страница юзера с неизм ид профиля
 		
 		
-
-		window.onscroll = function(e){
+		function scroll_adaptive(event){
 			
 			if (document.body.clientWidth > 800) return true;
 			
@@ -53,6 +50,12 @@
 				document.querySelector('.main').style.display = 'none';
 				document.querySelector('.main').style.top = '-50px';
 			}
+			
+		}
+
+		window.onscroll = function(event)
+		{
+			scroll_adaptive(event);
 		}
 {% endblock %}
 
