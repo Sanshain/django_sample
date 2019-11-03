@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load staticfiles %}
 <html>
 
 	<head>{% load staticfiles %}
@@ -9,7 +10,9 @@
 		<link rel="stylesheet" href="{% static 'base.css' %}">
 		
 {% block links %}
-
+	<script src="{% static 'ajax.js' %}"></script>
+	
+	
 {% endblock %}	
 		
 		<style>
