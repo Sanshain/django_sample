@@ -1,4 +1,7 @@
 
+/*! async get friends for detail-template called onload/
+
+*/
 function async_get_friends(response){
 	
 	window.onpopstate = function(){
@@ -78,10 +81,8 @@ function async_get_friends(response){
 
 
 
+/*! action under user (Rule function instead go_to_dialog)...
 
-//obsolete name be go_to_dialog. Now actual is this:
-/*its rule function*/
-/*!
 	Получает из атрибутов кнопки (пока только той, что под аватаркой) параметры для запроса
 	Делает запрос и рендерит страницу
 */
@@ -109,13 +110,12 @@ var do_action = function(sender, event){
 
 
 
+/*! render for part of page from server...
 
-/*!
 	@param data - ответ от сервера (данные для рендеринга)
 	@param url - url для изменения в адресной строке браузера
 */
-var render_page = function(data, url)
-{					
+var render_page = function(data, url){					
 
 	while(typeof data =="string") data = JSON.parse(data);
 	
@@ -125,7 +125,7 @@ var render_page = function(data, url)
 	if (url)// если это не происходит здесь, то остается (для несущ изм)
 	{
 		
-		var closed_page = view.create_stored_page_and_go(url);
+		var closed_page =view.create_stored_page_and_go(url);
 		/*
 		alert('меняем адрес в render_pagу: '
 			+ JSON.stringify(Object.keys(closed_page)));
@@ -135,15 +135,33 @@ var render_page = function(data, url)
 }
 
 
+
+
+
+
+						/*  Viewer  */
+
+
+
+
+/*! Class for present new part of page...
+
+	Рендерит поля страницы на основе входных данных
+*/
 function Viewer(data){
 	
 	var stored_data = {};
 	
 	var new_view = data;
 	
-
 	
+	/*! render part of page from history.state...
+	when user back transfer 
 	
+		Рендерит при возврате назад на основе history.state
+		
+		(в отличие от render+render_field не сохраняет историю)
+	*/
 	this.render_back = function(){
 		
 		for(key in history.state) {
@@ -169,8 +187,11 @@ function Viewer(data){
 		
 	}	
 	
-
 	
+	/*! render part of page vs history.state saving...
+	
+		Ключевой метод этого класса
+	*/
 	this.render = function(){
 
 		for (key in new_view)
@@ -184,7 +205,9 @@ function Viewer(data){
 		return this;
 	}
 	
-	/*!
+	
+	/*!	Save history.state before setting/going to next view
+	
 		@brief create_stored_page_and_go
 	*/
 	this.create_stored_page_and_go = function(to_url){
@@ -200,9 +223,10 @@ function Viewer(data){
 	}
 	
 
+	/*! Render certain/definite fielt for view
 	
-	this.render_field = function(key, view)
-	{
+	*/
+	this.render_field = function(key, view){
 		
 		var field=document.getElementById(key.toLowerCase());
 		
@@ -249,6 +273,11 @@ function Viewer(data){
 		
 	};	
 	
+	
+	/*! Get or find property_name for replacement its value
+		
+		Имя свойства для переопределения может быть разное. Эта функция определяет его для каждого конкретного элемента
+	*/
 	var property = function(view,field){
 		var i=-1; var attr = ''; var attrs = [
 			'href',
