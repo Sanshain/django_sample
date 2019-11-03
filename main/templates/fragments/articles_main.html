@@ -1,12 +1,14 @@
 <div id="win" style="display:none;" onkeydown ="
 	{		
-		if (event.keyCode == 27) HideModal();		
+		if (event.keyCode == 27) Note.hideView();		
 	}
 ">
-		
-	<form action='#' onsubmit='note_submit(this, event);' method='post' id='note'>
+
+	<form action='#' onsubmit='Note.Post(this, event);' method='post' id='note'>
 		{% csrf_token %}
 		{{create_articles.as_p}}
+		
+		<!-- Кнопки: -->
 		
 		<input form='note' class='btn'  type='submit' value='Поделиться' style='
 			float:right;
@@ -22,8 +24,6 @@
 		
 	</form>	
 
-
-	
 </div>
 
 <article>

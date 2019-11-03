@@ -1,15 +1,17 @@
 	{% if profile.id == user.id %}
-		<button style='float:left;' id='note_create' onclick='note_create(this,event);'>Создать запись</button>
+		<button style='float:left;' id='note_create' onclick='Note.createView(this,event);'>Создать запись</button>
 		
-		<div id="win" style="display:none;" onkeydown ="function()
+		
+		<!--<div contenteditable=true-->
+		
+		<div id="win" style="display:none;" onkeydown ="
 			{
 				alert(6);
-				 (event.keyCode == 27) HideModal();
-			}();
-		";
-			
-			<!--<div contenteditable=true-->
-			<form action='#' onsubmit='note_submit(this, event);' method='post' id='note'>
+				 (event.keyCode == 27) Note.hideView();
+			}
+		">
+						
+			<form action='#' onsubmit='Note.Post(this, event);' method='post' id='note'>
 				{% csrf_token %}
 				{{create_articles.as_p}}
 									

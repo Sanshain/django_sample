@@ -81,33 +81,6 @@ function async_get_friends(response){
 
 
 
-/*! action under user (Rule function instead go_to_dialog)...
-
-	Получает из атрибутов кнопки (пока только той, что под аватаркой) параметры для запроса
-	Делает запрос и рендерит страницу
-*/
-var do_action = function(sender, event){
-	event.preventDefault();
-
-	var user_id = document.location.pathname.match(/\d+/)[0];
-	var set_url = sender.formAction; 	
-	var get_view = sender.name ? '/'+sender.name+'/' : set_url;
-
-	var __review_detail = function (resp){ 
-
-		render_page(resp, set_url);
-
-	}
-
-	var review = new Ajax(
-		get_view,				 
-		__review_detail
-	);
-			
-	review.postData('id='+user_id);			//User.id
-
-};
-
 
 
 
