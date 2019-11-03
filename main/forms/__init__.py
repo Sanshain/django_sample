@@ -1,2 +1,2 @@
 
-from noteform import *
+from note import *

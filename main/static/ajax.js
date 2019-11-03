@@ -139,7 +139,9 @@ function POST(data, func, csrftoken){
 
 function Ajax(url, func, csrftoken) { 
 
-	console.time('server_response_time');
+	//-
+	if (!('\v'=='v')) console.time('server_response_time');
+	//-
 
 	this.url = url || document.location.href;
 	this.csrftoken = csrftoken;
@@ -179,7 +181,9 @@ function Ajax(url, func, csrftoken) {
 			{
 				func(this.responseText, url); 
 				
-				console.timeEnd('server_response_time');
+				//-
+				if (!('\v'=='v')) console.timeEnd('server_response_time');
+				//-
 			}			
 											
 		}		

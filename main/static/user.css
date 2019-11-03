@@ -41,7 +41,7 @@
 	right:16em;
 }
 
-@media screen and (max-width: 1366px) {
+@media screen and (max-width: 1280px) {
 	.main{
 		/*position:relative;*/
 		/*top:0px;*/

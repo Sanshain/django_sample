@@ -17,7 +17,7 @@ class Dialogue_Partakers(models.Model):
     Dialogue = models.ForeignKey('Dialogue', related_name='talkers')
 ##    Time = models.DateTimeField()
 ##    Last = models.ForeignKey('Message', null=True)
-##    Last = models.IntegerField()                                                # наверное уже obsolete: я просто тогда не умел делать запросы
+    Last = models.IntegerField()                                                # последнее сообщение в диал, не obsolete пока
 
 class Dialogue(models.Model):
 ##    class Meta:
