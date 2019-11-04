@@ -8,6 +8,17 @@ from django.core.urlresolvers import resolve
 
 class CSSMixin(object):
 
+    def get_default_style(self, **kwargs):
+        context = {}
+        if 'context' in kwargs:
+            context = kwargs['context']
+
+        baseurl = settings.STATIC_URL + self.template_name.replace('.html','')
+        basepath = os.path.join(settings.BASE_DIR, __package__.split('.')[0], baseurl[1:])
+
+        if os.path.exists(basepath+'.css'): context['links'] = [baseurl + '.css']
+
+        return context
 
     def get_context_data(self, *args, **kwargs):                                    # расширение контекста
         context = super(CSSMixin, self).get_context_data(*args, **kwargs)

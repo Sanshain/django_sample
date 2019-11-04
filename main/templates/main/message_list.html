@@ -18,11 +18,12 @@
 	</script>
 	<link rel="stylesheet" href="{% static 'message_list.css' %}" id='dynamic_link'>
 	
-{% endblock %}			
+{% endblock %}
 		
 
 
 {% block onload %}
+	{{ block.super }}
 
 	if (!document.addEventListener){	// ie8 и ниже
 		//подгоняем дизайн:

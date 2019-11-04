@@ -19,13 +19,25 @@ Note.createView = function(){
 	//document.querySelector('.visible').style.height = '80vh';	
 };
 
-/*! Добавляет статью (запись) в поток...
+
+/*! Скрывает окно создания записей...
+	 (обратная note_create)
+*/
+Note.hideView = function(){
+	
+	document.getElementById('win').style.display='none';
+	//document.querySelector('.visible').style.height = '10vh';
+	
+};
+
+
+/*! Добавляет запись в поток и отправляет на сервер...
  записей (статей) страницы. 
  
 	И отправляет на сервер 
 	
 */
-Note.Post = function(sender, e){
+Note.post_View = function(sender, e){
 	e.preventDefault();
 	
 	//отправляем данные формы на сервер
@@ -52,15 +64,8 @@ Note.Post = function(sender, e){
 	document.getElementById('id_Content').value = '';	
 };
 
-/*! Скрывает окно создания записей...
-	 (обратная note_create)
-*/
-Note.hideView = function(){
-	
-	document.getElementById('win').style.display='none';
-	//document.querySelector('.visible').style.height = '10vh';
-	
-};
+
+
 
 
 
@@ -77,10 +82,11 @@ var do_action = function(sender, event){
 	var set_url = sender.formAction; 	
 	var get_view = sender.name ? '/'+sender.name+'/' : set_url;
 
-	var __review_detail = function (resp){ 
-
+	var __review_detail = function (resp)					//
+	{ 
 		render_page(resp, set_url);
-
+		
+		
 	}
 
 	var review = new Ajax(

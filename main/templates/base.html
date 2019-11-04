@@ -25,7 +25,38 @@
 		
 		<script>
 		
-			{% block script %}{% endblock %}
+			{% block script %}
+				
+				window.onload = function()
+				{
+				
+					/*! ерунда:
+					var menu = document.querySelector('nav');
+					var points = menu.getElementsByTagName('section_nav');
+					*/
+					
+					document.querySelector('#_dialogs').onclick =function(e){
+												
+						if (!window.atob){   //<ie10
+						
+							document.location.href = e.target.href;
+							return true;
+						}
+						
+						e.preventDefault();
+						var ajax = new Ajax(e.target.href, render_page);
+						// проверяем, является ли шаблон detail:
+						var detail = document.querySelector('.detail');
+						var flag = Boolean(detail);
+						
+						ajax.postData('detail='+Number(flag));
+					}
+					
+					{% block onload %} {% endblock %}
+				}
+				
+				
+			{% endblock %}
 
 		</script>
 		
@@ -36,7 +67,7 @@
 		<header>
 				
 			<div class='header'>
-				<div class='nav'>
+				<div class='nav' id='nav'>
 				
 					{% if request.user.is_authenticated and user.Image %}
 						<a style='display:inline-block;float:left;position:relative;cursor:pointer;z-index:10' href="{% url 'user' user.id %}">
@@ -48,8 +79,8 @@
 						{% block nav %}				
 							
 						    <a id='me' name='{{user.id}}' href="{% url 'user' user.id %}" class='section_nav'>К себе</a><!--						
-							--><a href="{% url 'dialogs' %}" class='section_nav'>Сообщения</a><!--
-
+							--><a href="{% url 'dialogs' %}" id='_dialogs' class='section_nav'>Сообщения</a><!--
+							
 							--><a href="{% url 'signout' %}" class='section_nav'>Выйти</a> 							
 						{% endblock %}		
 						

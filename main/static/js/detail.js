@@ -56,7 +56,7 @@ function async_get_friends(response){
 		user_div.style.whiteSpace = 'nowrap';
 		user_div.style.lineHeight = '60px';
 		user_div.className = 'friend_pick';	
-		user_div.onclick = function()
+		user_div.onclick = function()/**/
 		{
 			
 			var page = '/users/'+User.id + '/';
@@ -76,6 +76,46 @@ function async_get_friends(response){
 	}
 				
 	//							
+	
+}
+
+
+
+function UserItem(user){
+	
+	var ava_img = document.createElement('img');
+	ava_img.style.float = 'left';		
+	ava_img.style.borderRadius = '20px';
+	ava_img.style.margin = "10px 0 0 10px";	
+	ava_img.src='data:image/jpeg;base64,'+ user.img;
+	
+	var username = document.createElement('span');
+	username.innerText = user.username+'sgdgdgdfg';
+	username.style.paddingLeft = '9%';	
+	
+	var user_div = document.createElement('div');
+	user_div.id = 'un' + user.id;
+	user_div.style.cursor = 'Pointer';
+	user_div.style.marginBottom = '10px';
+	user_div.style.lineHeight = '40px';
+	user_div.style.whiteSpace = 'nowrap';
+	user_div.style.lineHeight = '60px';
+	user_div.className = 'friend_pick';	
+	user_div.onclick = function()
+	{
+		
+		var page = '/users/'+user.id + '/';
+		var ajax_user = new Ajax(
+			page,
+			render_page);		
+		ajax_user.postData(user.id);	
+		
+	};		
+	
+	user_div.appendChild(ava_img);				
+	user_div.appendChild(username);				
+	
+	this.element = user_div;
 	
 }
 

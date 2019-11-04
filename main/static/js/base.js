@@ -42,10 +42,13 @@ function Viewer(data){
 	*/
 	this.render_back = function(){
 		
+		//alert(0);
+		console.log(history.state);
+		
 		for(key in history.state) {
 			
 			var field=document.getElementById(key.toLowerCase());
-			var view = history.state[key];
+			var view = history.state[key];			
 			
 			if (typeof view == "string") 
 				
@@ -168,3 +171,6 @@ function Viewer(data){
 	var stored_data = {};
 	var new_view = data;
 }
+
+
+

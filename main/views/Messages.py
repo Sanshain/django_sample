@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from itertools import chain
 import json
-
+import os
 
 # для процедурного стиля:
 
@@ -32,8 +32,7 @@ from django.db.models import OuterRef, Subquery, Prefetch
 from django.http import HttpResponseRedirect    											              # для AJAX
 from django.urls import reverse
 from django.utils.decorators import method_decorator
-
-
+from django.template.loader import render_to_string
 
 # main
 from main.models import Profile, Friends, State
@@ -129,6 +128,32 @@ class Dialogs(CSSMixin, ListView):
 ##        print qs[0].messages__count
 
         return qs
+
+
+    def post(self, *args, **kwargs):
+
+        detail = self.request.POST.get('detail', None)
+
+        tag_ren = {}
+
+        if detail:
+
+            template_snippet = os.path.join('fragments','_dialogue_list.html')
+            tag_ren['main'] = render_to_string(template_snippet, context={
+                'object_list' : self.get_queryset(),
+                'MEDIA_URL' : settings.MEDIA_URL
+            })
+
+            styles = self.get_default_style()['links']
+            if len(styles): tag_ren['dynamic_link'] = styles[0]
+
+            return JsonResponse(tag_ren, safe=False)
+
+        else:
+
+            return JsonResponse(tag_ren)
+
+
 
 
 

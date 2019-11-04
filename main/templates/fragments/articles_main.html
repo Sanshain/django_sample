@@ -4,7 +4,7 @@
 	}
 ">
 
-	<form action='#' onsubmit='Note.Post(this, event);' method='post' id='note'>
+	<form action='#' onsubmit='Note.post_View(this, event);' method='post' id='note'>
 		{% csrf_token %}
 		{{create_articles.as_p}}
 		
