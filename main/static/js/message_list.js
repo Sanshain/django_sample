@@ -1,3 +1,8 @@
+var last_mess_id;					// for Checking
+
+/*!	Получает (и показывает) сообщения после проверки...
+
+*/
 var Get_Messages = function(response){
 
 	if (response != 'nop' && response != ''){
@@ -21,8 +26,10 @@ var Get_Messages = function(response){
 	Checking();
 };
 
-var last_mess_id;					// for Checking
 
+/*! Проверка (регулярная) сообщений на сервере...
+
+*/
 var Checking = function(){
 	
 	var messages = document.querySelectorAll('.mess_id');
@@ -42,7 +49,9 @@ var Checking = function(){
 
 
 
-
+/*! Отправляет сообщение на сервер по нажатию enter...
+	
+*/
 function enter(sender, event){
 		
 	if(event.keyCode == 13){// && event.ctrlKey
@@ -102,9 +111,14 @@ function enter(sender, event){
 
 
 
+
+
+
 /*!
 	@brief Должен находиться в windows.onload
 	либо запускаться при динамической загрузке
+	
+	Пока не реализован
 */
 function InitializePage(){
 	

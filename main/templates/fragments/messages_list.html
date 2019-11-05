@@ -31,7 +31,153 @@
 			{% endfor  %}
 		</ul>
 	</div>	
+
+	
 	<form method='post'>{% csrf_token %}
 		<textarea autofocus onkeydown='enter(this, event)' onmousedown='/*customizeEnter*/'></textarea>
+		
+		<label for='uploadImage' id='select_img' style="
+			position: absolute;
+			right: 30px;
+			top: 10px;
+			background-color: beige;
+			border-radius: 15px;
+			cursor: pointer;
+			padding: 8px 12px;
+			
+			">+</label>
+		<input type="file" id="uploadImage" style='display:none' multiple accept="image/*"><!---->
+
+		<script>
+
+	function InitPreviver(){
+		
+		var container = document.createElement('div');
+		
+		container.style.position = 'fixed';
+		container.style.top = "0px";
+		container.style.left = "0px";
+		container.style.right = "0px";
+		container.style.bottom = "0px";
+		container.style.zIndex = "100";
+		container.style.position = "fixed";
+		container.style.backgroundColor = 'rgba(105, 102, 102, 0.87)'; //'lightgray';	
+		container.style.textAlign = 'center';
+		container.style.lineHeight = '100vh';				
+		container.style.display = 'none';
+		
+		document.querySelector('body').appendChild(container);
+		
+		return container;
+	}
+
+
+
+	FReader = new FileReader();
+	
+	var imgContainer = InitPreviver();
+
+	//событие на загрузку файла
+	function img_load(e) {
+		
+		var image = new Image(); 
+		image.src = e.target.result; 
+		
+		var parent = document.querySelector('.messages');
+		var mess = document.createElement('li');
+		mess.style.marginBottom = '7px';
+		mess.style.height = '200px';
+		
+		var img = document.createElement('img');
+		img.height = 200;
+		img.src = e.target.result;
+		
+		img.style.backgroundSize = 'rgba(105, 102, 102,0.87)';
+		img.style.cursor = 'pointer';		
+		
+		mess.appendChild(img);
+		parent.appendChild(mess);
+		
+		mess.scrollIntoView(false); //- не до конца
+		parent.parentElement.scrollTop += 10; 
+		// при условии, что полосы прокрутки уже есть
+		
+		//возвращает картинку с вида на весь экран в сообщение
+		var reduce_image = function(elem){
+			
+			img.style.height = '200px';
+			img.align = 'left';
+			imgContainer.style.display = 'none';
+			mess.appendChild(img);
+			
+		};
+		
+		img.onclick = function(event){
+
+			if (imgContainer.style.display != "block"){
+
+				imgContainer.style.display = 'block';
+				imgContainer.appendChild(img);	
+				
+				img.style.outline = 'none';
+				img.style.height = "auto";
+				img.align = 'middle';
+				img.tabIndex = 0;
+				img.focus();
+			}
+			else
+				reduce_image(mess);		
+			
+		};
+		
+		mess.onkeydown = function(event){
+			
+			if (event.code == 'Escape') {
+				reduce_image(mess);
+			}
+		};
+		
+	};
+
+	FReader.onload = img_load;
+
+	// функция выборки файла
+	document.querySelector("#uploadImage").onchange = function loadImageFile() {
+		
+		
+		
+		var files = event.target.files;
+		
+		if (files.length > 1){
+			var parent = document.querySelector('.messages');
+			
+			for (var i = 1; i < files.length; i++) {
+				var file = files[i];
+				
+				if (!file.type.match('image')) continue;
+				
+				var picReader = new FileReader();
+				picReader.onload = img_load;
+				/*
+				picReader.addEventListener("load", function (event) {
+					var picFile = event.target;
+					var div = document.createElement("span");
+					div.innerHTML = "<img height=200 src='" + picFile.result + "'" + "title='" + file.name + "'/>";
+					parent.insertBefore(div, null);
+				});*/
+				
+				picReader.readAsDataURL(file);
+			}				
+		}
+				
+		var file = document.querySelector("#uploadImage").files[0];
+		FReader.readAsDataURL(file);
+		
+	}
+
+		</script>
+
+
+		
 	</form>
 </div>
