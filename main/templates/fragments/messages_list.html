@@ -46,10 +46,14 @@
 			padding: 8px 12px;
 			
 			">+</label>
-		<input type="file" id="uploadImage" style='display:none' multiple accept="image/*"><!---->
+		<input type="file" id="uploadImage" name='images' style='display:none' multiple accept="image/*"><!---->
 
 		<script>
 
+
+	/*!
+		просмотр на весь экран
+	*/
 	function InitPreviver(){
 		
 		var container = document.createElement('div');
@@ -78,6 +82,9 @@
 	var imgContainer = InitPreviver();
 
 	//событие на загрузку файла
+	/*!
+		После загрузки файла в озу js, отобразить его
+	*/
 	function img_load(e) {
 		
 		var image = new Image(); 
@@ -101,6 +108,29 @@
 		mess.scrollIntoView(false); //- не до конца
 		parent.parentElement.scrollTop += 10; 
 		// при условии, что полосы прокрутки уже есть
+		
+		//итак, показали. Теперь надо отправить на сервер:
+		var data =document.querySelector("#uploadImage").form;
+		
+		
+		
+		
+		
+		//это должно происходить на последнем FReader,
+		// когда все данные уже загружены в форму
+		/*
+		var media_message = new Ajax(null, function(ans){
+			alert(ans);
+		});
+		media_message.contentType = 'multipart/form-data';
+		media_message.post_form(data);
+		//media_message.contentType = 'application/x-www-form-urlencoded';//*/
+		
+		
+		
+		
+		
+		
 		
 		//возвращает картинку с вида на весь экран в сообщение
 		var reduce_image = function(elem){
@@ -172,6 +202,18 @@
 				
 		var file = document.querySelector("#uploadImage").files[0];
 		FReader.readAsDataURL(file);
+		
+		
+		
+		//итак, показали. Теперь надо отправить на сервер:
+		var data =document.querySelector("#uploadImage").form;
+		
+		
+		var media_message = new Ajax(null, function(ans){
+			alert(ans);
+		});
+		media_message.contentType = 'multipart/form-data';
+		media_message.post_form(data);		
 		
 	}
 

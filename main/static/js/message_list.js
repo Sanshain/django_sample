@@ -38,7 +38,7 @@ var Checking = function(){
 		last_mess_id = messages.length ? messages[messages.length-1].innerText : 0;
 		
 		var data = 'check='+ last_mess_id;
-		POST(data, Get_Messages);		
+		//POST(data, Get_Messages);		
 	}
 	else if(last_mess_id)
 	{

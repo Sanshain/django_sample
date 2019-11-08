@@ -143,21 +143,50 @@ function Ajax(url, func, csrftoken) {
 	if (!('\v'=='v')) console.time('server_response_time');
 	//-
 
-	this.url = url || document.location.href;
-	this.csrftoken = csrftoken;
-	this.func = func;
-	var post = function(data, func, url) {				
+	this.url = url || document.location.href;//целевйой урл
+	this.csrftoken = csrftoken;		// csrftoken-токен
+	this.func = func;				// функция принятия ответа
+	this.contentType = null;
+	var self = this;
+	
+	this.__post = function(data, func, url) {				
 				
 		var unresponsed = true;								// 0.1. устанавливаем флаг ответа
 		
 		var xhr = new XMLHttpRequest();						// 1. новый объект XMLHttpRequest					
 		xhr.open("POST", url, true);						// 2. Конфигурируем: тип, URL, асинхрон/неасинхронный
 		
-		if (data['csrfmiddlewaretoken']) {  // на случай formdata в виде json
-			xhr.setRequestHeader("X-CSRFToken",data['csrfmiddlewaretoken']);		// на случай formdata		
-			//xhr.setRequestHeader('Content-Type', "multipart/form-data");		
-			xhr.setRequestHeader('Content-Type', 'application/json');// на случай json			
-			data = JSON.stringify(data);
+		if (data instanceof Object) {  
+		
+			
+			//если. например, форма без содержания
+			if (this.contentType == null){
+				
+				// на случай в виде json
+				
+				xhr.setRequestHeader("X-CSRFToken",data['csrfmiddlewaretoken']);				
+				
+				xhr.setRequestHeader(
+					'Content-Type', 
+					'application/json'
+				);
+						
+				data = JSON.stringify(data); // на случай json
+			}
+			else	//для формдата с содержанием
+			{
+				// на случай formdata		
+				//xhr.setRequestHeader('Content-Type', "multipart/form-data");
+				
+				/*
+				xhr.setRequestHeader(
+					'Content-Type', 
+					this.contentType
+				);//*/
+			}
+
+			
+			
 		}
 		else{ 								//на обычный текст 
 			xhr.setRequestHeader('Content-Type', ENCTYPE);		// 3. Устанавливаем заголовк ENCTYPE	
@@ -185,30 +214,33 @@ function Ajax(url, func, csrftoken) {
 				if (!('\v'=='v')) console.timeEnd('server_response_time');
 				//-
 			}			
-											
+		
 		}		
 		
 		xhr.send(data);		
 	};
 	
 	
-	/// вернет объект
+	/*! вернет объект js с полями формы либо FormData
+		в зависимости от this.contentType
+	*/
 	var getdata = function(frm){
 		
-		var data = {'csrfmiddlewaretoken':frm.elements[0].value};
-		for(var i=1; i<frm.elements.length - 1; i++)   
-		{ 
-			var elem = frm.elements[i];     
-			data[elem.id] = elem.value;
+		if (self.contentType == null){
+			var data = {'csrfmiddlewaretoken':frm.elements[0].value};
+			for(var i=1; i<frm.elements.length - 1; i++)   
+			{ 
+				var elem = frm.elements[i];     
+				data[elem.id] = elem.value;
 
+			}
+
+			return data;
 		}
 		
-		/*
 		var fdata = new FormData(frm);
-		fdata.csrfmiddlewaretoken = frm.elements[0].value;
-		return fdata;*/
-		
-		return data;
+		//fdata.csrfmiddlewaretoken = frm.elements[0].value;
+		return fdata;
 
 	};
 
@@ -221,14 +253,15 @@ function Ajax(url, func, csrftoken) {
 		//$("input[name=csrfmiddlewaretoken]").val()
 		data = 'csrfmiddlewaretoken=' + (this.csrftoken || getCookie('csrftoken')) + '&' + (this.data || data);	
 		
-		post(data, this.func || func, this.url);
+		this.__post(data, this.func || func, this.url);
 	};
 	
 	this.post_form = function(frm, func){		
 		
 		var data = getdata(frm);
+		
 				
-		post(data, this.func || func, this.url || window.location.href);
+		this.__post(data, this.func || func, this.url || window.location.href);
 		
 	};
 	

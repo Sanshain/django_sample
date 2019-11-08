@@ -242,14 +242,19 @@ class Dialog(ListView):
 
     def post(self, *args, **kwargs):
 
-        message = self.request.POST.get('value', None)
+##        print '******************'
+##        print self.request.FILES
+
+        images = self.request.FILES.get('images', None)
+        message = images or self.request.POST.get('value', None)
 
         dialog = None
 
 ##      отправка исходящего сообщения:
         if message:
 
-            recipient_id = kwargs.get('to', None)
+            recipient_id = kwargs.get('to', None)                                  # не None
+            dialog_id = None
 
             if recipient_id:                                                         # получить диалог на основании id пользователя
 
@@ -263,9 +268,24 @@ class Dialog(ListView):
                 dialog_id = kwargs.get('dial', None)
                 dialog = Dialogue.objects.get(id=dialog_id)
 
+            if type(message) != str:
+                from ..utils import FileStorage, STORAGE
+                fs = FileStorage((recipient_id or dialog_id) or '', STORAGE.MESSAGES)
+                name = fs.image_save(message)
+                if name: message = chr(28) + settings.MEDIA_URL + STORAGE.MESSAGES + name
+                else:
+                    raise Warning('image_save in FileStorage return false. it shouldnt be like this')
+##            else:
+##                message = ' {}'.format(message)
+
+##                print '----------------------***'
+##                print message
+                # сохраняем файл в бд
+
+
             Message.objects.create(Sender=self.request.user, Content=message, Target=dialog)
 
-            print 'ppppppoooooooooookk'
+##            print 'teeeeeeeeeeeeeeeeext mess getted'
 
             return HttpResponse(u'_ok_')
 
