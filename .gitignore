@@ -2,6 +2,13 @@ manage.py
 *.pyc
 *.sh
 
+*.jpg
+*.jpeg
+*.png
+
+
+
+
 #standart:
 
 # Byte-compiled / optimized / DLL files

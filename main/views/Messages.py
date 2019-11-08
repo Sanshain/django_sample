@@ -39,6 +39,7 @@ from main.models import Profile, Friends, State
 from main.models.messages import Dialogue, Message, Dialogue_Partakers
 from main.views.Mixins import CSSMixin
 from ..utils.utime import present_time
+from ..utils import FileStorage, STORAGE
 
 if settings.DEBUG:
     from datetime import timedelta, datetime
@@ -245,7 +246,16 @@ class Dialog(ListView):
 ##        print '******************'
 ##        print self.request.FILES
 
-        images = self.request.FILES.get('images', None)
+##        images = self.request.FILES.get('images', None)                         # почему-то одна картинка из всех сюда передается
+
+        images = self.request.FILES.getlist('images', None)
+
+##        print 'heeeeeeeeeeeeeeere'
+##        print self.request.FILES
+##        print type(images)
+
+##        for image in images:
+##            print type(image)
         message = images or self.request.POST.get('value', None)
 
         dialog = None
@@ -268,24 +278,35 @@ class Dialog(ListView):
                 dialog_id = kwargs.get('dial', None)
                 dialog = Dialogue.objects.get(id=dialog_id)
 
-            if type(message) != str:
-                from ..utils import FileStorage, STORAGE
+            _media_flag = chr(28)
+            if type(message) != unicode:                                        # str
+
                 fs = FileStorage((recipient_id or dialog_id) or '', STORAGE.MESSAGES)
-                name = fs.image_save(message)
-                if name: message = chr(28) + settings.MEDIA_URL + STORAGE.MESSAGES + name
-                else:
-                    raise Warning('image_save in FileStorage return false. it shouldnt be like this')
-##            else:
-##                message = ' {}'.format(message)
 
-##                print '----------------------***'
-##                print message
-                # сохраняем файл в бд
+                imgs = []
 
+                for image in message:
 
-            Message.objects.create(Sender=self.request.user, Content=message, Target=dialog)
+                    name = fs.image_save(image)
 
-##            print 'teeeeeeeeeeeeeeeeext mess getted'
+                    if name:
+                        imgs.append(_media_flag + settings.MEDIA_URL + STORAGE.MESSAGES + name)
+                    else:
+                        raise Warning('image_save in FileStorage return false. it shouldnt be like this')
+
+                Message.objects.bulk_create([
+                    Message(
+                        Sender=self.request.user,
+                        Content=img_content,
+                        Target=dialog
+                    ) for img_content in imgs
+                ])
+##                Message.objects.create(Sender=self.request.user, Content=image, Target=dialog)
+
+            else:
+                if message.startswith(_media_flag): message = message.lstrip()
+
+                Message.objects.create(Sender=self.request.user, Content=message, Target=dialog)
 
             return HttpResponse(u'_ok_')
 

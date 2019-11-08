@@ -81,6 +81,9 @@
 	
 	var imgContainer = InitPreviver();
 
+
+	//var temp_img_id = 0; //temp
+	
 	//событие на загрузку файла
 	/*!
 		После загрузки файла в озу js, отобразить его
@@ -210,7 +213,7 @@
 		
 		
 		var media_message = new Ajax(null, function(ans){
-			alert(ans);
+			//alert(ans);
 		});
 		media_message.contentType = 'multipart/form-data';
 		media_message.post_form(data);		

@@ -53,8 +53,7 @@ class FileStorage:
         # проверяем расширение файла
         file_extension = image_file.name.split('.')[-1]
         if file_extension not in ('jpg','jpeg','png','gif'):
-            print 'not allowed exception'
-            print '**************************************'
+            print 'not allowed format exception'
             return False
 
         # генерируем уникальное имя
@@ -71,7 +70,6 @@ class FileStorage:
         # сохраняем объект
         try:
             destination = open(self.PATH + name, 'wb+')
-            print name
 
             for chunk in image_file.chunks():
                 destination.write(chunk)
