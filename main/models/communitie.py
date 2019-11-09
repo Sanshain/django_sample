@@ -17,3 +17,5 @@ class Community(models.Model):
     title = models.CharField(max_length=50)
     definition = models.TextField(verbose_name='Описание')
     logo = models.ImageField(width_field=300, height_field=400)
+
+

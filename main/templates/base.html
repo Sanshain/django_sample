@@ -79,7 +79,8 @@
 						{% block nav %}				
 							
 						    <a id='me' name='{{user.id}}' href="{% url 'user' user.id %}" class='section_nav'>К себе</a><!--						
-							--><a href="{% url 'dialogs' %}" id='_dialogs' class='section_nav'>Сообщения</a><!--
+							--><a href="{% url 'dialogs' %}" id='_dialogs' class='section_nav'>Общение</a><!--
+							--><a href="{% url 'groups' %}" id='_groups' class='section_nav'>Сообщества</a><!--
 							
 							--><a href="{% url 'signout' %}" class='section_nav'>Выйти</a> 							
 						{% endblock %}		

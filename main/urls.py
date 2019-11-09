@@ -31,6 +31,7 @@ from main.views.fragments.Users import read_friends
 from .views.Notes import note_create
 from main.models import Raiting
 from .views.fragments.Dialog import bring_dialog
+from .views.Communities import Communie_List
 
 urlpatterns = [
     url(r'^user/$', ProfileView.Mirror, name='Me'),                                             # я сам
@@ -54,6 +55,8 @@ urlpatterns = [
     #url(r'^raiting/$', CreateView.as_view(model=Raiting, template_name='main/create_raiting.html'))
     url(r'^raiting/$', ProfileView.CreateRate.as_view()),
     url(r'^note_create/$', note_create.as_view(), name='note_create'),
+    url(r'^communities/$', Communie_List.as_view(), name='groups'),
+
 
     # AJAX:
     url(r'^to_friend/$', ProfileView.ToFriend, name='to_friend'),
