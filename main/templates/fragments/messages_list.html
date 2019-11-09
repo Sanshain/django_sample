@@ -2,9 +2,10 @@
 	<div class="dialog">
 		<ul class="messages">
 			{% now "dmy" as td %}
+			{% load message_tags %}
 		
 			{# messages|slice:":10" as msgs #}
-			{% for message in messages reversed %}
+			{% for message in messages reversed %}		
 			
 			
 					{% ifchanged message.Time|date %}
@@ -16,7 +17,10 @@
 					<li class="{%if message.sender_id != user.id%}y{%endif%} message">
 						<span class="mess_id">{{message.id}}</span>						
 						
-						{{message.Content}}
+						{% autoescape off %}
+							{{ message.Content|as_media }}					{#% present message.Content %#}
+						{% endautoescape %}
+						
 						
 						<sub class='mess_time'>
 							{% if message.Time|date:"dmy" == td %}							
@@ -152,8 +156,7 @@
 				imgContainer.style.display = 'block';
 				imgContainer.appendChild(img);	
 				
-				img.style.outline = 'none';
-				img.style.height = "auto";
+				img.className = "img_in_message";
 				img.align = 'middle';
 				img.tabIndex = 0;
 				img.focus();

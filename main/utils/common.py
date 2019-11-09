@@ -20,6 +20,14 @@ class STORAGE:
     MESSAGES = 'media_messages/'
     NOTES = 'notes_media/'
 
+    def __new__(cls):
+        print '__new__'
+        if os.path.exists(settings.MEDIA_ROOT + MESSAGES) == False:
+            print 'maked dir MESSAGES in STORAGE'
+
+            import os
+            os.mkdir(settings.MEDIA_ROOT + MESSAGES)
+
 
 
 class FileStorage:
@@ -33,6 +41,8 @@ class FileStorage:
         self.sender = user_id
 
         self.PATH = settings.MEDIA_ROOT + sub_path                                  # path
+
+
 
     def _get_unique(self, deep=0):
 
@@ -75,8 +85,17 @@ class FileStorage:
                 destination.write(chunk)
             destination.close()
 
-        except FileExistsError:
-            raise Warning('inside image_save: its impossible! I dont believe it')        # даже рекурсивные попытки делать не надо
+        except IOError:                                                                 # FileExistsError - только с python 2.7.16
+
+            # проверка на наличие каталога
+            import os
+            if os.path.exists(self.PATH) == False:
+                os.mkdir(self.PATH)
+                raise Warning('PATH been in not exists')
+
+
+            # проверка на уникальность имени
+            raise Warning('inside image_save: its impossible! I dont believe it')        # даже рекурсивные попытки делать не вижу смысла
 
             if deep < self.__deep_rec:
 
