@@ -54,7 +54,8 @@ def bring_dialog(request):
         print '----------------------'
         print user_id
 
-        dialog_id = Dialogue.get_private_Dialog(user_id, request.user.id).id
+        dialog = Dialogue.get_private_Dialog(user_id, request.user.id)
+        dialog_id = dialog.id
 
 
 
@@ -67,7 +68,9 @@ def bring_dialog(request):
 
         messages_block = render_to_string("fragments/messages_list.html",context={
             'user' : request.user,
-            'messages':messages
+            'messages':messages,
+            'buddy_id':user_id,
+            'talker_image':settings.MEDIA_URL + dialog.talker_image
         })
 
         start = timeit.default_timer()

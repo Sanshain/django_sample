@@ -1,3 +1,35 @@
+.face_container{
+	position:absolute;
+	top:0px;
+	right:4px;
+	z-index:1;
+	width:90px;
+	height:90px;
+	/*height:900px;*/
+	/*background-color: white;*/
+	background: linear-gradient(60deg, transparent, white 75%);
+	overflow:hidden;
+}
+
+.buddy_face{
+	border-radius:40px;
+	background-color: beige;
+	width:180px;
+	height:180px;
+	position:relative;
+	top:-90px;
+	cursor:pointer;
+	transition:0.5s, opacity 1s 0.1s;
+	display:block;
+	opacity:0.5;
+}
+
+.buddy_face:hover{
+	/*border-radius:60px/60px;*/
+	opacity:0.57;
+	transform:scale(1.1,1.1);
+}
+
 .content{
 	/*top: 80px;*/
 }
@@ -20,7 +52,8 @@ textarea{
 }
 .dialog_container{
 	margin-right: 16em;
-	
+	position:relative;
+	overflow: hidden;
 	
 	/*position:absolute;
 	top:0;

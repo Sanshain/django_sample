@@ -1,5 +1,21 @@
 <div class='dialog_container'>
+	
+	{#this is {{buddy_id}}#}
+	<div class='face_container'>
+		<a 
+			href='{% url 'user' buddy_id %}'
+			class='buddy_face' 
+			style='
+				background-image:url({{talker_image}});
+				background-size: contain;
+				background-position: -25px 50px;
+				'>
+		</a>
+	</div>
+	
+	
 	<div class="dialog">
+		
 		<ul class="messages">
 			{% now "dmy" as td %}
 			{% load message_tags %}
@@ -18,7 +34,8 @@
 						<span class="mess_id">{{message.id}}</span>						
 						
 						{% autoescape off %}
-							{{ message.Content|as_media }}					{#% present message.Content %#}
+							{{ message.Content|as_media }}
+							{#% present message.Content %#}
 						{% endautoescape %}
 						
 						

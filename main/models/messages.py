@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from django.conf import settings
+
 from django.db import models
 from django.db.models import Count
 
@@ -40,7 +42,7 @@ class Dialogue(models.Model):
         dialogs = Dialogue.objects.annotate(cnt=Count('Partakers')).filter(cnt=len(partakers))
 
         Image = Subquery(Profile.objects.filter(dialogs=OuterRef('id')).filter(id=buddy_id).values('Image')[:1])
-        dialogs = dialogs.annotate(talker_image=Image)
+        dialogs = dialogs.annotate(talker_image=Image)                            # settings.MEDIA_URL +
 
         dialog, created = dialogs.filter(Partakers__id=self_id).get_or_create(Partakers__id=buddy_id)
 

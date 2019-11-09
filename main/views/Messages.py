@@ -191,8 +191,13 @@ class Dialog(ListView):
         context['header'] = self.request.user.username
 
         context['today'] = datetime.now()
+        print 'this is buddy_id ' + str(self.buddy_id)
+        context['buddy_id'] = self.buddy_id
 
-        if hasattr(self, 'talker_image'): context['talker_image'] = self.talker_image
+##        r = re.findall('(?<=to_)\d+',self.request.path)
+##        buddy_id = r.pop() if r else '#'
+
+        if hasattr(self, 'talker_image'): context['talker_image'] =  settings.MEDIA_URL + self.talker_image
 
         return context
 
@@ -233,7 +238,8 @@ class Dialog(ListView):
             Dialogue_Partakers.objects.create(Dialogue=dialog, Profile=self.request.user)
             Dialogue_Partakers.objects.create(Dialogue=dialog, Profile_id=buddy_id)
 
-        self.dialog = dialog.id                                               ## для фильтра dialog.messages в get_queryset
+        self.dialog = dialog.id                                                 ## для фильтра dialog.messages в get_queryset
+        self.buddy_id = buddy_id                                                # только для одиночного монолога
         if (dialog.talker_image): self.talker_image = dialog.talker_image
 
 ##        self._update_presence(dialog.id)
@@ -390,6 +396,7 @@ class MultiDialog(Dialog):
 
 
     def get(self, *args, **kwargs):
+
 
         dialog_id = kwargs.get('dial', None)
 
