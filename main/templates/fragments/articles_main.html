@@ -1,26 +1,71 @@
-<div id="win" style="display:none;" onkeydown ="
+<div id="win" style="/*display:none;*/" onkeydown ="
 	{		
 		if (event.keyCode == 27) Note.hideView();		
 	}
 ">
 
+	<div id="article__imgpreviewer" style='
+		position:absolute;
+		right:5%;
+		z-index:2;
+		top:5.5em;
+				
+		min-width:64px;
+		height:60vh;		
+		background-color:rgba(15, 15, 15, 0.32);
+		'>
+		
+	</div>
+
 	<form action='#' onsubmit='Note.post_View(this, event);' method='post' id='note'>
+	
 		{% csrf_token %}
 		{{create_articles.as_p}}
 		
 		<!-- Кнопки: -->
 		
-		<input form='note' class='btn'  type='submit' value='Поделиться' style='
-			float:right;
-			min-width:7em;
-			min-height: 40px; 
-			margin-right: 5%;'>
+		<button 
+			class='btn' 
+			style='
+				position:absolute;
+				margin-top:0;
+				top:1em;
+				right:15px;
+				border-radius:25px;
+				' 
+			onclick=''>+</button>		
 		
-		<button class='btn' style='
-			float:left;
-			min-width:7em;
-			min-height: 40px; 
-			margin-left: 5%;'>Скрыть</button>
+		<input 
+			form='note' 
+			class='btn note_action' 
+			type='submit' 
+			value='Поделиться' 
+			style='
+				float:left;
+				box-shadow: 0 0 5px 1px grey;
+				background-color: #c3bdb0;				
+			'>
+		
+		<label for='upload_images' class='btn note_action'>
+			+4
+		</label>
+		<input 
+			type='file'
+			id='upload_images'
+			style='display:none' 
+			accept = 'image/*'
+			multiple
+			onchange='Note.__upload_images(event);'
+		/>
+
+		<button 
+			class='btn note_action' 
+			style='margin-right: 5%;float:right;' 
+			onclick='event.preventDefault(); Note.hideView()'>
+			
+				Скрыть
+		</button>
+		
 		
 	</form>	
 

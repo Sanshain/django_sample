@@ -11,7 +11,7 @@
 	display: inline-block;
 	border-radius: 8px;		
 	cursor:pointer;			
-	transition: 0.3s linear;		
+	transition: background-color 0.3s linear;		
 }
 
 .btn a{

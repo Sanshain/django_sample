@@ -174,3 +174,18 @@ function Viewer(data){
 
 
 
+vom = {};
+
+vom.add = function(container, elem)
+{
+	if (typeof container == 'string') 	{	
+		container = document.querySelector(container);
+		}
+	if (typeof elem == 'string'){
+		elem = document.createElement(elem);}
+	
+	container.appendChild(elem);
+	
+	return elem;		
+};
+

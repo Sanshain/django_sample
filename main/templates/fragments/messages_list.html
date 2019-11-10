@@ -110,16 +110,14 @@
 		После загрузки файла в озу js, отобразить его
 	*/
 	function img_load(e) {
-		
-		var image = new Image(); 
-		image.src = e.target.result; 
+
 		
 		var parent = document.querySelector('.messages');
 		var mess = document.createElement('li');
 		mess.style.marginBottom = '7px';
 		mess.style.height = '200px';
 		
-		var img = document.createElement('img');
+		var img = new Image(); 
 		img.height = 200;
 		img.src = e.target.result;
 		

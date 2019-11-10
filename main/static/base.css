@@ -105,6 +105,16 @@ body{
 	margin:5px;
 	box-sizing:content-box;	
 	cursor:pointer;	
+	outline:none;
+
+}
+.btn:focus {
+	transition:0s;
+	border: 1px solid gray;
+	/*box-shadow: 0 0 5px;*/
+	
+	/*transform:scale(1.1,1.1);*/
+	
 }
 
 button{

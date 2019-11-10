@@ -12,7 +12,12 @@ Note.createView = function(){
 	//document.getElementById('id_Title').focus();
 	//document.getElementById('id_Title').value = '';
 	
-	document.getElementById('win').removeAttribute('style');			
+	//document.querySelector('.articles_list').style.visibility='hidden';
+	
+	var new_art = document.getElementById('win');	
+	new_art.removeAttribute('style');	
+	new_art.style.opacity = 1;
+	
 	document.getElementById('id_Content').focus();
 	
 	
@@ -25,7 +30,10 @@ Note.createView = function(){
 */
 Note.hideView = function(){
 	
-	document.getElementById('win').style.display='none';
+	document.getElementById('win').style.opacity='0';
+	
+	//document.querySelector('.articles_list').style.visibility='visible';
+	
 	//document.querySelector('.visible').style.height = '10vh';
 	
 };
@@ -65,9 +73,108 @@ Note.post_View = function(sender, e){
 };
 
 
+Note.__upload_images = function(event){
+	
+	for (var i = 0; i < event.target.files.length; i++) {
+	
+		//само расширение будет проверять сервер
+		if (!event.target.files[i].type.match('image')) 
+		
+			continue;		
+		
 
+		
+		var reader = new FileReader();
+		reader.onload = function(e){
+			
+			var previewer = dom.obj('article__imgpreviewer');
+			
+			
+			var img = dom.createElement('div');
+			img.style = 
+				'height: 50px; width : 50px;'+
+				'margin: 7px;'+
+				'background-size: 90% 90%;'+
+				'background-repeat: no-repeat;'+
+				'border: 1px solid gray;'+
+				'cursor: pointer;'+
+				'transition: 1s;'+
+				'background-position: center;';
+			//img.style.transform = 'scale(2,2)';
 
+			var img_close = vom.add(img, 'div');
+			img_close.innerHTML = '+';
+			img_close.style = 'position:absolute;'+
+				'top:5px;right:5px;height:10px;width:10px;'+
+				'background-color:red;'+
+				'text-align:center;line-height:10px;'+
+				'color:transparent;transition:1s, opacity 0s;'+'border-radius:0;';
+			img_close.onmouseover = function(){
+				img_close.style.transform = 'rotate(405deg)';
+				img_close.style.opacity = '1';
+				
+				img_close.style.backgroundColor = 'orange';
+				
+				setTimeout(function(){
+					img_close.style.color = 'brown';img_close.style.borderRadius = '5px';
+				},1000);
+			}
+			img_close.onmouseout = function(){
+				img_close.style.transform  = 'rotate(0deg)';
+				img_close.style.backgroundColor = 'red';
+				img_close.style.borderRadius = '0px';
+				
+				setTimeout(function(){
+					img_close.style.color = 'transparent';
+					
+				},1000);								
+			}
+			img_close.onclick=function(){
+				
+			}
+			
+			var img_show = vom.add(img, 'div');
+			img_show.style = 'position:absolute;'+
+				'bottom:5px;left:5px;height:10px;'+
+				'background-color:green;width:10px;'+
+				'text-align:center;line-height:10px;'+
+				'color:transparent;transition:1s;'+'border-radius:0;';			
 
+			img.onmouseover = function(){
+				img.style.transform = 'scale(2,2)';
+			};
+			
+			img.onmouseout = function(){
+				img.style.transform = 'scale(1,1)';
+			};
+						
+			
+			img.style.backgroundImage= 'url('+
+				e.target.result
+			+')';
+			
+			previewer.appendChild(img);
+			
+			
+			/*var image = new Image(); 
+			image.src = e.target.result;
+			image.height = 50px;
+			image.width = 50px;//*/
+			
+			
+		}
+		reader.readAsDataURL(event.target.files[i]);
+				
+	}
+	
+	
+	
+}
+
+Note.__upload_titleImg = function(event){
+	event.preventDefault();
+	
+}
 
 
 /*! action under user (Rule function instead go_to_dialog)...

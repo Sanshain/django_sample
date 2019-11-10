@@ -80,8 +80,8 @@ class create_note(HTMLabelForm):
                 '''
                     /*font-weight: bold;*/
                     width: 90%;
-                    margin: 2% 5% 0 5%;
-                    line-height: 26px;
+                    margin: 0.6em 5% 0 5%;
+                    line-height: 1em;
                     padding: 0 5px 0 5px;
                     border-radius: 5px 5px 0 0;
                     padding:5px;
@@ -91,6 +91,8 @@ class create_note(HTMLabelForm):
 
                     font-size: x-large;
                     text-align: center;
+                    outline: none;
+
                 ''',
                 'oninput' : 'window.flag = true;'
                 }
@@ -98,11 +100,20 @@ class create_note(HTMLabelForm):
             'Content': forms.Textarea(attrs={'placeholder':u'содержимое', 'style':
                 '''
                     height: 60vh;
-                    width: 90%;
+                    width: 84%;
+                    z-index: 1;
+                    border-color: blanchedalmond;
+                    outline: none;
+
+                    /*
+                    width: calc(90% - 64px);
+                    */
+
                     margin: 0 5% 0 5%;
                     padding:15px;
 
                     border-style: groove;
+                    border-right:none;
                     box-sizing: border-box;
 
                     font-size: x-large;
@@ -117,7 +128,7 @@ class create_note(HTMLabelForm):
                         document.querySelector('#id_Title').value = event.target.value + '...';
                         if (document.querySelector('#id_Title').value.length > 25)
                         {
-                            document.querySelector('#id_Title').style.fontSize = 'large';
+                            //document.querySelector('#id_Title').style.fontSize = 'large';
                         }
                     }
                 '''
