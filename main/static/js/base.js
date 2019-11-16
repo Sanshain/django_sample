@@ -176,13 +176,17 @@ function Viewer(data){
 
 vom = {};
 
-vom.add = function(container, elem)
+vom.add = function(container, elem, cls)
 {
 	if (typeof container == 'string') 	{	
 		container = document.querySelector(container);
 		}
 	if (typeof elem == 'string'){
-		elem = document.createElement(elem);}
+		
+		elem = document.createElement(elem);
+		if (cls) elem.className = cls;
+		
+	}
 	
 	container.appendChild(elem);
 	

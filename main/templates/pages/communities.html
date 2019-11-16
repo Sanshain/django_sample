@@ -1,0 +1,167 @@
+{% extends "detail.html" %}
+
+
+
+
+
+{% block style %}
+	{{ block.super }}
+	
+	.blocklist{
+		background-color:beige;
+		margin: 0 16em 0 1em;
+		min-height:70vh;
+		padding:1em;
+		box-sizing: border-box;
+		position: relative;
+	}	
+	.object_link{
+		height:100%; 
+		display: inline-block; 
+		width: 99%;
+		padding-left:90px;
+		box-sizing: border-box;
+	}
+	.add_button{
+		height:50px;
+		width:50px;
+		background-color:#A0A0A0;
+		cursor:pointer;
+		position:absolute;
+		bottom:15px;right:15px;
+		border-radius:25px;
+		transition:1s;
+		text-align:center;
+		line-height:50px;
+			
+	}
+	.add_button:hover{
+		background-color:#efcb56;
+		box-shadow: 0 0 5px 5px gray;	
+	}
+	.insert_group{
+		z-index:10;
+		position:fixed;
+		top:30%;
+		left:30%;
+		background-color:bisque;
+		width: 40%; 
+		height: 40%;
+		opacity:0.1;
+		transition:1s;
+		padding: 30px 25px;
+	}
+	.insert_group input{
+		width:100%;
+	}
+	.pp_close{
+		position:absolute;
+		top:-10px;
+		right:-10px;
+		width:40px;
+		height:40px;
+		background-color:red;
+		border-radius:20px;
+		cursor:pointer;
+	}
+	.insert_group:hover{
+		opacity: 0.9;
+	}
+	
+{% endblock %}
+
+{% block script %}
+	{{ block.super }}
+	
+	/*!  Elem
+	
+	*/
+	function PopupIntroduce(){
+		var inbox = document.createElement('div');
+		inbox.className = 'insert_group';
+		event.target.parentElement.appendChild(inbox);
+		
+		vom.add(inbox, 'div', 'pp_close').onclick = function(){
+			this.Destroy();
+		};
+		
+		vom.add(inbox, 'input', '').placeholder = '546';
+		
+		
+		
+		setTimeout(function()											//вместо requestAnimationFrame
+		{									
+			inbox.style.opacity = '1';
+			inbox.style.transition = '0.6s';
+		}
+		, 20);		
+		
+		
+		
+		this.Destroy = function(){
+		
+			inbox.style.opacity = '0';			
+			
+			setTimeout(function()											//вместо requestAnimationFrame
+			{									
+				inbox.parentElement.removeChild(inbox);								//parentNode	
+			}
+			, 600);		
+					
+		}
+		
+	}
+	
+
+	
+	
+	
+	//insert_group.prototype = PopupIntroduce;
+	
+	var group_introduce = null;
+	function insert_group(event){
+		if (event.target.innerText == '+')
+		{
+			group_introduce = new PopupIntroduce();
+			event.target.innerText = '-';
+		}
+		else
+		{
+			group_introduce.Destroy();
+			event.target.innerText = '+';	
+		}
+	}
+
+{% endblock %}
+{% block main %}
+	<ul class='blocklist'>
+		{% if object_list|length == 0 %}
+			<div style='width:100%;line-height:70vh;text-align:center;'>У вас еще нет групп</div>
+		{% endif %}
+			
+		{% for community in object_list %}
+			<li id='{{community.id}}'>
+				<a href='{% url "multidialog" dialog.id %}' class='object_link' onclick=''>
+				
+					{{community.title}}
+					
+					<img src='{{community.logo.url}}' class='' />
+				
+				</a>
+				
+			</li>
+		{% endfor  %}
+		
+		{% csrf_token %}
+		
+		<div class='add_button' onclick='insert_group(event);'>
+			+
+		</div>
+		
+		<div style="z-index: 10; position: fixed; top: 40vh; left: 40vw; background-color: red;"></div>
+				
+	<ul>		
+
+{% endblock %}
+
+
