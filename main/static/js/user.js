@@ -73,28 +73,33 @@ Note.post_View = function(sender, e){
 };
 
 
-function microButtonAnimated(container, content){
-	this.elem = vom.add(container, 'div');
-	this.elem.innerHTML = content;
-	this.elem.style = 'position:absolute;'+
+function microButtonAnimated(container, content, name){
+	elem = vom.add(container, 'div');
+	elem.innerHTML = content;
+	elem.id = name;
+	elem.style = 'position:absolute;'+
 		'top:5px;right:5px;height:10px;width:10px;'+
 		'background-color:orange;'+
 		'text-align:center;line-height:10px;'+
-		'color:transparent;transition:1s, opacity 0s;'+'border-radius:0;opacity:0';	
+		'color:transparent;transition:1s, opacity 0s;'+'border-radius:0;opacity:0;'+
 		
-	this.elem.onmouseover = function(){
+		'font-size:0.5em;padding-top:1px;'+
+		'padding-left:1px;box-sizing:border-box';	
 		
-		elem.style.transform = 'rotate(405deg)';		
+	elem.onmouseover = function(){
+		
+		var ang = this.ang || 405;
+		elem.style.transform = 'rotate(' + ang + 'deg)';
 		elem.style.backgroundColor = 'red';
 		
 		setTimeout(function()
 		{
-			elem.style.color = 'brown';
+			elem.style.color = 'blue';
 			elem.style.borderRadius = '5px';
 		},1000);
 	};
 	
-	this.elem.onmouseout = function(){
+	elem.onmouseout = function(){
 		elem.style.transform  = 'rotate(0deg)';
 		elem.style.backgroundColor = 'orange';
 		
@@ -107,20 +112,32 @@ function microButtonAnimated(container, content){
 	};
 	
 	//i == 1|2|4|8
-	this.setPosition(x , y, i){
+	this.setPosition = function(x, y, i){
 		
-		if(i){
+		if(!i){
 			elem.style.right = x+'px';
 			elem.style.top = y+'px';			
 		}else{
 			elem.style.right = x+'px';
-			elem.style.left = y+'px';					
+			elem.style.bottom = y+'px';					
+			elem.style.top = 'auto';					
 		}
-	}
+		
+		return this;
+	};
 	
-	this.setCls(cls){
-		this.elem.className = cls;
-	}
+	this.setAngle = function(ang){	
+		elem.ang = ang;
+		return this;
+	};
+	
+	this.setCls = function(cls){
+		elem.className = cls;
+		return this;
+	};
+	
+	this.Elem = elem;
+	
 }
 
 
@@ -186,6 +203,7 @@ Note.__upload_images = function(event){
 				
 			}
 			
+			/*
 			var img_show = vom.add(img, 'div');
 			img_show.innerText = '\u25B6';//\u25B6
 			img_show.className = 'img_show';
@@ -194,7 +212,15 @@ Note.__upload_images = function(event){
 				'background-color:beige;width:10px;'+
 				'text-align:center;line-height:10px;'+
 				'transition:1s;'+'border-radius:0;opacity:0;'+'color:blue;font-size:0.6em;'+
-				'padding-left:1px;box-sizing:border-box';			//color:transparent;
+				'padding-left:1px;box-sizing:border-box';			//color:transparent;*/
+				
+				
+			var img_show = new microButtonAnimated(
+				img, 
+				'\u25B6',
+				'img_show').setAngle(360);
+			img_show = img_show.setPosition(5,5,1).Elem;
+			
 
 			img.onmouseover = function(){
 				img.style.transform = 'scale(2,2)';
