@@ -73,6 +73,59 @@ Note.post_View = function(sender, e){
 };
 
 
+function microButtonAnimated(container, content){
+	this.elem = vom.add(container, 'div');
+	this.elem.innerHTML = content;
+	this.elem.style = 'position:absolute;'+
+		'top:5px;right:5px;height:10px;width:10px;'+
+		'background-color:orange;'+
+		'text-align:center;line-height:10px;'+
+		'color:transparent;transition:1s, opacity 0s;'+'border-radius:0;opacity:0';	
+		
+	this.elem.onmouseover = function(){
+		
+		elem.style.transform = 'rotate(405deg)';		
+		elem.style.backgroundColor = 'red';
+		
+		setTimeout(function()
+		{
+			elem.style.color = 'brown';
+			elem.style.borderRadius = '5px';
+		},1000);
+	};
+	
+	this.elem.onmouseout = function(){
+		elem.style.transform  = 'rotate(0deg)';
+		elem.style.backgroundColor = 'orange';
+		
+		elem.style.borderRadius = '0px';
+		
+		setTimeout(function()
+		{
+			elem.style.color = 'transparent';			
+		},1000);								
+	};
+	
+	//i == 1|2|4|8
+	this.setPosition(x , y, i){
+		
+		if(i){
+			elem.style.right = x+'px';
+			elem.style.top = y+'px';			
+		}else{
+			elem.style.right = x+'px';
+			elem.style.left = y+'px';					
+		}
+	}
+	
+	this.setCls(cls){
+		this.elem.className = cls;
+	}
+}
+
+
+
+
 Note.__upload_images = function(event){
 	
 	for (var i = 0; i < event.target.files.length; i++) {
@@ -106,14 +159,14 @@ Note.__upload_images = function(event){
 			img_close.innerHTML = '+';
 			img_close.style = 'position:absolute;'+
 				'top:5px;right:5px;height:10px;width:10px;'+
-				'background-color:red;'+
+				'background-color:orange;'+
 				'text-align:center;line-height:10px;'+
-				'color:transparent;transition:1s, opacity 0s;'+'border-radius:0;';
+				'color:transparent;transition:1s, opacity 0s;'+'border-radius:0;opacity:0';
 			img_close.onmouseover = function(){
 				img_close.style.transform = 'rotate(405deg)';
-				img_close.style.opacity = '1';
+				//img_close.style.opacity = '1';
 				
-				img_close.style.backgroundColor = 'orange';
+				img_close.style.backgroundColor = 'red';
 				
 				setTimeout(function(){
 					img_close.style.color = 'brown';img_close.style.borderRadius = '5px';
@@ -121,7 +174,7 @@ Note.__upload_images = function(event){
 			}
 			img_close.onmouseout = function(){
 				img_close.style.transform  = 'rotate(0deg)';
-				img_close.style.backgroundColor = 'red';
+				img_close.style.backgroundColor = 'orange';
 				img_close.style.borderRadius = '0px';
 				
 				setTimeout(function(){
@@ -134,20 +187,62 @@ Note.__upload_images = function(event){
 			}
 			
 			var img_show = vom.add(img, 'div');
+			img_show.innerText = '\u25B6';//\u25B6
+			img_show.className = 'img_show';
 			img_show.style = 'position:absolute;'+
-				'bottom:5px;left:5px;height:10px;'+
-				'background-color:green;width:10px;'+
+				'bottom:5px;right:5px;height:10px;'+
+				'background-color:beige;width:10px;'+
 				'text-align:center;line-height:10px;'+
-				'color:transparent;transition:1s;'+'border-radius:0;';			
+				'transition:1s;'+'border-radius:0;opacity:0;'+'color:blue;font-size:0.6em;'+
+				'padding-left:1px;box-sizing:border-box';			//color:transparent;
 
 			img.onmouseover = function(){
 				img.style.transform = 'scale(2,2)';
+				img.style.zIndex = '3';
+				/*img_close.style.opacity = '1';
+				img_show.style.opacity = '1';//*/
 			};
 			
 			img.onmouseout = function(){
 				img.style.transform = 'scale(1,1)';
+				img.style.zIndex = '0';
+				/*img_close.style.opacity = '0';
+				img_show.style.opacity = '0';//*/
 			};
+			
+			img.onmousemove = function(e){
+				var x = e.offsetX || e.layerX;
+				var w = img.style.width.replace(/\D+/g,"");
+				var k = 0.5;
+				
+				if (x > w*k || e.target != img){
 						
+//document.querySelector('#username').innerText = -Math.pow(x - w*0.5,2)+1;
+					var kX = Math.sqrt(x - w*k)/
+							(Math.sqrt(w*k)*0.6);
+				
+					var y = e.offsetY || e.layerY;
+					
+					if (y>w/2 || e.target == img_show){
+						img_close.style.opacity = 0.1;
+						img_show.style.opacity = kX;
+					}
+					else{
+						
+						img_close.style.opacity = kX;
+						img_show.style.opacity = 0.1;						
+					}
+					
+					
+				}
+				else{
+					img_close.style.opacity = '0';
+					img_show.style.opacity = '0';
+				}
+				
+
+
+			};			
 			
 			img.style.backgroundImage= 'url('+
 				e.target.result
