@@ -28,7 +28,7 @@ from django.views.generic import TemplateView, CreateView
 from main.views.pages import ProfileView
 from main.views.Messages import Dialogs, Dialog, MultiDialog
 from main.views.fragments.Users import read_friends
-from .views.Notes import note_create
+from .views.Notes import note_create, Article
 from main.models import Raiting
 from .views.fragments.Dialog import bring_dialog
 from .views.Communities import Communie_List
@@ -53,9 +53,10 @@ urlpatterns = [
 
 
     #url(r'^raiting/$', CreateView.as_view(model=Raiting, template_name='main/create_raiting.html'))
-    url(r'^raiting/$', ProfileView.CreateRate.as_view()),
-    url(r'^note_create/$', note_create.as_view(), name='note_create'),
+    url(r'^raiting/$', ProfileView.CreateRate.as_view()),                                                   # debug
     url(r'^communities/$', Communie_List.as_view(), name='groups'),
+    url(r'^note_create/$', note_create.as_view(), name='note_create'),                                      # debug?
+    url(r'^article/(?P<pk>[0-9]+)/$', Article.as_view(), name='article_view'),                              # debug?
 
 
     # AJAX:

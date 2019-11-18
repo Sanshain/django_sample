@@ -57,7 +57,7 @@ class note_create(CreateView):
     template_name = '_newnote.html'
     succes_url = '/success/' 									                    # reverse_lazy('contact') или reverse
     form_class = create_note
-    succes_urls = '/success/'
+
 ##    fields = ['Title','Content']                                                                     # '__all__'
 
     def post(self, request, *args, **kwargs):
@@ -108,3 +108,7 @@ class note_create(CreateView):
 ##    def form_valid(self, form):
 ##        return super(note_create, self).form_valid(form)
 
+
+class Article(DetailView):
+    model = Article
+    template_name = '{}.haml'.format(model._meta.object_name.lower())

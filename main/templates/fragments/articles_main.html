@@ -79,7 +79,9 @@
 	{% for article in articles %}
 	
 			<div class='Anote'>
-				<h4 style='margin-top:5px'>{{article.Title}}</h4>
+				<a href={% url "article_view" article.id %}>
+					<h4 style='margin-top:5px'>{{article.Title}}</h4>
+				</a>
 				<div>{{article.Content}}</div>
 			</div>
 	{% endfor %}

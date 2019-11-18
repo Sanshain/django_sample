@@ -142,6 +142,10 @@
 	padding: 5px;
 	margin: 5px;
 }
+.Anote a{
+    text-decoration: none;
+    color: black;	
+}
 
 #header{
 	margin-left: 50px;
