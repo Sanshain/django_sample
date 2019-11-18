@@ -15,11 +15,15 @@ Note.createView = function(){
 	//document.querySelector('.articles_list').style.visibility='hidden';
 	
 	var new_art = document.getElementById('win');	
-	new_art.removeAttribute('style');	
+	//new_art.removeAttribute('style');	
+	
+	new_art.style.visibility = 'visible';
 	new_art.style.opacity = 1;
 	
-	document.getElementById('id_Content').focus();
 	
+	setTimeout(function(){
+		//document.getElementById('id_Content').focus();
+	},1100);
 	
 	//document.querySelector('.visible').style.height = '80vh';	
 };
@@ -29,8 +33,11 @@ Note.createView = function(){
 	 (обратная note_create)
 */
 Note.hideView = function(){
+
+	document.getElementById('win').style.visibility ='hidden';
 	
 	document.getElementById('win').style.opacity='0';
+
 	
 	//document.querySelector('.articles_list').style.visibility='visible';
 	
@@ -77,14 +84,14 @@ function microButtonAnimated(container, content, name){
 	elem = vom.add(container, 'div');
 	elem.innerHTML = content;
 	elem.id = name;
-	elem.style = 'position:absolute;'+
+	elem.setAttribute('style', 'position:absolute;'+
 		'top:5px;right:5px;height:10px;width:10px;'+
 		'background-color:orange;'+
 		'text-align:center;line-height:10px;'+
 		'color:transparent;transition:1s, opacity 0s;'+'border-radius:0;opacity:0;'+
 		
 		'font-size:0.5em;padding-top:1px;'+
-		'padding-left:1px;box-sizing:border-box';	
+		'padding-left:1px;box-sizing:border-box');	
 		
 	elem.onmouseover = function(){
 		
@@ -136,6 +143,12 @@ function microButtonAnimated(container, content, name){
 		return this;
 	};
 	
+	this.click = function(func){
+		elem.click = func;
+		
+		return this;
+	}
+	
 	this.Elem = elem;
 	
 }
@@ -145,6 +158,28 @@ function microButtonAnimated(container, content, name){
 
 Note.__upload_images = function(event){
 	
+	if (!event.target.files){
+		//(кстати поддерж лишь 1 файл):
+		
+		/*! 
+			отправляем на сервер сразу (только куда)
+			
+				либо
+				
+			отображаем только названия картинок
+			
+			*/
+		
+		
+		
+		
+		alert(event.target.value);
+		//а затем показываем анимацию
+		
+		return;
+	}
+	
+	//для ie10 и выше:
 	for (var i = 0; i < event.target.files.length; i++) {
 	
 		//само расширение будет проверять сервер
@@ -161,24 +196,26 @@ Note.__upload_images = function(event){
 			
 			
 			var img = dom.createElement('div');
-			img.style = 
-				'height: 50px; width : 50px;'+
+			img.className = 'article_img';
+			
+			img.setAttribute('style',
+				'height: 50px; width: 50px;'+
 				'margin: 7px;'+
 				'background-size: 90% 90%;'+
 				'background-repeat: no-repeat;'+
 				'border: 1px solid gray;'+
 				'cursor: pointer;'+
 				'transition: 1s;'+
-				'background-position: center;';
+				'background-position: center;');
 			//img.style.transform = 'scale(2,2)';
 
 			var img_close = vom.add(img, 'div');
 			img_close.innerHTML = '+';
-			img_close.style = 'position:absolute;'+
+			img_close.setAttribute('style', 'position:absolute;'+
 				'top:5px;right:5px;height:10px;width:10px;'+
 				'background-color:orange;'+
 				'text-align:center;line-height:10px;'+
-				'color:transparent;transition:1s, opacity 0s;'+'border-radius:0;opacity:0';
+				'color:transparent;transition:1s, opacity 0s;'+'border-radius:0;opacity:0');
 			img_close.onmouseover = function(){
 				img_close.style.transform = 'rotate(405deg)';
 				//img_close.style.opacity = '1';
@@ -218,9 +255,41 @@ Note.__upload_images = function(event){
 			var img_show = new microButtonAnimated(
 				img, 
 				'\u25B6',
-				'img_show').setAngle(360);
+				'img_show').setAngle(360).click(function(e){
+					
+				});
 			img_show = img_show.setPosition(5,5,1).Elem;
 			
+			img.id = get_maxim(previewer.children, 'id') + 1;
+			img.onclick = function(event){
+				var notearea = document.querySelector('#id_Content');
+				
+				//alert(notearea.selectionStart);
+								
+				
+				var pos = notearea.selectionStart;
+				var sel = notearea.selectionEnd;
+				
+				var template = '\n<`'+ img.id +'`>\n';
+				
+				var patt = notearea.value.indexOf(template);
+				if (patt >= 0){
+					alert("Это изображение уже добавлено");
+					notearea.selectionStart = patt;
+					notearea.selectionEnd = patt+7;
+					notearea.focus();
+					
+					return;
+				}
+				
+				notearea.value = 
+					notearea.value.slice(0, pos) + 
+					template + 
+					notearea.value.slice(sel);
+				notearea.selectionStart = notearea.selectionEnd = pos + 7;
+				notearea.focus();
+				
+			};
 
 			img.onmouseover = function(){
 				img.style.transform = 'scale(2,2)';

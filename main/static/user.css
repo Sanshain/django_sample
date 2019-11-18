@@ -129,7 +129,9 @@
 	font-weight: bold;	
 }
 .atr img{
-	height: 200px;
+	/*height: 200px;*/
+    max-width: 16em;
+    width: 16vw;	
 }	
 
 .Anote{
