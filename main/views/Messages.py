@@ -346,7 +346,9 @@ class Dialog(ListView):
                 if len(messages):
 
                     print 'find new messages by longpoll: ' + str(len(messages))
-##                    print messages
+
+                    #three vars alternative for getting json:
+
 ##                    data = serializers.serialize('json', messages, fields=('Content',))
 ##                    data = json.dumps(list(messages.values('id', 'Content')))
 ##                    data = {}

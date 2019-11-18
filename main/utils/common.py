@@ -17,6 +17,10 @@ from django.core.files.storage import FileSystemStorage                         
 
 
 class STORAGE:
+    """
+    Просто Enum со константными значениями
+    """
+
     MESSAGES = 'media_messages/'
     NOTES = 'notes_media/'
 
@@ -34,14 +38,13 @@ class FileStorage:
 
 ##    unique_pair = (0, [])                                                       # мс, все занятые айди - на случай, если делать его глобальным
 
-    def __init__(self, user_id ='', sub_path = 'media_messages/', diap=1000000):
+    def __init__(self, sign_id ='', sub_path = 'media_messages/', diap=1000000):
         self.__uniques = []
         self.__sphere = diap
         self.__deep_rec = 10
-        self.sender = user_id
+        self.sender = sign_id
 
-        self.PATH = settings.MEDIA_ROOT + sub_path                                  # path
-
+        self.PATH = settings.MEDIA_ROOT + sub_path
 
 
     def _get_unique(self, deep=0):
@@ -61,9 +64,9 @@ class FileStorage:
     def image_save(self, image_file, deep=0):
 
         # проверяем расширение файла
-        file_extension = image_file.name.split('.')[-1]
+        file_extension = image_file.name.split('.')[-1].lower()
         if file_extension not in ('jpg','jpeg','png','gif'):
-            print 'not allowed format exception'
+            print file_extension + ' is not allowed format exception'           # file_extension[:10]
             return False
 
         # генерируем уникальное имя

@@ -43,6 +43,7 @@ from main.views.Mixins import CSSMixin
 from ..forms import create_note
 from ..models.notes import Article
 from ..utils.utime import present_time
+from ..utils import FileStorage, STORAGE
 
 if settings.DEBUG:
     from datetime import timedelta, datetime
@@ -60,27 +61,50 @@ class note_create(CreateView):
 ##    fields = ['Title','Content']                                                                     # '__all__'
 
     def post(self, request, *args, **kwargs):
-        print '++++++++++++++++++'
+
         self.form_class.user = self.request.user
 
-        received_json_data=json.loads(self.request.body)
-        print received_json_data
+##        note_texts=json.loads(self.request.body)                                  # если получать только JSON, то работает
+        note_texts=json.loads(self.request.POST.get('texts', ''))
 
-        a  = Article(Title=received_json_data['id_Title'], Content=received_json_data['id_Content'], From=self.request.user)
-        print a.Content
+        note_images = self.request.FILES.getlist('images', None)
+
+        fs = FileStorage(self.request.user.id, STORAGE.NOTES)
+
+        imgs = []
+
+        for image in note_images:
+
+            name = fs.image_save(image)
+
+            imgs.append(name)
+
+        images = json.dumps(imgs)                                                   # toString()
+
+        a  = Article(
+            Title=note_texts['id_Title'],
+            Content=note_texts['id_Content'],
+            Images=images,
+            From=self.request.user
+        )
         a.save()
-        #initial=received_json_data,
-##        note = create_note(instance=a)
-##        received_json_data.update({'id_From':self.request.user.id})
-##        note = create_note(initial=received_json_data)
-##        if note.is_valid():
-##            print note
+
+
+        # то же самое (сохранение) через ModelForm:
+##        note_form = create_note(instance=a)
+##        note_texts.update({'id_From':self.request.user.id})
+##        note_form = create_note(initial=note_texts)
+##        if note_form.is_valid():
+##            print note_form
 
 
         base_post = super(note_create, self).post(request, *args, **kwargs)
 
-        return JsonResponse({'title' : a.Title, 'content': a.Content} )
+        return JsonResponse({
+            'title' : a.Title, 'content': a.Content, 'images': imgs
+        })
 
 ##    не исполняется почему-то:
 ##    def form_valid(self, form):
 ##        return super(note_create, self).form_valid(form)
+

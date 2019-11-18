@@ -56,25 +56,33 @@ Note.post_View = function(sender, e){
 	e.preventDefault();
 	
 	//отправляем данные формы на сервер
-	this.new_note = this.new_note || new Ajax(_note_create ,function(answer){
-		//alert(answer);
-		var value = JSON.parse(answer);
-		
-		var ja = document.createElement('div');
-		
-		var h = Elem('h4',value.title,'');
-		h.style.marginTop = '5px';
-		var note = Elem('div', '', 'Anote');
-		note.appendChild(h);
-		note.appendChild(Elem('div',value.content,''));
-		
-		var last_note = document.querySelector('.articles_list').firstChild;
-		document.querySelector('.articles_list').insertBefore(note,last_note)
-	});
+	this.new_note = this.new_note || new Ajax(
+		_note_create ,function(answer){
+			
+			var value = JSON.parse(answer);
+						
+			var h = Elem('h4',value.title,'');
+			h.style.marginTop = '5px';
+			
+			var note = Elem('div', '', 'Anote');
+			note.appendChild(h);
+			note.appendChild(Elem('div',value.content,''));
+			
+			var last_note = 
+				dom.get('.articles_list').firstChild;
+				
+			last_note.parentNode.insertBefore(note,
+				last_note
+			);
+		}
+	);
 	
+	this.new_note.multipartJSON = 'multipart/form-data';
 	this.new_note.post_form(document.querySelector('#note'))
 	
-	document.getElementById('win').style.display='none';
+	//скрываем article_editor:
+	document.getElementById('win').style.visibility='hidden';
+	document.getElementById('win').style.opacity='0';
 	document.getElementById('id_Title').value = '';
 	document.getElementById('id_Content').value = '';	
 };
@@ -365,6 +373,8 @@ Note.__upload_titleImg = function(event){
 	event.preventDefault();
 	
 }
+
+
 
 
 /*! action under user (Rule function instead go_to_dialog)...

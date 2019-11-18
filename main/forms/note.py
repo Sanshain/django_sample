@@ -124,7 +124,7 @@ class create_note(HTMLabelForm):
                     var title = document.querySelector('#id_Title');
 
                     if ((title.value.length == 0 || (!window.flag && title.value.length < 35)) &&
-                        document.querySelector('#id_Title').value).indexOf('<') < 0)
+                        document.querySelector('#id_Content').value.indexOf('<') < 0)
                     {
                         document.querySelector('#id_Title').value = event.target.value + '...';
                         if (document.querySelector('#id_Title').value.length > 25)

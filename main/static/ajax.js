@@ -147,6 +147,7 @@ function Ajax(url, func, csrftoken) {
 	this.csrftoken = csrftoken;		// csrftoken-токен
 	this.func = func;				// функция принятия ответа
 	this.contentType = null;
+	
 	var self = this;
 	
 	this.__post = function(data, func, url) {				
@@ -166,6 +167,8 @@ function Ajax(url, func, csrftoken) {
 				
 				xhr.setRequestHeader("X-CSRFToken",data['csrfmiddlewaretoken']);				
 				
+				data['csrfmiddlewaretoken']="";
+				
 				xhr.setRequestHeader(
 					'Content-Type', 
 					'application/json'
@@ -173,8 +176,14 @@ function Ajax(url, func, csrftoken) {
 						
 				data = JSON.stringify(data); // на случай json
 			}
-			else	//для формдата с содержанием
+			else	//для формдата с содержанием, ничего не д
 			{
+				
+				if (this.csrftoken){
+					xhr.setRequestHeader(
+						"X-CSRFToken",
+						this.csrftoken);			
+				}
 				// на случай formdata		
 				//xhr.setRequestHeader('Content-Type', "multipart/form-data");
 				
@@ -221,25 +230,81 @@ function Ajax(url, func, csrftoken) {
 	};
 	
 	
+	
+	/*!
+	
+	*/
+	var _get_data_to = function(frm, data)
+	{
+		var data = data || {};
+		
+		for(var i=1; i<frm.elements.length - 1; i++)   
+		{ 
+			var elem = frm.elements[i];     
+			if (elem.id && elem.type != 'file') 
+			{
+				data[elem.id] = elem.value;
+			}
+		}
+		
+		return data;
+	};	
+	
+	
+	
 	/*! вернет объект js с полями формы либо FormData
 		в зависимости от this.contentType
 	*/
 	var getdata = function(frm){
-		
-		if (self.contentType == null){
-			var data = {'csrfmiddlewaretoken':frm.elements[0].value};
-			for(var i=1; i<frm.elements.length - 1; i++)   
-			{ 
-				var elem = frm.elements[i];     
-				data[elem.id] = elem.value;
 
+		if (self.contentType == null || self.multipartJSON){
+			
+			var data = {
+				'csrfmiddlewaretoken':frm.elements[0].value
+			};
+			
+			var data = _get_data_to(frm);
+			
+			if (!self.multipartJSON){
+				var csrf = frm.elements[0].value;	
+				data['csrfmiddlewaretoken'] = csrf;
+				return data;
+			}
+			else{
+			
+				self.contentType = 'multipart/form-data';
+			
+				var formData = new FormData();
+				
+				self.csrftoken = frm.elements[0].value;
+
+				formData.append(
+					'texts', 
+					JSON.stringify(data)
+				);
+
+				var files = frm.querySelector('input[type="file"]').files;
+				
+				var name = 'images';
+				for (var i=0;i<files.length;i++)
+				{
+					formData.append(
+						name, 
+						files[i],
+						i + '.' + files[i].name.split('.')[1]
+					);						
+				}
+			
+				return formData;
 			}
 
-			return data;
+			
+			
 		}
-		
+
+
 		var fdata = new FormData(frm);
-		//fdata.csrfmiddlewaretoken = frm.elements[0].value;
+		//data.csrfmiddlewaretoken = frm.elements[0].value;
 		return fdata;
 
 	};
@@ -256,6 +321,15 @@ function Ajax(url, func, csrftoken) {
 		this.__post(data, this.func || func, this.url);
 	};
 	
+	/*! Отправляет данные формы в виде JSON 
+	
+		Для обычного текста реобразуем данные формы в JSON-формат, добавляя CSRFToken как одно из значений
+		(в дальнейшем он будет задан в заголовок 
+		и удален из JSON-строки перед передачей)
+		
+		Для multipart - все содержимое будет отправлено как
+		FormData (ie10+)
+	*/
 	this.post_form = function(frm, func){		
 		
 		var data = getdata(frm);

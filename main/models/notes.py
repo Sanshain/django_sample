@@ -68,6 +68,7 @@ class Article(INote):
     Title = models.CharField(max_length=100, verbose_name=u'Заголовок', blank=True)
     #Category = models.CharField(max_length=100, verbose_name=u'Категория')
     Category = models.ManyToManyField('Mark', verbose_name=u'Категория', related_name='Articles')
+    Images = models.TextField(null=True)
 
     def get_absolute_url(self):
 		return reverse('Me')
