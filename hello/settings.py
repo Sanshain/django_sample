@@ -56,6 +56,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'hamlpy',
+
 	'main',
 	'django.contrib.admin',
 	#'debug_toolbar',
@@ -78,12 +81,22 @@ ROOT_URLCONF = 'hello.urls'
 
 TEMPLATE_DIR = os.path.join(BASE_DIR, "templates")
 
+#JUST DEBUG:
+TEMPLATE_LOADERS = (
+    'hamlpy.template.loaders.HamlPyFilesystemLoader',
+    'hamlpy.template.loaders.HamlPyAppDirectoriesLoader',
+
+    'django.template.loaders.filesystem.Loader',
+    'django.template.loaders.app_directories.Loader',
+)
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [TEMPLATE_DIR,],
-        'APP_DIRS': True,
+##        'APP_DIRS': True,                                                     # JUST DEBUG
         'OPTIONS': {
+            'loaders': TEMPLATE_LOADERS,                                        # JUST DEBUG
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
