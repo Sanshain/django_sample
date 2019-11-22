@@ -109,6 +109,23 @@ class note_create(CreateView):
 ##        return super(note_create, self).form_valid(form)
 
 
-class Article(DetailView):
+class ArticleView(CSSMixin, DetailView):
     model = Article
     template_name = '{}.haml'.format(model._meta.object_name.lower())
+
+    def get_object(self, queryset=None):
+
+        obj = super(ArticleView, self).get_object()
+
+        #obj = obj.select_related('From')
+
+        return obj
+
+
+    def get_queryset(self):
+
+        qs = super(ArticleView, self).get_queryset()
+
+        qs = qs.select_related('From')
+
+        return qs

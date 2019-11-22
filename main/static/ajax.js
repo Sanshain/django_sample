@@ -205,10 +205,12 @@ function Ajax(url, func, csrftoken) {
 		
 		xhr.onreadystatechange = function() {				// получаем результат				
 					
-			if (XMLHttpRequest['status']){										//для ie8
+			if (this['status']){										//для ie8
 				if (xhr.status != 200) 
 				{					
 					alert("Проверьте соединение с интернетом: " + xhr.statusText + ' в статусе ' + this.readyState);
+					
+					if (this.onfail) this.onfail();
 					
 					return;
 				}
@@ -222,7 +224,7 @@ function Ajax(url, func, csrftoken) {
 				//-
 				if (!('\v'=='v')) console.timeEnd('server_response_time');
 				//-
-			}			
+			}	
 		
 		}		
 		

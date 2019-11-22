@@ -41,6 +41,17 @@
 					var points = menu.getElementsByTagName('section_nav');
 					*/
 					
+					
+					
+					dom.obj('me').onclick = function(e){
+						
+						if (!window.atob) return true;
+						else e.preventDefault();
+						
+						
+						
+					}
+					
 					document.querySelector('#_dialogs').onclick =function(e){
 												
 						if (!window.atob){   //<ie10
@@ -55,6 +66,10 @@
 						var detail = document.querySelector('.detail');
 						var flag = Boolean(detail);
 						
+						ajax.onfail = function(){
+							alert('fail');
+							document.location.href = e.target.href;
+						}
 						ajax.postData('detail='+Number(flag));
 					}
 					

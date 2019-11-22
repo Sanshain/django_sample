@@ -1,0 +1,40 @@
+
+#user_block {			/*גלוסעמ .main ג user.html*/
+    position: fixed;
+    top: 150px;
+    left: 10px;
+    border: 1px solid;
+    width: 22rem;
+}
+.user {
+    padding: 50px;
+    padding-top: 0;
+    box-sizing: border-box;
+}
+.atr{
+	font-weight:bold;
+}
+.atr img{
+	max-width: 16em;
+    width: 16vw;
+}
+
+
+
+.detail{
+	background-color:floralwhite;
+	margin-right:17em;
+	margin-left:24em;
+	padding:1em;	
+}
+
+.article_title h3{
+	background-color:lightgray;
+	text-align:center;
+	margin:0;
+	padding:1em;
+}
+
+.article_content{
+	padding:1em;
+}

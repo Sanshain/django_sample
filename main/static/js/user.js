@@ -387,17 +387,18 @@ var do_action = function(sender, event){
 
 	var user_id = document.location.pathname.match(/\d+/)[0];
 	var set_url = sender.formAction; 	
-	var get_view = sender.name ? '/'+sender.name+'/' : set_url;
+	var get_view = 
+		sender.name ? '/'+sender.name+'/' : set_url;
+
+	
 
 	var __review_detail = function (resp)					//
-	{ 
-		render_page(resp, set_url);
-		
-		
+	{
+		render_page(resp, set_url);		
 	}
 
 	var review = new Ajax(
-		get_view,				 
+		get_view,
 		__review_detail
 	);
 			

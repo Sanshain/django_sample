@@ -28,7 +28,7 @@ from django.views.generic import TemplateView, CreateView
 from main.views.pages import ProfileView
 from main.views.Messages import Dialogs, Dialog, MultiDialog
 from main.views.fragments.Users import read_friends
-from .views.Notes import note_create, Article
+from .views.Notes import note_create, ArticleView
 from main.models import Raiting
 from .views.fragments.Dialog import bring_dialog
 from .views.Communities import Communie_List
@@ -56,7 +56,7 @@ urlpatterns = [
     url(r'^raiting/$', ProfileView.CreateRate.as_view()),                                                   # debug
     url(r'^communities/$', Communie_List.as_view(), name='groups'),
     url(r'^note_create/$', note_create.as_view(), name='note_create'),                                      # debug?
-    url(r'^article/(?P<pk>[0-9]+)/$', Article.as_view(), name='article_view'),                              # debug?
+    url(r'^article/(?P<pk>[0-9]+)/$', ArticleView.as_view(), name='article_view'),                              # debug?
 
 
     # AJAX:
@@ -66,12 +66,12 @@ urlpatterns = [
 ]
 
 if settings.DEBUG: urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)             #{'document_root': settings.MEDIA_ROOT,}
-##
-##if settings.DEBUG:
-##    import debug_toolbar
-##    urlpatterns = [
-##        url(r'^__debug__/', include(debug_toolbar.urls)),
-##    ] + urlpatterns
+
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns = [
+        url(r'^__debug__/', include(debug_toolbar.urls)),
+    ] + urlpatterns
 
 #urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)                             # можно и так
 

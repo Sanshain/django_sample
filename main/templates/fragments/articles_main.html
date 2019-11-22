@@ -72,20 +72,25 @@
 
 </div>
 
-<article>
+<figure>
 	{% if articles %}				
 				
 		<div class='articles_list'>
 	{% for article in articles %}
-	
-			<div class='Anote'>
-				<a href={% url "article_view" article.id %}>
-					<h4 style='margin-top:5px'>{{article.Title}}</h4>
-				</a>
-				<div>{{article.Content}}</div>
-			</div>
+			<section>
+			
+				<div class='Anote'>
+					<a href={% url "article_view" article.id %}>
+						<h4 style='margin-top:5px'>
+							{{article.Title}}
+						</h4>
+					</a>
+					<div>{{article.Content}}</div>
+				</div>
+				
+			</section>
 	{% endfor %}
 		</div>
 			
 	{%endif%}
-</article>
+</figure>

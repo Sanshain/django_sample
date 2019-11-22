@@ -1,13 +1,18 @@
-ul
-  li
-    This it the first item.
-  li
-    This is the second item.
+-extends "detail.html"
+	
+	-block user
+		#user_block			
+		
+			%figure
+			
+				-with object.From as profile
+				
+					-include "fragments/_user_profile.html"
+				
+	-block articles
+		
+		%main %article
+				.article_title 
+					h3 ={object.Title}
+				.article_content ={object.Content}
 
-div
-    The number of spaces that you indent
-    gets preserved.
-	
-div
-	sdfgsds
-	

@@ -43,9 +43,11 @@
 		<aside>
 			
 			<div class='aside_menu'>
-				<a href="{% url 'users'%}"><div class='aside_btn'>Все</div></a> 
+				<a href="{% url 'users'%}">
+					<div class='aside_btn'>Все</div>
+				</a> 
 				
-				<!--остальные юзеры добавляются динамически-->
+				<!--остальные юзеры добавляются динамическим ajax-->
 			</div>
 			
 			{% block aside_inside %}{% endblock %}

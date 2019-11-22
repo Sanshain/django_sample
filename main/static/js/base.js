@@ -193,3 +193,93 @@ vom.add = function(container, elem, cls)
 	return elem;		
 };
 
+
+/*!
+	Собирает данные со страницы для анимации во время
+	подгрузки данных с сервера и их рендеринга
+*/
+function preview_loader(){
+	
+	
+	
+	
+	//архитектура приложения:
+	/*
+	#main						- detail
+		#user_block				- user
+			#age				- _user_profile
+			#city				- _user_profile
+			#sex				- _user_profile
+			#image				- _user_profile
+			#action				- _user_profile
+		#articles_block			- user
+	
+	
+%_dialogs							- Общение
+	detail:
+		%друзья
+		#main
+		
+		user:										user/id
+			#user_block				- user
+				#age				- _user_profile
+				#city				- _user_profile
+				#sex				- _user_profile
+				#image				- _user_profile
+				#action				- _user_profile
+					%диалог
+					%изменить
+			#articles_block			- user	`````
+			%article
+			
+		article:
+			#age				- _user_profile
+			#city				- _user_profile
+			#sex				- _user_profile
+			#image				- _user_profile
+			#action				- _user_profile
+				%диалог
+				%изменить			
+			#?.article
+			
+		dialogs:
+			%dialog			
+			
+		message_list:								dialog/id
+			%buddy
+			
+
+			
+			
+		Вход
+		Регистрация
+		Выход
+		
+		Профиль ()
+		Статья
+		
+		Диалоги
+		Диалог
+		
+		Сообщества
+		Сообщество
+		
+		О нас
+		
+		
+		main			
+			[article]		
+		figure
+			[figcaption]			
+			[article]
+		aside
+		
+		main
+		figure
+			[section]
+			[section]
+			[section]
+		aside
+		
+	*/
+}

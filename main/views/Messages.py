@@ -132,6 +132,9 @@ class Dialogs(CSSMixin, ListView):
 
 
     def post(self, *args, **kwargs):
+        """
+        Запрос диалогов подзапросом
+        """
 
         detail = self.request.POST.get('detail', None)
 

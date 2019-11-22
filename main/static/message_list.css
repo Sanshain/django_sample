@@ -12,7 +12,7 @@
 }
 
 .buddy_face{
-	border-radius:40px;
+	border-radius:60px;
 	background-color: beige;
 	width:180px;
 	height:180px;
@@ -25,9 +25,9 @@
 }
 
 .buddy_face:hover{
-	/*border-radius:60px/60px;*/
-	opacity:0.57;
-	transform:scale(1.1,1.1);
+	border-radius:70px/70px;
+	opacity:0.9;
+	/*transform:scale(1.1,1.1);*/
 }
 
 .content{
