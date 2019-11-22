@@ -388,7 +388,7 @@ Note.__upload_titleImg = function(event){
 var do_action = function(sender, event){
 	if (!window.atob)  location.href = sender.formAction;
 
-	sender.dataset
+	//sender.dataset
 	
 	event.preventDefault();
 

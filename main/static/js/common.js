@@ -33,12 +33,19 @@ function get_maxim(enumble, field_in){
 /*!!
 	Только для ie10+
 */
+
 if (!String.prototype.startsWith) {
+	
 	String.prototype.startsWith = function(search, pos)
 	{
 		  position = pos || 0;
-		  return 
-			this.substr(pos, searchStr.length) === searchStr;
+		  var r = this.substr(pos, search.length) === search;
+		  /*
+		  if (r){
+			console.log(r);
+		  }//*/
+		  return r;
+			
 	};
 
-}
+}//*/

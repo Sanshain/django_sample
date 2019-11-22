@@ -166,9 +166,10 @@ function Viewer(data){
 		Имя свойства для переопределения может быть разное. Эта функция определяет его для каждого конкретного элемента
 	*/
 	var property = function(view,field){
+		//don't chenage the order src and href for ie support:
 		var i=-1; var attr = ''; var attrs = [
-			'href',
 			'src',
+			'href',
 			view.trim().startsWith('<')?'innerHTML':'innerText'
 		];
 					
