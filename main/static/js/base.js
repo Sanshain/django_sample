@@ -32,6 +32,13 @@ var render_page = function(data, url){
 */
 function Viewer(data){
 	
+	this.__container_rebuild = function(){ /**/
+		var container = document.getElementById('content');
+		
+		return vom.add(container, vom.create('div',{
+			id:'main'
+		})); 
+	}
 	
 	/*! render part of page from history.state...
 	when user back transfer 
@@ -107,6 +114,9 @@ function Viewer(data){
 	this.render_field = function(key, view){
 		
 		var field=document.getElementById(key.toLowerCase());
+		
+		if (!field) 
+			console.log('rebiuld_container on server');
 		
 		if (!field && key.startsWith('dynamic_c')){
 			//если не найден скрипт
@@ -193,6 +203,13 @@ vom.add = function(container, elem, cls)
 	return elem;		
 };
 
+vom.create = function(tagname, attrs){
+	var elem = document.createElement(tagname);
+	for (var attr in attrs){
+		elem[attr]=attrs[attr];
+	}
+	return elem;
+}
 
 /*!
 	Собирает данные со страницы для анимации во время

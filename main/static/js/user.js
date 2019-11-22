@@ -383,10 +383,12 @@ Note.__upload_titleImg = function(event){
 	Делает запрос и рендерит страницу
 */
 var do_action = function(sender, event){
+	if (!window.atob) return true;
+	
 	event.preventDefault();
 
 	var user_id = document.location.pathname.match(/\d+/)[0];
-	var set_url = sender.formAction; 	
+	var set_url = sender.formAction;
 	var get_view = 
 		sender.name ? '/'+sender.name+'/' : set_url;
 

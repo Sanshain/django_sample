@@ -69,7 +69,7 @@
 						ajax.onfail = function(){
 							alert('fail');
 							document.location.href = e.target.href;
-						}
+						};
 						ajax.postData('detail='+Number(flag));
 					}
 					
@@ -116,7 +116,7 @@
 		
 		
 	
-		<div id='content'> 
+		<div id='content'>
 		
 			
 			<div id='main'> {# может быть слева, может быть центр #}

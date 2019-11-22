@@ -22,7 +22,7 @@ class CSSMixin(object):
         if 'context' in kwargs:
             context = kwargs['context']
 
-        baseurl = settings.STATIC_URL + self.template_name.replace('.html','')
+        baseurl = settings.STATIC_URL + self.css_path + '/' + self.template_name.replace('.html','')
         basepath = os.path.join(settings.BASE_DIR, __package__.split('.')[0], baseurl[1:])
 
         print basepath+'.css'

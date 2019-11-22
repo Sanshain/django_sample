@@ -143,7 +143,7 @@ class Dialogs(CSSMixin, ListView):
         if detail:
 
             template_snippet = os.path.join('fragments','_dialogue_list.html')
-            tag_ren['main'] = render_to_string(template_snippet, context={
+            tag_ren['content'] = render_to_string(template_snippet, context={
                 'object_list' : self.get_queryset(),
                 'MEDIA_URL' : settings.MEDIA_URL
             })

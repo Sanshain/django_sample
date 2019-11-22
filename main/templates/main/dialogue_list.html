@@ -1,18 +1,5 @@
 {% extends "detail.html" %}
-		
-{% block links %}				
-	{% load staticfiles %}
 
-	{% for link in links %}
-		<link rel="stylesheet" href="{{ link }}">
-	{% endfor %}
-		
-		
-	<link rel="stylesheet" href="{% static 'aside.css' %}"> 	
-	
-{% endblock %}	
-	
-		
 		
 {% block main %}
 	<ul class=blocklist>

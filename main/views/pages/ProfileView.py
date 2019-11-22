@@ -197,14 +197,14 @@ class UserView(CSSMixin, DetailView):
                     'articles':articles
                 }
             )
-            user_dict['main'] = '{}{}{}{}{}{}'.format(
-                "<div class='main' id='user_block'>",
+            user_dict['content'] = '{}{}{}{}{}{}'.format(
+                "<div id='main'><div class='left_unit' id='user_block'>",
                     user_block.strip(),
-                '</div>',
-                "<div class='articles' id='articles_block'>",
+                '</div></div>',
+                "<div id='section'><div class='articles' id='articles_block'>",
                     articles_block,
-                "</div>")
-            user_dict['dynamic_link'] = settings.STATIC_URL + 'user.css'
+                "</div></div>")
+            user_dict['dynamic_link'] = settings.STATIC_URL + 'style/user.css'
 
         ret = json.dumps(user_dict)                                                 # работает, если убрать связь 1:8
 

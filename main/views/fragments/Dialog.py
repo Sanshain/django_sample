@@ -87,7 +87,7 @@ def bring_dialog(request):
 ##        os.system(file)
 
         context = {
-            'main':messages_block,
+            'content':messages_block,
             'dynamic_link': settings.STATIC_URL + 'message_list.css',
             'dynamic_c_list': settings.STATIC_URL + 'js/message_list.js',
         }

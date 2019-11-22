@@ -14,6 +14,8 @@
     margin-right: 16em;
     padding: 3em;
 	
+	padding-top:0;
+	margin-top:0;	
 }
 .blocklist > li{
 	padding: 0.5em;	
@@ -26,7 +28,7 @@
 	
 	
 
-/*кастомизация*/
+/*РєР°СЃС‚РѕРјРёР·Р°С†РёСЏ*/
 	height: 2rem;
 	border: 1px solid lightgray;
 	background-color: #def1f0;/*#c5ec98;*//*#e5f7f6;*/
