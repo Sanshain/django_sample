@@ -113,20 +113,42 @@
 			</div>				
 			
 		</header>
-	
-		<div class='content'>
-			<content>
 		
-				{% block content %}				
-					
-					{% block main %}{% endblock %}
-								
-					{% block aside %}{% endblock %}
-					
-					
+		
+	
+		<div id='content'> 
+		
+			
+			<div id='main'> {# может быть слева, может быть центр #}
+			
+				{% block main %}
+					главное уникальное содержимое
+				{% endblock %}				
+			
+			</div>
+		
+				
+			<div id="section">
+			
+				{# может быть слева, может быть центр #}
+				
+				{% block section %}
+					дополнительны[ы|е] элемент[ы] основного потока
 				{% endblock %}
-						
-			</content>
+				
+			</div>
+		
+		</div>	
+
+		
+		<div id='aside'> 
+			
+			{% block aside %}
+				
+				боковая колонка: управляется через id='aside'
+				
+			{% endblock %}
+		
 		</div>		
 		
 	</body>

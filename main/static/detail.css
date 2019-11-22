@@ -28,3 +28,7 @@
 .friend_pick:hover{
 	background-color:beige;
 }
+
+.aside{
+	position:fixed;
+}

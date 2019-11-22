@@ -7,6 +7,7 @@
 {% endblock %}
 
 
+
 {% block onload %}
 
 	/*! detail	*/
@@ -14,6 +15,8 @@
 	friReader.postData('id=0');           //0- юзер сам. в бд от 1 счет
 	
 {% endblock %}
+
+
 
 {% block links %}
 	{{ block.super }}
@@ -29,17 +32,13 @@
 	
 {% endblock %}
 
-{% block main %}
 
-	<div class='detail' id='main'>
-		{% block user %} Пользователь {% endblock %}		
-		{% block articles %} Его статьи {% endblock %}	
-	</div>
-{% endblock %}
 
 {% block aside %}
-	
-	<div class='aside' style='position:fixed;'>
+
+	<div class='aside'>
+	{# боковая колонка: декорируется через class='aside' #}
+
 		<aside>
 			
 			<div class='aside_menu'>
@@ -53,6 +52,6 @@
 			{% block aside_inside %}{% endblock %}
 			
 		</aside>
-	</div>
-
+	</div>				
+				
 {% endblock %}

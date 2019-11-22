@@ -268,7 +268,7 @@ function preview_loader(){
 		
 		
 		main			
-			[article]		
+			[article]	
 		figure
 			[figcaption]			
 			[article]

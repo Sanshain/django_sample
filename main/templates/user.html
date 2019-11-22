@@ -69,21 +69,26 @@
 {% endblock %}
 
 
-{% block user %}	
+{% block main %}	
 	
-	<div class='main' id='user_block'>
+	<div class='main' id='user_block'> {# для декорации #}
+
 		<main>
 			{% include "fragments/_user_profile.html" %}
 		</main>	
 	</div>		
+	
 {% endblock %}
 
 
-{% block articles %}	
+{% block section %}	
 	
 	<div class='articles' id='articles_block'>
 	
-		{% include "fragments/articles_main.html" %}
+		<section>
+			{% include "fragments/articles_main.html" %}
+		</section>
+		
 	</div>
 	
 {% endblock %}	
