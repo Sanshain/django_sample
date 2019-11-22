@@ -52,26 +52,55 @@
 						
 					}
 					
-					document.querySelector('#_dialogs').onclick =function(e){
-												
+					/*!
+						Универсальная функция частичной перезагрузки страницы
+						
+						Пока для кнопок и ссылок. 
+					*/
+					function fragment_refresh(e){
+						
+						var target = 
+							e.target.href || 
+							e.target.formAction;
+						
 						if (!window.atob){   //<ie10
 						
-							document.location.href = e.target.href;
-							return true;
+							document.location.href = target;
 						}
+												
 						
 						e.preventDefault();
-						var ajax = new Ajax(e.target.href, render_page);
-						// проверяем, является ли шаблон detail:
-						var detail = document.querySelector('.detail');
-						var flag = Boolean(detail);
+						
+						var ajax = new Ajax(target, render_page);
+						
+						/*определяем, есть ли те или иные элементы на странице, чтобы собщить серверу, какой из
+						шаблонов рендерить и возвращать*/
+						
+						/*теоретически это можно получать на сервере 
+						из адреса страницы, но тогда по сути придется проверять весь список адресов
+						(регулярк) на соответствие, после нахождения
+						необходимо распарсить шаблон и найти, есть ли там этот элемент. Проще найти тут:
+						*/
+						
+						var elem =document.querySelector('.detail');
+						var flag = Boolean(elem);
 						
 						ajax.onfail = function(){
-							alert('fail');
-							document.location.href = e.target.href;
+							//здесь может быть относительно 
+							// навязчивое сообщение о том, что 
+							//ваш браузер не поддерживает 
+							//автоматические переходы
+							alert('ваш браузер не смог осуществить частичное обновление контента страницы.'+
+							' Нажмите ок, чтобы перейти напрямую');
+							document.location.href = target;
 						};
+						
 						ajax.postData('detail='+Number(flag));
-					}
+					}					
+					
+					//document.querySelector('#_dialogs').onclick =
+					
+					
 					
 					{% block onload %} {% endblock %}
 				}
@@ -99,11 +128,39 @@
 					<nav>						
 						{% block nav %}				
 							
-						    <a id='me' name='{{user.id}}' href="{% url 'user' user.id %}" class='section_nav'>К себе</a><!--						
-							--><a href="{% url 'dialogs' %}" id='_dialogs' class='section_nav'>Общение</a><!--
-							--><a href="{% url 'groups' %}" id='_groups' class='section_nav'>Сообщества</a><!--
+						    <a id='me' 
+								name='{{user.id}}' 
+								href="{% url 'user' user.id %}" class='section_nav'>
+								
+									К себе
+									
+							</a><!--
+							--><a 
+							href="{% url 'dialogs' %}" 
+								id='_dialogs' 
+								class='section_nav'
+								onclick = 'fragment_refresh(event)'
+								data-for_refresh='content'>
+									
+									Общение
+									
+							</a><!--
+							--><a 
+							href="{% url 'groups' %}" 
+								id='_groups' 
+								class='section_nav'>
+								
+									Сообщества
+								
+							</a><!--
 							
-							--><a href="{% url 'signout' %}" class='section_nav'>Выйти</a> 							
+							--><a 
+								href="{% url 'signout' %}" 
+								class='section_nav'>
+								
+									Выйти
+								
+							</a> 							
 						{% endblock %}		
 						
 					</nav>			

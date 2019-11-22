@@ -64,7 +64,8 @@
 					name={{ dialog_url|cut:"/" }}
 					formaction = {% url 'dialog' profile.id %}
 					onclick="do_action(this,event);"
-					style="z-index:10;" 
+					style="z-index:10;"
+					data-for_refresh='content'
 				>
 					Отправить сообщение
 				</button>				
