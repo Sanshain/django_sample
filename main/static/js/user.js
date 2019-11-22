@@ -381,9 +381,14 @@ Note.__upload_titleImg = function(event){
 
 	Получает из атрибутов кнопки (пока только той, что под аватаркой) параметры для запроса
 	Делает запрос и рендерит страницу
+	
+	Можно применять к любой кнопке на странице, применив
+	sender.formAction 
 */
 var do_action = function(sender, event){
-	if (!window.atob) return true;
+	if (!window.atob)  location.href = sender.formAction;
+
+	sender.dataset
 	
 	event.preventDefault();
 

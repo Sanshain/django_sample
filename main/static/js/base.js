@@ -169,7 +169,7 @@ function Viewer(data){
 		var i=-1; var attr = ''; var attrs = [
 			'href',
 			'src',
-			view.trimLeft().startsWith('<')?'innerHTML':'innerText'
+			view.trim().startsWith('<')?'innerHTML':'innerText'
 		];
 					
 		while(!(field[ attr=attrs[++i] ])) if (i>1) break;	
