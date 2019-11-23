@@ -51,8 +51,42 @@
 		transition:1s;
 		padding: 30px 25px;
 	}
-	.insert_group input{
+
+	.insert_group input, textarea{
 		width:100%;
+		box-sizing:border-box;
+		margin: 5px 0;
+		padding:5px;
+		border-radius:5px;
+		border: 1px solid burlywood;
+		outline:none;
+		transition:0.4s;
+	}
+	.insert_group input:focus, textarea:focus{
+		border: 1px solid gray;
+	}	
+	
+	.insert_group textarea{
+		height:80%;
+	}
+	.mc_btn{
+		position:absolute;
+		cursor:pointer;
+		width:40px;
+		height:40px;
+		border-radius:50px;
+		transition:0.5s;
+	}
+	.pp_create{
+		position:absolute;
+		cursor:pointer;
+		width:40px;
+		height:40px;
+		border-radius:50px;
+		transition:0.5s;	
+		bottom:-10px;
+		left:-20px;
+		background-color:#4cd64c;
 	}
 	.pp_close{
 		position:absolute;
@@ -61,12 +95,14 @@
 		width:40px;
 		height:40px;
 		background-color:red;
-		border-radius:20px;
+		border-radius:50%;
 		cursor:pointer;
 	}
 	.insert_group:hover{
 		opacity: 0.9;
 	}
+	
+
 	
 {% endblock %}
 
@@ -81,14 +117,24 @@
 		inbox.className = 'insert_group';
 		event.target.parentElement.appendChild(inbox);
 		
+		var self = this;
 		vom.add(inbox, 'div', 'pp_close').onclick = function(){
-			this.Destroy();
+			if (confirm("Вы уверены, что не хотите создать группу?")){
+				self.Destroy();
+			}
+			
 		};
 		
-		vom.add(inbox, 'input', '').placeholder = '546';
+		vom.add(inbox, 'div', 'pp_create').onclick = function(){
+			
+		};		
+		
+		vom.add(inbox, 'input', '').placeholder = 'Наименование сообщества';
+		vom.add(inbox, 'textarea', '').placeholder = 'Краткое описание';
 		
 		
 		
+		//анимирует плавное появление:
 		setTimeout(function()											//вместо requestAnimationFrame
 		{									
 			inbox.style.opacity = '1';
