@@ -33,6 +33,73 @@
                 dom.obj = document.getElementById;
                 dom.get = document.querySelector;
 				
+				/*!
+					Универсальная функция частичной перезагрузки страницы
+					
+					Пока для кнопок и ссылок. 
+				*/
+				function fragment_refresh(e){
+
+					
+					var target = 
+						e.target.href || 
+						e.target.formAction;
+					
+					if (!window.atob){   //<ie10
+					
+						document.location.href = target;
+						//get_property(target)
+					}
+											
+					
+					e.preventDefault();
+					
+					var ajax = new Ajax(target, render_page);
+					
+					/*определяем, есть ли те или иные элементы на странице, чтобы собщить серверу, какой из
+					шаблонов рендерить и возвращать*/
+					
+					/*теоретически это можно получать на сервере 
+					из адреса страницы, но тогда по сути придется проверять весь список адресов
+					(регулярк) на соответствие, после нахождения
+					необходимо распарсить шаблон и найти, есть ли там этот элемент. Проще найти тут:
+					*/
+					
+					//получаем elem со страницы,
+					//отправляем этот элемент на сервер
+					
+					
+					var elem = document.querySelector('.detail');
+					var flag = Boolean(elem);
+					
+					//content
+					
+					
+					
+					//main(username|age|city),section
+					var unique_templates = 
+						e.target.dataset['for_refresh'].split(',');
+					
+					for (var template in unique_templates){
+						
+						var _box = document.getElementById(template);
+						
+						
+					}
+					
+					ajax.onfail = function(){
+						//здесь может быть относительно 
+						// навязчивое сообщение о том, что 
+						//ваш браузер не поддерживает 
+						//автоматические переходы
+						alert('ваш браузер не смог осуществить частичное обновление контента страницы.'+
+						' Нажмите ок, чтобы перейти напрямую');
+						document.location.href = target;
+					};
+					
+					ajax.postData('detail='+Number(flag));
+				}				
+				
 				window.onload = function()
 				{
 				
@@ -52,56 +119,8 @@
 						
 					}
 					
-					/*!
-						Универсальная функция частичной перезагрузки страницы
-						
-						Пока для кнопок и ссылок. 
-					*/
-					function fragment_refresh(e){
-						
-						var target = 
-							e.target.href || 
-							e.target.formAction;
-						
-						if (!window.atob){   //<ie10
-						
-							document.location.href = target;
-						}
-												
-						
-						e.preventDefault();
-						
-						var ajax = new Ajax(target, render_page);
-						
-						/*определяем, есть ли те или иные элементы на странице, чтобы собщить серверу, какой из
-						шаблонов рендерить и возвращать*/
-						
-						/*теоретически это можно получать на сервере 
-						из адреса страницы, но тогда по сути придется проверять весь список адресов
-						(регулярк) на соответствие, после нахождения
-						необходимо распарсить шаблон и найти, есть ли там этот элемент. Проще найти тут:
-						*/
-						
-						var elem =document.querySelector('.detail');
-						var flag = Boolean(elem);
-						
-						ajax.onfail = function(){
-							//здесь может быть относительно 
-							// навязчивое сообщение о том, что 
-							//ваш браузер не поддерживает 
-							//автоматические переходы
-							alert('ваш браузер не смог осуществить частичное обновление контента страницы.'+
-							' Нажмите ок, чтобы перейти напрямую');
-							document.location.href = target;
-						};
-						
-						ajax.postData('detail='+Number(flag));
-					}					
-					
 					//document.querySelector('#_dialogs').onclick =
-					
-					
-					
+						
 					{% block onload %} {% endblock %}
 				}
 				
@@ -114,9 +133,10 @@
 
 	<body>
 
-		<header>
-				
-			<div class='header'>
+	
+		<div class='header'>
+			<header>
+		
 				<div class='nav' id='nav'>
 				
 					{% if request.user.is_authenticated and user.Image %}
@@ -139,7 +159,7 @@
 							href="{% url 'dialogs' %}" 
 								id='_dialogs' 
 								class='section_nav'
-								onclick = 'fragment_refresh(event)'
+								onclick = 'fragment_refresh(event);'
 								data-for_refresh='content'>
 									
 									Общение
@@ -167,12 +187,12 @@
 				</div>
 				<h2 id='header'>{% block header %} {% endblock %}</h2>
 				
-			</div>				
+				
+			</header>
 			
-		</header>
-		
-		
-	
+		</div>				
+			
+
 		<div id='content'>
 		
 			

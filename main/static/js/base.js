@@ -20,7 +20,38 @@ var render_page = function(data, url){
 			+ JSON.stringify(Object.keys(closed_page)));
 		*/
 	}
+};
+
+
+
+abstract_viewer = {
 	
+	/*! Get or find property_name for replacement its value
+		
+		Имя свойства для переопределения может быть разное. Эта функция определяет его для каждого конкретного элемента
+	*/	
+	property : function(view,field){
+		//don't chenage the order src and href for ie support:
+		var i=-1; var attr = ''; var attrs = [
+			'src',
+			'href',
+			view.trim().startsWith('<')?'innerHTML':'innerText'
+		];
+					
+		while(!(field[ attr=attrs[++i] ])) if (i>1) break;	
+
+		return attr;		
+	}	
+}
+
+
+
+
+function Renderer(boxes){
+	
+	
+	
+	return render_page;
 }
 
 
@@ -30,6 +61,10 @@ var render_page = function(data, url){
 
 	Рендерит поля страницы на основе входных данных
 */
+
+
+
+Viewer.prototype = abstract_viewer;
 function Viewer(data){
 	
 	this.__container_rebuild = function(){ /**/
@@ -59,7 +94,7 @@ function Viewer(data){
 			
 			if (typeof view == "string") 
 				
-				field[property(view, field)] = view;
+				field[this.property(view, field)] = view;
 				
 			else if (typeof view == "object")
 			{
@@ -130,7 +165,7 @@ function Viewer(data){
 		else if (typeof view == "string")
 		{	
 			
-			var attr = property(view,field);
+			var attr = this.property(view,field);
 			
 			stored_data[key] = field[attr]; 
 			
@@ -164,8 +199,8 @@ function Viewer(data){
 	/*! Get or find property_name for replacement its value
 		
 		Имя свойства для переопределения может быть разное. Эта функция определяет его для каждого конкретного элемента
-	*/
-	var property = function(view,field){
+	*/	
+	/*var property = function(view,field){
 		//don't chenage the order src and href for ie support:
 		var i=-1; var attr = ''; var attrs = [
 			'src',
@@ -176,13 +211,12 @@ function Viewer(data){
 		while(!(field[ attr=attrs[++i] ])) if (i>1) break;	
 
 		return attr;		
-	};	
+	};	//*/
 	
 	
 	var stored_data = {};
 	var new_view = data;
 }
-
 
 
 vom = {};
