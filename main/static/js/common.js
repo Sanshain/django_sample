@@ -6,7 +6,20 @@ HTMLLIElement.prototype.appendChilds = function () {
 
 };
 
+/*!
+	рассчитано на небольшое количество атрибутов (до 10 вне цикла, рекомендуемое - 2)
+	
+	* не поддерживает class
+	
+*/
+HTMLElement.prototype.vs = function (dict) {
 
+	for (var key in dict){
+		this.setAttribute(key, dict[key]);
+	}
+
+	return this;
+};
 
 
 
@@ -28,6 +41,11 @@ function get_maxim(enumble, field_in){
 	return m > 0 ? m : 0;
 
 }
+
+
+
+
+
 
 
 /*!!
