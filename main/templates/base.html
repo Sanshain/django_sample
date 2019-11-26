@@ -54,7 +54,7 @@
 					
 					e.preventDefault();
 					
-					var ajax = new Ajax(target, render_page);
+					
 					
 					/*определяем, есть ли те или иные элементы на странице, чтобы собщить серверу, какой из
 					шаблонов рендерить и возвращать*/
@@ -80,13 +80,73 @@
 					var unique_templates = 
 						e.target.dataset['for_refresh'].split(',');
 					
-					for (var template in unique_templates){
+					for (var key in unique_templates){
 						
-						var _box = document.getElementById(template);
+						var _box = document.getElementById(
+							unique_templates[key]
+						);
+						var attribute=abstract_viewer.property(_box);
 						
 						
+						_box.style.transition = '0.5s linear';
+						_box.style.opacity = 0;
+						
+						
+						function content_waiting(deep){
+						
+							console.log(
+								deep + ' - waiting for ' +_box.id
+							);
+							
+							if (!deep){
+								//animation отсутствия интернета
+								
+								alert('нет соединения с сервером');
+								
+								return false;
+							}							
+						
+							setTimeout(function(){
+							
+								
+								if (responsed_content){
+									//_box[attribute] =responsed_content;
+									
+									render_page(
+										responsed_content.pop(), 
+										responsed_content.pop()
+									);	
+									
+									setTimeout(function(){
+										_box.style.opacity =1;
+									}, 40);
+								}
+								else{
+									//анимация и рекурсия
+									
+									
+									
+									content_waiting(--deep);
+								}
+								//_box.innerText = 'animation';
+								
+								//_box.style.opacity = 1;
+							},700);								
+						}
+					
+						content_waiting(3);
+						
+					}					
+					
+					var responsed_content = null;
+					var box_onload = function (resp, set_url)
+					{
+						responsed_content = [set_url,resp];
+					
+						//render_page(resp, set_url);					
 					}
 					
+					var ajax = new Ajax(target, box_onload);
 					ajax.onfail = function(){
 						//здесь может быть относительно 
 						// навязчивое сообщение о том, что 

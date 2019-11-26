@@ -1,16 +1,19 @@
 /*область aside*/
-.aside{
-	width:25vw;	
-	display:inline-block;
-	z-index:1;
-	/*padding-top: 50px;		*/
+.aside{	
+	display:inline-block;	/*_*/
+	z-index:1;				/*_*/
 	
-	position:absolute;
-	right:0;
-	top:150px;
+	
+	position:absolute;		/*_*/
+	right:0;				/*только для ie8*/
+	top:150px;				/*_*/
 
-	width:21%;
-	max-width: 15em;
+	width:25vw;				/*legacy*/
+	
+	width:21%;				/*только для ie8*/
+	max-width: 15em;		/*только для ie8*/
+	left:calc(100vw - 15em);/*ie9+*/
+	
 }
 
 .aside_menu{

@@ -29,18 +29,19 @@ abstract_viewer = {
 	/*! Get or find property_name for replacement its value
 		
 		Имя свойства для переопределения может быть разное. Эта функция определяет его для каждого конкретного элемента
+		
+		по дефолту используется для анимации
 	*/	
-	property : function(view,field){
+	property : function(field){ //
 		//don't chenage the order src and href for ie support:
 		var i=-1; var attr = ''; var attrs = [
-			'src',
-			'href',
-			view.trim().startsWith('<')?'innerHTML':'innerText'
+			'src', 'href',
+			field.children ? 'innerHTML' : 'innerText'
 		];
-					
+		
 		while(!(field[ attr=attrs[++i] ])) if (i>1) break;	
 
-		return attr;		
+		return attr;
 	}	
 }
 
@@ -94,7 +95,7 @@ function Viewer(data){
 			
 			if (typeof view == "string") 
 				
-				field[this.property(view, field)] = view;
+				field[this.property(field, view)] = view;
 				
 			else if (typeof view == "object")
 			{
@@ -165,7 +166,7 @@ function Viewer(data){
 		else if (typeof view == "string")
 		{	
 			
-			var attr = this.property(view,field);
+			var attr = this.property(field, view);
 			
 			stored_data[key] = field[attr]; 
 			
@@ -200,8 +201,8 @@ function Viewer(data){
 		
 		Имя свойства для переопределения может быть разное. Эта функция определяет его для каждого конкретного элемента
 	*/	
-	/*var property = function(view,field){
-		//don't chenage the order src and href for ie support:
+	var property = function(field, view){
+		//don't chanage the order src and href for ie support:
 		var i=-1; var attr = ''; var attrs = [
 			'src',
 			'href',

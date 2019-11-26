@@ -48,8 +48,22 @@ function get_maxim(enumble, field_in){
 
 
 
+/*	
+	решил через left:calc(100vw - 250px);  для aside
+	пока не актуально
+*/
+function get_scroll_wide(elem){
+	//var elem = document.body || elem;
+	
+	return window.innerWidth - document.body.clientWidth;
+}
+
+
+
+
+
 /*!!
-	Только для ie10+
+	Только для ie10+. В итоге я вроде от нее отказался
 */
 
 if (!String.prototype.startsWith) {
