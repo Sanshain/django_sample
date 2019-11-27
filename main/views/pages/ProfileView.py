@@ -138,6 +138,7 @@ class UserView(CSSMixin, DetailView):
 
     def post(self, *args, **kwargs):
         user_id= self.request.body.split('&')[-1:][0]
+        print user_id
 
         cuser = Profile.objects.get(id=user_id)                                      # .values('id','username')
         articles = Article.objects.filter(From=cuser)                               ## articles = cuser.inote.select_related('article').filter(article__isnull=False))

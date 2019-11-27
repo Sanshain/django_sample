@@ -38,7 +38,10 @@
 					
 					Пока для кнопок и ссылок. 
 				*/
+				
+				
 				function fragment_refresh(e){
+
 
 					//если это ссылка, берем из адреса
 					//если это кнопка, берем из formAction-атрибута
@@ -81,14 +84,66 @@
 					
 					//main(username|age|city),section
 					var unique_templates = 
-						e.target.dataset['_refresh'].split(',');
+						e.target.dataset['_refresh']
+							.replace(/[\s]+/,'')
+							.split(',');
 					
 					//анимация ожидания для каждого unique_template:
 					for (var key in unique_templates){
 						
+						//ищем детальные элементы для переопределения
+						var details = 
+							unique_templates[key].split(">");
+						
+						//независимо от того, есть они или нет, 1й элемент будет корневой. Ищем его в любом случае, он нам пригодится
 						var _box = document.getElementById(
-							unique_templates[key]
+							details[0]
 						);
+						
+						if (!_box){
+							alert('не найден корневой элемент');
+							new Error('не найден корневой элемент');
+						}
+							
+						//если они заданы
+						if (details[1]){
+							var signs = details[1].split('.');
+							
+							//если есть обобщитель:
+							var sign = signs.indexOf('*');
+							if (sign>=0){
+								if (sign==0){
+								
+								}
+								else{
+									var sample = signs.split('.')[0];
+									
+									//если типовой элемент найден
+									if (sample){
+										var _boxes =sample.parentElement.querySelectorAll('[id]');
+										
+										//применяем content_waiting к каждому элементу
+									}
+									else{
+										//значит надо обновить корневой элемент:
+										
+									}
+								}
+							}
+							else{
+								for(var key in signs){
+									var line = details[1].getElementById(
+										elems[key]
+									);
+									
+								}								
+							}
+							
+							//ищем каждого из них
+
+						}
+						//если не заданы, то просто продолжаем выполнение:
+						
 						var attribute=abstract_viewer.property(_box);
 						
 						
@@ -96,7 +151,7 @@
 						_box.style.opacity = 0;
 						
 						
-						function content_waiting(deep){
+						function content_waiting(deep, box){
 						
 							console.log(
 								deep + ' - waiting for ' +_box.id
@@ -223,6 +278,23 @@
 					}
 					
 					
+					//юзер на сервере получает всего лишь id юзера
+					//попробуем изменить:
+					/*!
+						Для юзера нужны следующие поля:
+						
+						main(sex.age.city.ava.action),section,header
+						
+						#sex
+						#age
+						#city						
+						#image? - #ava как управляющий
+						#action%{formAction|value(innerText)} - слож
+						
+						#section|article_block__[\d]+			-упра
+						#header|username[\d]* - управляющий
+					*/
+					
 					var flag = requested_blocks.length;
 					
 					ajax.postData('detail='+Number(flag));
@@ -231,21 +303,28 @@
 				window.onload = function()
 				{
 				
+				
+					var routes
+						= document.querySelectorAll('[data-_refresh]');
+					
+					for (var way in routes){
+						routes[way].onclick = fragment_refresh;
+					}
+				
 					/*! ерунда:
 					var menu = document.querySelector('nav');
 					var points = menu.getElementsByTagName('section_nav');
 					*/
 					
 					
-					
+					/*
 					dom.obj('me').onclick = function(e){
 						
 						if (!window.atob) return true;
 						else e.preventDefault();
-						
-						
-						
-					}
+
+						alert('me____me');
+					}//*/
 					
 					//document.querySelector('#_dialogs').onclick =
 						
@@ -279,8 +358,11 @@
 							
 						    <a id='me' 
 								name='{{user.id}}' 
-								href="{% url 'user' user.id %}" class='section_nav'>
-								
+								href="{% url 'user' user.id %}" class='section_nav'
+								data-_refresh=
+									'main>age.*,section,header'
+								data-_require='aside'>
+							
 									К себе
 									
 							</a><!--
@@ -288,7 +370,6 @@
 							href="{% url 'dialogs' %}" 
 								id='_dialogs' 
 								class='section_nav'
-								onclick = 'fragment_refresh(event);'
 								data-_refresh='content'
 								data-_require='aside'>
 									
