@@ -1,14 +1,65 @@
+
+
+
 function fragment_refresh(e){
 
+	var content_waiting = function (_box, deep){
+	
+		console.log(
+			deep + ' - waiting for ' +_box.id
+		);
+		
+		if (!deep){
+			//animation отсутствия интернета
+			
+			alert('нет соединения с сервером');
+			
+			return false;
+		}							
+	
+		setTimeout(function(){
+										
+			if (responsed_content){
+
+				render_page(
+					responsed_content.pop(), 
+					responsed_content.pop()
+				);	
+				
+				setTimeout(function(){
+					_box.style.opacity =1;
+				}, 40);
+			}
+			else{
+				//анимация и рекурсия	
+				
+				content_waiting(_box, --deep);
+			}
+
+		},700);								
+	};
+
+	function content_animate(_box){
+		var attribute=abstract_viewer.property(_box);	
+		
+		//это можно вынести в позиционирующие классы:
+		//либо (правильнее) в id этих|управляющих элементов
+		_box.style.transition = '0.5s linear';
+		_box.style.opacity = 0;
+
+		content_waiting(_box, 3);		
+	}
 
 	//если это ссылка, берем из адреса
 	//если это кнопка, берем из formAction-атрибута
+	//если иное, берем из атрибута data-to
 	
 	var target = 
 		e.target.href || 
-		e.target.formAction;					
-	//если иное, берем из атрибута data-to
-	target =target||e.target.getAttribute('data-to');
+		e.target.formAction || 			
+		e.target.getAttribute('data-to')||
+		e.target.getAttribute('formaction'); //for ie8-9
+		
 	
 	//если цель не найдена, выкидываем ошибку
 	if (!target) {
@@ -46,18 +97,18 @@ function fragment_refresh(e){
 			.replace(/[\s]+/,'')
 			.split(',');
 	
+	var _box = null;
+	
 	//анимация ожидания для каждого unique_template:
 	for (var key in unique_templates){
 		
-		//ищем детальные элементы для переопределения
-		var details = 
-			unique_templates[key].split(">");
+		//ищем детальные (внут) элементы для переопределения
+		var details = unique_templates[key].split(">");
 		
 		//независимо от того, есть они или нет, 1й элемент будет корневой. Ищем его в любом случае, он нам пригодится
-		var _box = document.getElementById(
-			details[0]
-		);
+		_box = document.getElementById(details[0]);
 		
+		//если он не найден, ошибка (должен быть всегда)
 		if (!_box){
 			alert('не найден корневой элемент');
 			new Error('не найден корневой элемент');
@@ -65,22 +116,28 @@ function fragment_refresh(e){
 			
 		//если они заданы
 		if (details[1]){
+			//получаем их:
 			var signs = details[1].split('.');
+			var _boxes = [];		// это они
 			
-			//если есть обобщитель:
+			//если есть обобщитель среди них:
 			var sign = signs.indexOf('*');
 			if (sign>=0){
-				if (sign==0){
 				
+				
+				if (sign==0){
+					
+					_boxes =_box.parentElement.querySelectorAll('[id]');
 				}
 				else{
 					var sample = signs.split('.')[0];
 					
 					//если типовой элемент найден
 					if (sample){
-						var _boxes =sample.parentElement.querySelectorAll('[id]');
+						_boxes =sample.parentElement.querySelectorAll('[id]');
 						
 						//применяем content_waiting к каждому элементу
+						
 					}
 					else{
 						//значит надо обновить корневой элемент:
@@ -90,62 +147,20 @@ function fragment_refresh(e){
 			}
 			else{
 				for(var key in signs){
-					var line = details[1].getElementById(
-						elems[key]
-					);
-					
+					_boxes.push(
+						details[1].getElementById(elems[key])
+					);					
 				}								
 			}
 			
-			//ищем каждого из них
+			for (var j in _boxes){
+				content_waiting(_boxes[j], 3);
+			}
 
 		}
 		//если не заданы, то просто продолжаем выполнение:
 		
-		var attribute=abstract_viewer.property(_box);
-		
-		
-		_box.style.transition = '0.5s linear';
-		_box.style.opacity = 0;
-		
-		
-		function content_waiting(deep, box){
-		
-			console.log(
-				deep + ' - waiting for ' +_box.id
-			);
-			
-			if (!deep){
-				//animation отсутствия интернета
-				
-				alert('нет соединения с сервером');
-				
-				return false;
-			}							
-		
-			setTimeout(function(){
-											
-				if (responsed_content){
-
-					render_page(
-						responsed_content.pop(), 
-						responsed_content.pop()
-					);	
-					
-					setTimeout(function(){
-						_box.style.opacity =1;
-					}, 40);
-				}
-				else{
-					//анимация и рекурсия	
-					
-					content_waiting(--deep);
-				}
-
-			},700);								
-		}
-	
-		content_waiting(3);
+		content_animate(_box);
 		
 	}					
 	
