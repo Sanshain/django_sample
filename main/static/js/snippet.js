@@ -130,7 +130,7 @@ function fragment_refresh(e){
 					_boxes =_box.parentElement.querySelectorAll('[id]');
 				}
 				else{
-					var sample = signs[0];
+					var sample= _box.getElementById(signs[0]);
 					
 					//если типовой элемент найден
 					if (sample){
