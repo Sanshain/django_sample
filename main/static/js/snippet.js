@@ -3,6 +3,12 @@
 
 function fragment_refresh(e){
 
+	/*!это работает для одного поля, а вызываемый 
+		render_page работает для всех
+		
+		то есть на анимацию каждого элемента идет 
+		рендер всех!
+	*/
 	var content_waiting = function (_box, deep){
 	
 		console.log(
@@ -22,9 +28,9 @@ function fragment_refresh(e){
 			if (responsed_content){
 
 				render_page(
-					responsed_content.pop(), 
-					responsed_content.pop()
-				);	
+					responsed_content.pop(), //json
+					responsed_content.pop()	 //url
+				);
 				
 				setTimeout(function(){
 					_box.style.opacity =1;
@@ -138,8 +144,12 @@ function fragment_refresh(e){
 					if (sample){
 						_boxes =sample.parentElement.querySelectorAll('[id]');
 						
-						//применяем content_waiting к каждому элементу
 						
+						//применяем content_animate к каждому элементу
+						for(var __box in _boxes){
+							content_animate(__box);
+						}
+							
 					}
 					else{
 						//значит надо обновить корневой элемент:
@@ -150,13 +160,14 @@ function fragment_refresh(e){
 			else{
 				for(var key in signs){
 					_boxes.push(
-						details[1].getElementById(elems[key])
+						_box.querySelector('#'+signs[key])
 					);					
 				}								
 			}
 			
 			for (var j in _boxes){
-				content_waiting(_boxes[j], 3);
+				//content_waiting(_boxes[j], 3);
+				content_animate(_boxes[j]);
 			}
 
 		}
