@@ -238,7 +238,7 @@ function Ajax(url, func, csrftoken) {
 	
 	
 	/*!
-	
+		Создаёт из формы js-объект
 	*/
 	var _get_data_to = function(frm, data)
 	{
@@ -258,7 +258,8 @@ function Ajax(url, func, csrftoken) {
 	
 	
 	
-	/*! вернет объект js с полями формы либо FormData
+	/*! вернет объект js с полями формы либо
+		FormData с полями формы в свойстве texts и полями File
 		в зависимости от this.contentType
 	*/
 	var getdata = function(frm){
@@ -315,7 +316,11 @@ function Ajax(url, func, csrftoken) {
 
 	};
 
-	
+	/*!
+		\brief Отправляет js-объект, содержащий только текст, как JSON через ajax
+		
+		@param data - js-объект для конвертации в json для отправки
+	*/
 	this.submit_json = function(data){
 		
 		this.csrftoken = 
@@ -324,7 +329,31 @@ function Ajax(url, func, csrftoken) {
 		this.__post(data, this.func, this.url);
 	}
 	
+	/*!
+		\brief Отправляет форму, содержащую только текст, как форму 
+		
+		@param frm - формадля отправки
+	*/
+	this.submit_form = function(frm){
+		//проход по всем полям формы и конкатирование их с &
+		
+		//нет плюсов перед JSON за исключением обработки через django-формы на сервере
+		
+		
+		
+		data = 'csrfmiddlewaretoken=' + (this.csrftoken || getCookie('csrftoken')) + '&' + (this.data || data);	
+		
+		
+		
+	}
 	
+	
+	/*!
+	
+		\brief Отправляет js-объект, содержащий только текст, как форму
+	
+		@param data - js-объект для конвертации в json для отправки
+	*/
 	this.postData = function(data, func){
 		
 		//$("input[name=csrfmiddlewaretoken]").val()
@@ -333,14 +362,21 @@ function Ajax(url, func, csrftoken) {
 		this.__post(data, this.func || func, this.url);
 	};
 	
-	/*! Отправляет данные формы в виде JSON 
+
+	/*!
+	
+		\brief Отправляет форму, содержащую что угодно, в виде JSON
+	
+		@param frm - форма
+		
 	
 		Для обычного текста реобразуем данные формы в JSON-формат, добавляя CSRFToken как одно из значений
 		(в дальнейшем он будет задан в заголовок 
 		и удален из JSON-строки перед передачей)
 		
 		Для multipart - все содержимое будет отправлено как
-		FormData (ie10+)
+		FormData (ie10+)		
+		
 	*/
 	this.post_form = function(frm, func){		
 		

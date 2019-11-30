@@ -31,7 +31,7 @@ from main.views.fragments.Users import read_friends
 from .views.Notes import note_create, ArticleView
 from main.models import Raiting
 from .views.fragments.Dialog import bring_dialog
-from .views.Communities import Communie_List
+from .views.Communities import Communie_List, Communie
 
 urlpatterns = [
     url(r'^user/$', ProfileView.Mirror, name='Me'),                                             # я сам
@@ -55,6 +55,7 @@ urlpatterns = [
     #url(r'^raiting/$', CreateView.as_view(model=Raiting, template_name='main/create_raiting.html'))
     url(r'^raiting/$', ProfileView.CreateRate.as_view()),                                                   # debug
     url(r'^communities/$', Communie_List.as_view(), name='groups'),
+    url(r'^communitie/(?P<id>[0-9]+)/$', Communie.as_view(), name='group'),
     url(r'^note_create/$', note_create.as_view(), name='note_create'),                                      # debug?
     url(r'^article/(?P<pk>[0-9]+)/$', ArticleView.as_view(), name='article_view'),                              # debug?
 
@@ -62,7 +63,8 @@ urlpatterns = [
     # AJAX:
     url(r'^to_friend/$', ProfileView.ToFriend, name='to_friend'),
     url(r'^get_friends/$', read_friends, name='get_friends'),
-    url(r'^get_dialog/$', bring_dialog, name='get_dialog')
+    url(r'^get_dialog/$', bring_dialog, name='get_dialog'),
+
 ]
 
 if settings.DEBUG: urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)             #{'document_root': settings.MEDIA_ROOT,}

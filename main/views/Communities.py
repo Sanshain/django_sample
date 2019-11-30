@@ -7,6 +7,7 @@ import json
 
 # для процедурного стиля:
 
+
 from django.shortcuts import render						# для страниц, или ниже:
 from django.template.response import TemplateResponse 	# для страниц 		https://stackoverflow.com/questions/38838601/django-templateresponse-vs-render
 from django.http import HttpResponse, JsonResponse
@@ -46,12 +47,20 @@ from ..utils.utime import present_time
 
 from ..models.communitie import Community
 
+
 if settings.DEBUG:
     from datetime import timedelta, datetime
     import time
     import timeit
     import traceback
 
+
+
+from django import forms
+class communityValidator(forms.ModelForm):
+    class Meta:
+        model = Community
+        fields = ['title', 'definition', 'logo']
 
 
 
@@ -63,6 +72,25 @@ class Communie_List(ListView):
 
         qs = super(Communie_List, self).get_queryset()
 
+    def post(self, *args, **kwargs):
 
 
 
+        return HttpResponseRedirect(reverse('group'), {id:0})
+
+        return HttpResponse('new index of Comminie is ...')
+
+
+class Communie(DetailView):
+    model = Community
+    template_name = 'pages/communitie.html'
+
+
+
+    def post(self, *args, **kwargs):
+
+
+
+        return HttpResponseRedirect(reverse('group'), {id:0})
+
+        return HttpResponse('new index of Comminie is ...')

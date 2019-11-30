@@ -145,18 +145,29 @@
 		vom.add(inbox, 'div', 'pp_close').onclick = function(){
 			if (confirm("Вы уверены, что не хотите создать группу?")){
 				self.Destroy();
-			}
-			
+			}			
 		};
 		
 		vom.add(inbox, 'div', 'pp_create').onclick = function(){
-			
+			var community_creator = new Ajax({% url 'group' 0 %}, function(){
+				
+			});
+			//community_creator.post
 		};		
 		
-		vom.add(inbox, 'input', '').vs({
+		vom.add(inbox, 'input', '').vs({ 
 			placeholder : 'Наименование сообщества',
+			name=''title'
 		});
-		vom.add(inbox, 'textarea', '').placeholder = 'Краткое описание';
+		vom.add(inbox, 'textarea', '').vs({
+			placeholder = 'Краткое описание',
+			name = 'definition'
+		});
+		vom.add(inbox, 'input', '').vs({
+			type = 'file',
+			name = 'logo',
+			
+		});
 		
 		
 		
