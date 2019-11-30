@@ -136,26 +136,30 @@ class Dialogs(CSSMixin, ListView):
         Запрос диалогов подзапросом
         """
 
-        detail = self.request.POST.get('detail', None)
+        units = {}
 
-        tag_ren = {}
+        requered = json.loads(self.request.body)                                         # decode() - хоть с ним, хоть без -> `==`
 
-        if detail:
 
-            template_snippet = os.path.join('fragments','_dialogue_list.html')
-            tag_ren['content'] = render_to_string(template_snippet, context={
+        for tmpl in requered:                                                            # print requered
+            template_snippet = os.path.join('fragments','_{}.html'.format(tmpl))
+            units[tmpl] = render_to_string(template_snippet)
+
+        template_snippet = os.path.join('fragments','_{}'.format(self.template_name))    # dialogue_list.html
+
+        units['content'] = '<div id="main">%s</div>%s'%(render_to_string(
+            template_snippet,
+            context={
                 'object_list' : self.get_queryset(),
                 'MEDIA_URL' : settings.MEDIA_URL
-            })
+            }), '<div id="section"></div>')
 
-            styles = self.get_default_style()['links']
-            if len(styles): tag_ren['dynamic_link'] = styles[0]
+        styles = self.get_default_style()['links']
+        if len(styles): units['dynamic_link'] = styles[0]
 
-            return JsonResponse(tag_ren, safe=False)
+        return JsonResponse(units, safe=False)
 
-        else:
 
-            return JsonResponse(tag_ren)
 
 
 

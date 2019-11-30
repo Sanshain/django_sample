@@ -137,6 +137,10 @@ class UserView(CSSMixin, DetailView):
     """
 
     def post(self, *args, **kwargs):
+        #тут приходит только user_id/ теперь будет приходить еще и
+
+        print self.request.body
+
         user_id= self.request.body.split('&')[-1:][0]
         print user_id
 

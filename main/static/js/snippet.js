@@ -9,16 +9,14 @@ function fragment_refresh(e){
 		то есть на анимацию каждого элемента идет 
 		рендер всех!
 	*/
-	var content_waiting = function (_box, deep){
+	var content_waiting = function (_boxes, deep){
 	
-		console.log(
-			deep + ' - waiting for ' +_box.id
-		);
+		//console.log(deep + ' - waiting for ' +_box.id);
 		
 		if (!deep){
 			//animation отсутствия интернета
 			
-			alert('нет соединения с сервером');
+			alert('время ожидания сервера истекло');
 			
 			return false;
 		}							
@@ -33,27 +31,36 @@ function fragment_refresh(e){
 				);
 				
 				setTimeout(function(){
-					_box.style.opacity =1;
+					
+					for(var key in _boxes){
+						_boxes[key].style.opacity =1;
+					}
+					
 				}, 40);
 			}
 			else{
 				//анимация и рекурсия	
 				
-				content_waiting(_box, --deep);
+				content_waiting(_boxes, --deep);
 			}
 
 		},700);								
 	};
 
-	function content_animate(_box){
-		var attribute=abstract_viewer.property(_box);	
+	function content_animate(_boxes){
 		
-		//это можно вынести в позиционирующие классы:
-		//либо (правильнее) в id этих|управляющих элементов
-		_box.style.transition = '0.5s linear';
-		_box.style.opacity = 0;
+		for(var key in _boxes){
+			
+			var _box = _boxes[key];
+			var attribute=abstract_viewer.property(_box);	
+			
+			//это можно вынести в позиционирующие классы:
+			//либо (правильнее) в id этих|управляющих элементов
+			_box.style.transition = '0.5s linear';
+			_box.style.opacity = 0;			
+		}
 
-		content_waiting(_box, 3);		
+		content_waiting(_boxes, 3);		
 	}
 
 	//если это ссылка, берем из адреса
@@ -93,11 +100,10 @@ function fragment_refresh(e){
 	(регулярк) на соответствие, после нахождения
 	необходимо распарсить шаблон и найти, есть ли там этот элемент. Проще найти тут:
 	*/
-	
-	
-	//content			
+				
 	
 	//main(username|age|city),section
+	//main>age.*,section
 	var unique_templates = 
 		e.target.dataset['_refresh']
 			.replace(/[\s]+/,'')
@@ -120,11 +126,12 @@ function fragment_refresh(e){
 			new Error('не найден корневой элемент');
 		}
 			
+		var _boxes = [];
+		
 		//если они заданы
 		if (details[1]){
 			//получаем их:
-			var signs = details[1].split('.');
-			var _boxes = [];		// это они
+			var signs = details[1].split('.');			
 			
 			//если есть обобщитель среди них:
 			var sign = signs.indexOf('*');
@@ -144,18 +151,14 @@ function fragment_refresh(e){
 					if (sample){
 						_boxes =sample.parentElement.querySelectorAll('[id]');
 						
-						
-						//применяем content_animate к каждому элементу
-						for(var __box in _boxes){
-							content_animate(__box);
-						}
-							
 					}
 					else{
 						//значит надо обновить корневой элемент:
-						
+						alert('update root element');
+						_boxes = [_box];
 					}
-				}
+				}					
+				
 			}
 			else{
 				for(var key in signs){
@@ -165,15 +168,13 @@ function fragment_refresh(e){
 				}								
 			}
 			
-			for (var j in _boxes){
-				//content_waiting(_boxes[j], 3);
-				content_animate(_boxes[j]);
-			}
+			content_animate(_boxes);
+			
 
 		}
 		//если не заданы, то просто продолжаем выполнение:
 		
-		content_animate(_box);
+		content_animate([_box]);
 		
 	}					
 	
@@ -208,60 +209,73 @@ function fragment_refresh(e){
 	
 
 	
-	//теперь, получаем все требуемые элементы для запрашиваемой с сервера страницы
-	
-	//получаем массив id-шников с их состояниями
-	var required_blocks = 
-			e.target.dataset['_require'].split('.');
+	//теперь, получаем все требуемые элементы для запрашиваемой с сервера страницы, чтобы отправить на сервер данные о том, каких фрагментов на запрашиваемой странице не хватает (которые нужно обновить)
+	/*
+		user.articles|1
+		user 1
+		user 1.aside
+	*/
+	function get_required_blocks(tag){
+		
+		
+		
+		//получаем массив id-шников с их состояниями
+		var required_blocks = 
+				tag.dataset['_require'].split('.');
+							
+		//проверяем их: если элемент существует и состояние соответствует, то
+		
+		var requested_blocks = [];
+		
+		for(var key in required_blocks){
+			var detail = required_blocks[key].split('|');
+			
+			var b_id = detail.pop(); //id элемента
+			var r_state =detail.length ?detail.pop(): '';
+			var state = '';
+			
+			required_block = dom.obj(b_id);
+			if (required_block && r_state){
+				//получили блок. Теперь необходимо получить его состояние:
+				
+				//для (неуправляющего) простого тега (который содержит только текст) допускается атрибут data-state, который содержит состояние этого элемента (например data-state='1')
+				state = 	
+					required_block.getAttribute['data-state'];
+				
+				//если тег является управляющим (управляющие элементы не содержат своего состояния), то ловим состояние в его контенте, а именно - в элементе, управляющем позиционированием контента, - это первый элемент контента
+				if (!state){
+					var elem=
+						required_block.children[0];
 						
-	//проверяем их: если элемент существует и состояние соответствует, то
-	
-	var requested_blocks = [];
-	
-	for(var block in required_blocks){
-		var detail = block.split('|');
-		
-		var b_id = detail.pop(); //id элемента
-		var r_state =detail.length ?detail.pop(): '';
-		var state = '';
-		
-		required_block = dom.obj(b_id);
-		if (required_block && r_state){
-			//получили блок. Теперь необходимо получить его состояние:
-			
-			//для (неуправляющего) простого тега (который содержит только текст) допускается атрибут data-state, который содержит состояние этого элемента (например data-state='1')
-			state = 	
-				required_block.getAttribute['data-state'];
-			
-			//если тег является управляющим (управляющие элементы не содержат своего состояния), то ловим состояние в его контенте, а именно - в элементе, управляющем позиционированием контента, - это первый элемент контента
-			if (!state){
-				var elem=
-					required_block.children[0];
-					
-				//его состояние хранится в его id
-				//либо в data-state, либо и там и там
-				state = 
-					elem? 
-						elem.id+
-						elem.dataset['state'] || ""
-					:"";
+					//его состояние хранится в его id
+					//либо в data-state, либо и там и там
+					state = 
+						elem? 
+							elem.id+
+							elem.dataset['state'] || ""
+						:"";
 
+					
+				}
 				
 			}
 			
-		}
-		
-		//теперь у нас есть required_block и r_state:
-		//для выполнения условия required_block должен быть thruthy, а state==r_state
-		
-		if (required_block && r_state==state){
-			continue;
-		}
-		else 
-			requested_blocks.push(b_id);
-		
+			//теперь у нас есть required_block и r_state:
+			//для выполнения условия required_block должен быть thruthy, а state==r_state
+			
+			if (required_block && r_state==state){
+				continue;
+			}
+			else 
+				requested_blocks.push(b_id);
+						
+		}	
+
+		return requested_blocks;
 		
 	}
+	
+	var requested_blocks = get_required_blocks();
 	
 	
 	//юзер на сервере получает всего лишь id юзера
@@ -281,7 +295,24 @@ function fragment_refresh(e){
 		#header|username[\d]* - управляющий
 	*/
 	
+	var data = requested_blocks;
+	
 	var flag = requested_blocks.length;
+	
+	/*!dialogs - только требуемые для обновления поля:
+		- content_
+		- aside?
+		var data = requested_blocks;
+		['aside']
+		
+	!user - требуемые поля и id-юзера:
+		- main?
+		- aside?
+		- id юзера
+		- *_...----
+		['main','aside',\d+]
+	*/
+	
 	
 	ajax.postData('detail='+Number(flag));
 }

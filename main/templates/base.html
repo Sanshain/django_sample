@@ -102,7 +102,7 @@
 						
 						if (!_box){
 							alert('не найден корневой элемент');
-							new Error('не найден корневой элемент');
+							throw new Error('не нашел root элемент');
 						}
 							
 						//если они заданы
@@ -234,8 +234,8 @@
 					
 					var requested_blocks = [];
 					
-					for(var block in required_blocks){
-						var detail = block.split('|');
+					for(var key in required_blocks){
+						var detail = required_blocks[key].split('|');
 						
 						var b_id = detail.pop(); //id элемента
 						var r_state =detail.length ?detail.pop(): '';
@@ -299,7 +299,7 @@
 					
 					var flag = requested_blocks.length;
 					
-					ajax.postData('detail='+Number(flag));
+					ajax.submit_json(requested_blocks);
 				}				
 				
 				window.onload = function()

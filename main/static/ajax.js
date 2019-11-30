@@ -164,16 +164,20 @@ function Ajax(url, func, csrftoken) {
 			if (this.contentType == null){
 				
 				// на случай в виде json
+				var csrf = data['csrfmiddlewaretoken'] 
+					|| this.csrftoken ;
 				
-				xhr.setRequestHeader("X-CSRFToken",data['csrfmiddlewaretoken']);				
+				xhr.setRequestHeader("X-CSRFToken",csrf);
 				
-				data['csrfmiddlewaretoken']="";
+				if (data['csrfmiddlewaretoken']) 
+					data['csrfmiddlewaretoken']="";
 				
 				xhr.setRequestHeader(
 					'Content-Type', 
 					'application/json'
 				);
-						
+				
+				//без этого приходит [Object], который не декодируется из body, либо пустая строка:
 				data = JSON.stringify(data); // на случай json
 			}
 			else	//для формдата с содержанием, ничего не д
@@ -312,7 +316,13 @@ function Ajax(url, func, csrftoken) {
 	};
 
 	
-	
+	this.submit_json = function(data){
+		
+		this.csrftoken = 
+			this.csrftoken||getCookie('csrftoken');
+		
+		this.__post(data, this.func, this.url);
+	}
 	
 	
 	this.postData = function(data, func){
