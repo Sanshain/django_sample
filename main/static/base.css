@@ -5,7 +5,19 @@ body{
 	position:relative;
 	
 }
-	
+
+/*
+.block{
+	transition:0.5s easy-out;
+	opacity:1;
+}
+.hide{
+	transition:0.5s easy-out;
+	opacity:0;
+}
+*/
+
+
 .main{
 	
 }

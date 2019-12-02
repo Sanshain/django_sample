@@ -30,10 +30,10 @@
 		</div>			
 
 			
-		<p class='atr ava' id='ava'> 					
+		<p class='atr ava' {# id='_ava' #}> 					
 		
 			{% if profile.Image %} 
-				<img id='image' src='{{profile.Image.url}}'/>
+				<img id='image' alt='' src='{{profile.Image.url}}'/>
 			{% else %}
 				<div class='default_ava'></div>
 			{% endif %}

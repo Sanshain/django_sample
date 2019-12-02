@@ -146,6 +146,7 @@ function Viewer(data){
 	
 	/*! Render certain/definite fielt for view
 	
+		Ищет эелемент key на странице и заполняет его view
 	*/
 	this.render_field = function(key, view){
 		

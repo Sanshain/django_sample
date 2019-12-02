@@ -99,11 +99,46 @@ class UserView(CSSMixin, DetailView):
     context_object_name = 'profile'                                                 # по умолчанию object
     #login_url = '/signin/'                                                         # для LoginRequiredMixin
 
-    def set_css(self, context):
+    def _set_css(self, context):
 
         profile = self.object                                                         #get_object() - делает один лишний запрос
         if not profile.Image:
             context['links'].append(context['links'][0][:-4] + u'/default_avatar.css')
+
+
+    def _get_model_fields(self, args):
+
+        cuser, user_id = args
+
+        user_fields=('Age','City','Sex','Image')
+        user_dict = model_to_dict(cuser, user_fields)
+
+        user_dict['Image'] = cuser.Image.url
+        #user_dict['username'] = '{} {}'.format(cuser.first_name, cuser.last_name)
+        user_dict['Age'] = user_dict['Age'].strftime("%d.%m.%Y") if user_dict['Age'] else ''
+
+##            from os.path import dirname as up; print up(up(up(__file__)))
+##            print os.path.abspath(os.path.join(__file__ ,"../../.."))
+        #https://askdev.ru/q/python-poluchit-katalog-na-dva-urovnya-vyshe-73156/
+
+
+##            pathname = up(up(up(__file__))) + settings.STATIC_URL                   #  settings.BASE_DIR
+##            js_func = ''
+##            with open(pathname + 'js/_get_dialog.js') as file_handler:
+##                js_func = file_handler.read()
+
+
+        user_dict['action'] = {
+            'innerHTML':'Отправить сообщение',
+            'name' : reverse('get_dialog').strip('/'),
+            'formAction' : reverse('dialog', args=[user_id]),
+            'onclick' : 'do_action(this, event)'
+        }
+        user_dict.update({'note_create' : {'style':'display:none'} })
+
+        return user_dict
+
+
 
     def get_context_data(self, *args, **kwargs):                                    # расширение контекста
 
@@ -136,89 +171,164 @@ class UserView(CSSMixin, DetailView):
         return hr
     """
 
+
+
+
     def post(self, *args, **kwargs):
         #тут приходит только user_id/ теперь будет приходить еще и
 
-        print self.request.body
+        print self.request.content_type
+        #print dir(self.request)
+        q = json.loads(self.request.body)
+        print q
 
-        user_id= self.request.body.split('&')[-1:][0]
+        aim = q.pop()
+        if len(aim) > 10: return JsonResponse({'Exception':'Too large object'})
+
+        blocks = q.pop()
+        print q
+        user_id = q.pop()[0]
         print user_id
+
+##        user_id= self.request.body.split('&')[-1:][0]
+##        print user_id
+
+
+
 
         cuser = Profile.objects.get(id=user_id)                                      # .values('id','username')
         articles = Article.objects.filter(From=cuser)                               ## articles = cuser.inote.select_related('article').filter(article__isnull=False))
 
-        preferer = self.request.META.get('HTTP_REFERER','')
-        print preferer
+
+        def _render_fragment(args):
+
+            #template_name, context, surround = args
+
+            request = args[1].pop('request', None)                                     # извлекаем request из 2-го аргумента
+
+            templ = render_to_string(
+                'fragments/%s.html'%args[0],
+                context=args[1],
+                request=request
+            ).strip()
+
+            if len(args) == 3:
+                surround = args[2]                                                     # кортеж из класса и id элемента
+
+                if len(surround) == 2:
+                    return "<div class='{}' id='{}'>{}</div>".format(*(surround + (templ,)))
+                else:
+                    return "<div class='{}'>{}</div>".format(*(surround + (templ,)))
+            else:
+                return templ
+
+        #templates - dict as template_name:(context, surround)
+        def _render_root_fragment(templates):
+
+            blocks = []
+            for tmpl in templates:
+                blocks.append(_render_fragment(tmpl))
+
+            return '{}{}{}{}{}{}'.format(
+                "<div id='main'>",blocks[0],'</div>',
+                "<div id='section'>", blocks[1] ,"</div>")
+
+
+
+
+        # окружение для вариативных шаблонов:
+        user_env = ["_user_profile", {
+            'profile':cuser }, ('left_unit',)]                                   # ,'user_block'
+
+        article_env = ["articles_main", {
+            'articles':articles,
+            'request' :self.request }, (
+                'articles', 'articles_block')]
+
+        patterns = {
+            #при любом раскладе:
+            'header' : (lambda x: '{} {}'.format(x.first_name, x.last_name), cuser),
+
+
+            #вариативные шаблоны:
+            'content': (_render_root_fragment, [user_env, article_env]),
+
+            'section' : (_render_fragment, article_env),                           # was used in a template, but the context did not provide the value. This is usually caused by not using RequestContext
+            'main' : (_render_fragment, user_env),
+
+
+            # при самом мизерном изменении:
+            '*main' : (self._get_model_fields, [cuser, user_id]),
+        }
+        #patterns.prepare = lambda x: x[0](x[1])
+
 
         user_dict = {}
-        if 'user' in preferer:
+        for key in aim:
+            resp_raw = patterns.get(key, (lambda x: "", None))
+            respond = resp_raw[0](resp_raw[1])                                     # patterns.prepare(resp_raw)
+            if type(respond) is dict:
+                user_dict.update(respond)
+            else: user_dict[key] = respond
 
-
-
-            user_fields=('Age','City','Sex','Image')
-            user_dict = model_to_dict(cuser, user_fields)
-
-            user_dict['Image'] = cuser.Image.url
-            user_dict['username'] = '{} {}'.format(cuser.first_name, cuser.last_name)
-            user_dict['Age'] = user_dict['Age'].strftime("%d.%m.%Y") if user_dict['Age'] else ''
-
-##            from os.path import dirname as up; print up(up(up(__file__)))
-##            print os.path.abspath(os.path.join(__file__ ,"../../.."))
-            #https://askdev.ru/q/python-poluchit-katalog-na-dva-urovnya-vyshe-73156/
-
-
-##            pathname = up(up(up(__file__))) + settings.STATIC_URL                   #  settings.BASE_DIR
-##            js_func = ''
-##            with open(pathname + 'js/_get_dialog.js') as file_handler:
-##                js_func = file_handler.read()
-
-
-            user_dict['action'] = {
-                'innerHTML':'Отправить сообщение',
-                'name' : reverse('get_dialog').strip('/'),
-                'formAction' : reverse('dialog', args=[user_id]),
-                'onclick' : 'do_action(this, event)'
-            }
-            user_dict.update({'note_create' : {'style':'display:none'} })
-
-            articles_block = render_to_string(
-                "fragments/articles_main.html",
-                context={
-                    'articles':articles
-                }
-            )
-            user_dict['articles_block'] = articles_block
-
-        else:
-            user_block = render_to_string(
-                "fragments/_user_profile.html",
-                context={
-                    'profile':cuser
-                }
-            )
-            articles_block = render_to_string(
-                "fragments/articles_main.html",
-                context={
-                    'articles':articles
-                }
-            )
-            user_dict['content'] = '{}{}{}{}{}{}'.format(
-                "<div id='main'><div class='left_unit' id='user_block'>",
-                    user_block.strip(),
-                '</div></div>',
-                "<div id='section'><div class='articles' id='articles_block'>",
-                    articles_block,
-                "</div></div>")
-            user_dict['dynamic_link'] = settings.STATIC_URL + 'style/user.css'
+        user_dict['dynamic_link'] = settings.STATIC_URL + 'style/user.css'
 
         ret = json.dumps(user_dict)                                                 # работает, если убрать связь 1:8
-
-##        user_fields=('username','Age','City','Sex','Image')
-##        ret = serializers.serialize('json', [user,], fields=user_fields)
-##        print ret
-
-
         return JsonResponse(ret, safe=False)
+
+
+
+##
+##
+##
+##
+##
+##        preferer = self.request.META.get('HTTP_REFERER','')
+##        print preferer
+##
+##        user_dict = {}
+##        if 'user' in preferer:
+##
+##            user_dict = self._get_model_fields(cuser)
+##
+##            articles_block = render_to_string(
+##                "fragments/articles_main.html",
+##                context={
+##                    'articles':articles
+##                }
+##            )
+##            user_dict['articles_block'] = articles_block
+##
+##        else:
+##            user_block = render_to_string(
+##                "fragments/_user_profile.html",
+##                context={
+##                    'profile':cuser
+##                }
+##            )
+##            articles_block = render_to_string(
+##                "fragments/articles_main.html",
+##                context={
+##                    'articles':articles
+##                }
+##            )
+##            user_dict['content'] = '{}{}{}{}{}{}'.format(
+##                "<div id='main'><div class='left_unit' id='user_block'>",
+##                    user_block.strip(),
+##                '</div></div>',
+##                "<div id='section'><div class='articles' id='articles_block'>",
+##                    articles_block,
+##                "</div></div>")
+##            user_dict['dynamic_link'] = settings.STATIC_URL + 'style/user.css'
+##
+##        ret = json.dumps(user_dict)                                                 # работает, если убрать связь 1:8
+##
+####        user_fields=('username','Age','City','Sex','Image')
+####        ret = serializers.serialize('json', [user,], fields=user_fields)
+####        print ret
+##
+##
+##        return JsonResponse(ret, safe=False)
 
 @method_decorator(login_required, name='dispatch')
 class UserUpdate(UpdateView):

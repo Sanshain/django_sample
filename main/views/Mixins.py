@@ -39,10 +39,14 @@ class CSSMixin(object):
         подключены в заголовочный файл
 
         """
+        tn = self.template_name
+
 
         context = super(CSSMixin, self).get_context_data(*args, **kwargs)
 
-        baseurl = settings.STATIC_URL + self.css_path + '/' + self.template_name.replace('.html','')
+        template_name = tn if tn.find('/') < 0 else tn.split('/')[1]
+
+        baseurl = settings.STATIC_URL + self.css_path + '/' + template_name.replace('.html','')
 
         if settings.DEBUG:
             baseurl = baseurl.replace('.haml','')
@@ -66,10 +70,17 @@ class CSSMixin(object):
                 context['links'].append(os.path.join(baseurl, css))
 
         self.set_css(context)
+        self._set_css(context)
 
         return context
 
     def set_css(self, context):
+        """
+        override this for to define custom css-files
+        """
+        pass
+
+    def _set_css(self, context):
         """
         override this for to define custom css-files
         """

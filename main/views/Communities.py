@@ -40,13 +40,13 @@ from django.utils.decorators import method_decorator
 # main
 from main.models import Profile, Friends, State
 from main.models.messages import Dialogue, Message, Dialogue_Partakers
-from main.views.Mixins import CSSMixin
+from main.views.Mixins import CSSMixin as CssMixin
 from ..forms import create_note
 from ..models.notes import Article
 from ..utils.utime import present_time
 
 from ..models.communitie import Community
-
+from ..views.Mixins import CSSMixin
 
 if settings.DEBUG:
     from datetime import timedelta, datetime
@@ -64,12 +64,11 @@ class communityValidator(forms.ModelForm):
 
 
 
-class Communie_List(ListView):
+class Communie_List(CssMixin, ListView):
     model = Community
     template_name = 'pages/communities.html'
 
     def get_queryset(self):
-
         qs = super(Communie_List, self).get_queryset()
 
     def post(self, *args, **kwargs):

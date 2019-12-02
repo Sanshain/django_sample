@@ -1,14 +1,14 @@
 
 
-
+/*!это работает для одного поля, а вызываемый 
+	render_page работает для всех
+	
+	то есть на анимацию каждого элемента идет 
+	рендер всех!
+*/
 function fragment_refresh(e){
 
-	/*!это работает для одного поля, а вызываемый 
-		render_page работает для всех
-		
-		то есть на анимацию каждого элемента идет 
-		рендер всех!
-	*/
+
 	var content_waiting = function (_boxes, deep){
 	
 		//console.log(deep + ' - waiting for ' +_box.id);
@@ -47,6 +47,9 @@ function fragment_refresh(e){
 		},700);								
 	};
 
+	/*!
+		готовит боксы к анимфции
+	*/
 	function content_animate(_boxes){
 		
 		for(var key in _boxes){

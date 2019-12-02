@@ -138,14 +138,16 @@ class Dialogs(CSSMixin, ListView):
 
         units = {}
 
-        requered = json.loads(self.request.body)                                         # decode() - хоть с ним, хоть без -> `==`
+        query = json.loads(self.request.body)                                           # decode() - хоть с ним, хоть без -> `==`
+        print query
+        blocks = query[1]                                                               # required
 
 
-        for tmpl in requered:                                                            # print requered
-            template_snippet = os.path.join('fragments','_{}.html'.format(tmpl))
-            units[tmpl] = render_to_string(template_snippet)
+        for point in blocks:                                                            # print requered
+            template_snippet = os.path.join('fragments','_{}.html'.format(point))
+            units[point] = render_to_string(template_snippet)
 
-        template_snippet = os.path.join('fragments','_{}'.format(self.template_name))    # dialogue_list.html
+        template_snippet = os.path.join('fragments','_{}'.format(self.template_name))   # dialogue_list.html
 
         units['content'] = '<div id="main">%s</div>%s'%(render_to_string(
             template_snippet,
