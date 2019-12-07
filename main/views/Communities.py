@@ -69,7 +69,10 @@ class Communie_List(CssMixin, ListView):
     template_name = 'pages/communities.html'
 
     def get_queryset(self):
+
         qs = super(Communie_List, self).get_queryset()
+
+        return qs
 
     def post(self, *args, **kwargs):
 

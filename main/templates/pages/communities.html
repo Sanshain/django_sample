@@ -155,11 +155,11 @@
 			
 		{% for community in object_list %}
 			<li id='{{community.id}}'>
-				<a href='{% url "multidialog" dialog.id %}' class='object_link' onclick=''>
+				<a href='{% url "group" community.id %}' class='object_link' onclick=''>
 				
 					{{community.title}}
 					
-					<img src='{{community.logo.url}}' class='' />
+					<img src='{{community.logo}}' class='' />
 				
 				</a>
 				
