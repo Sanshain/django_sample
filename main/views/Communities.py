@@ -60,7 +60,7 @@ from django import forms
 class communityValidator(forms.ModelForm):
     class Meta:
         model = Community
-        fields = ['title', 'definition', 'logo']
+        fields = ['title', 'definition']                                        # , 'logo'
 
 
 
@@ -73,11 +73,19 @@ class Communie_List(CssMixin, ListView):
 
     def post(self, *args, **kwargs):
 
+##        community_form = communityValidator(self.request.POST)
+##        if community_form.is_valid():
+##
+##            community = community_form.save(commit=False)                                      # commit=False
+##            community.Author= self.request.user
+##            community.save()
+##
+##            return HttpResponse(community.id)
 
 
-        return HttpResponseRedirect(reverse('group'), {id:0})
+        #return HttpResponseRedirect(reverse('group'), {id:0})
 
-        return HttpResponse('new index of Comminie is ...')
+        return HttpResponse('not index of Comminie is ...')
 
 
 class Communie(DetailView):
@@ -88,8 +96,19 @@ class Communie(DetailView):
 
     def post(self, *args, **kwargs):
 
+        community_form = communityValidator(self.request.POST)
 
+        print self.request.POST
 
-        return HttpResponseRedirect(reverse('group'), {id:0})
+        if community_form.is_valid():
 
-        return HttpResponse('new index of Comminie is ...')
+            community = community_form.save(commit=False)                                      # commit=False
+            community.Author= self.request.user
+            community.save()
+
+            return HttpResponse(community.id)
+
+        else: print community_form.errors
+
+        return HttpResponse('new1 index of Comminie is ...')
+

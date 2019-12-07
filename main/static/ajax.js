@@ -316,34 +316,29 @@ function Ajax(url, func, csrftoken) {
 
 	};
 
-	/*!
-		\brief Отправляет js-объект, содержащий только текст, как JSON через ajax
-		
-		@param data - js-объект для конвертации в json для отправки
-	*/
-	this.submit_json = function(data){
-		
-		this.csrftoken = 
-			this.csrftoken||getCookie('csrftoken');
-		
-		this.__post(data, this.func, this.url);
-	}
+
 	
 	/*!
 		\brief Отправляет форму, содержащую только текст, как форму 
 		
-		@param frm - формадля отправки
+		@param frm - форма для отправки
 	*/
 	this.submit_form = function(frm){
 		//проход по всем полям формы и конкатирование их с &
 		
 		//нет плюсов перед JSON за исключением обработки через django-формы на сервере
 		
+		var data = 'csrfmiddlewaretoken=' + (this.csrftoken || getCookie('csrftoken'));
 		
+		for (var key=0;key<frm.children.length;key++){
+			
+			if (['input','textarea'].indexOf(frm.children[key].tagName.toLowerCase()) < 0) continue;
+				
+			data += '&' + frm.children[key].name  + '=' + encodeURIComponent(frm.children[key].value);
+			
+		}		
 		
-		data = 'csrfmiddlewaretoken=' + (this.csrftoken || getCookie('csrftoken')) + '&' + (this.data || data);	
-		
-		
+		this.__post(data, this.func, this.url);
 		
 	}
 	
@@ -363,6 +358,21 @@ function Ajax(url, func, csrftoken) {
 	};
 	
 
+	
+	
+	/*!
+		\brief Отправляет js-объект, содержащий только текст как JSON через ajax
+		
+		@param data - js-объект для конвертации в json для отправки
+	*/
+	this.submit_json = function(data){
+		
+		this.csrftoken = 
+			this.csrftoken||getCookie('csrftoken');
+		
+		this.__post(data, this.func, this.url);
+	}	
+	
 	/*!
 	
 		\brief Отправляет форму, содержащую что угодно, в виде JSON
