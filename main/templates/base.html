@@ -146,7 +146,8 @@
 							else{
 								//если нет обощителя, значит ищем каждый указанный элемент
 								for(var key in signs){
-									var line = details[1].querySelector(
+									var line = details[1].querySelector
+									(
 										'#'+elems[key]
 									);
 									_boxes.push(line);
@@ -159,40 +160,92 @@
 						}
 						
 						function _animate(elem, visible){
-							if (!visible){
+							if (!visible){ // скрываем
 								elem.style.transition='0.5s ease-out';
 								elem.style.opacity = 0;
-								elem.style.transform = 'scale(0.9,0.9)';
+								
+								elem.style.transform = 'scale(0.9,0.9)' //+ ' translateY(-150px)';								
+								
+								//var _content = elem.children[0];
+								var _content = search_fixed(elem);
+
+								if (!_content) return;
+								else _content.style.top = '0';
+								
+								
+								/*
+								if (window.getComputedStyle(_content).position == 'fixed')
+								{								
+									_content.style.top = '0';
+								}//*/
+								
+
+								
+								
 								
 							}
 							else{
 							
-								//тут написать спец ф-ю, которая ищет элементы с fixed до первого дерева с дочекрними элементами больше 1
+								var temp_top = null;
+							
+								//тут написать спец ф-ю, которая ищет элементы с fixed до первого дерева с дочерними элементами больше 1
 								
 								
 								if (elem.id == 'main' || elem.id == 'content'){
-									var _content = main.children[0];
+									var _content = elem.children[0];
 									
 									if (window.getComputedStyle(_content).position == 'fixed'){
 									
 										//временно убираем top либо подгоняем его (пока фиксированно ставлю 0 для моего конкретного случая)
 										
 										//- в этом случае он будет себя как обычно
-										var temp_top = window.getComputedStyle(_content).top;
-										_content.style.top = '0';
 										
-										setTimeout(function(){
-											//возврат в top после анимации, чтобы не скроллился
-											//content.style.transform = 'none'
-										},1000);
+										
+										temp_top = window.getComputedStyle(_content).top;
+										
+										_content.style.top = '0';//*/
+										
+										
+										
 										
 									}									
 								}//*/
+
 								
+								setTimeout(function(){
+									//возврат в top после анимации, чтобы не скроллился
+									elem.style.transition = 'none';
+									
+									elem.style.transform = 'none';
+									
+									
+									if (temp_top){
+									
+										elem.children[0].style.top = temp_top;
+									}//*/
+									
+									setTimeout(function(){
+										elem.style.transition = '0.5s';
+									}, 40);
+									
+									
+								},1000);								
 
 							
 								elem.style.opacity =1;
-																									elem.style.transform ='scale(1,1)';
+																										
+								var _content = elem.children[0];
+								
+								if (!_content) return;
+								
+								if (window.getComputedStyle(_content).position == 'fixed'){
+																										elem.style.transform=
+									'scale(1,1)';
+									
+									//+ ' translateY(-150px)';									
+								}
+								else elem.style.transform ='scale(1,1)';
+
 							}
 						}							
 						

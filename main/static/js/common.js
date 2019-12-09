@@ -28,7 +28,7 @@ HTMLElement.prototype.vs = function (dict) {
 	Получает максимальный элемент из массива объектов
 	используется в __upload_images в user.js
 */
-function get_maxim(enumble, field_in){
+function get_maxim(enumble, field_in){ //get_maximum
 	
 	//Array.from
 	if (field_in) enumble = [].slice.call(enumble).map(
@@ -41,6 +41,43 @@ function get_maxim(enumble, field_in){
 	return m > 0 ? m : 0;
 
 }
+
+/*!
+	Рекурсивно ищет первый попавшийся fixed элемент с заданной глубиной поиска
+	
+	Используется в base для решения #6 issue
+
+	Рассчитана на ie10+
+*/
+function search_fixed(container, deep){
+	
+	if (deep == 0) return null;
+	else 
+		deep = deep || 2;
+	
+	var childs=container.children; // ie9+,ниже- childNodes 
+	
+	var i=0; while(i<childs.length)
+	{
+		var elem = childs[i++];
+		if (window.getComputedStyle(elem).position == 'fixed'){						//ie9+, ниже полифилл
+			return elem;
+		}
+		else if (deep > 1){
+			
+			var r = search_fixed(elem, deep - 1);
+			
+			if (r != null) return r;			
+		}
+		
+	}
+	
+	//можно так же firstElementChild - тоже ie9+
+}
+
+
+
+
 
 
 
