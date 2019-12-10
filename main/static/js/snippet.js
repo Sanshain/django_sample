@@ -13,33 +13,52 @@ function fragment_refresh(event){
 
 	e - expected event object
 */
-RefreshManager.Initialize = function(e){	
+RefreshManager.Initialize = function(event){	
 
-	//если это ссылка, берем из адреса
-	//если это кнопка, берем из formAction-атрибута
+	var e = event;
+
+
+	/*! 
+		Находит ссылку для перехода для ie8-
 	
-	var target = 
-		e.target.href.substr(location.origin.length)
-		|| e.target.formAction;						
-	//если иное, берем из атрибута data-to
-	target =target||e.target.getAttribute('data-to');
+	*/
+	var data_to___get = function(elem, deep){
 
-	
-	if (!target) {
-		
-		throw new Error('RefreshManager cant be initialized');
-	};
-		
-	if (!window.atob){					//just for <ie10
+		var dtto = elem.getAttribute('data-to');
 
-		document.location.href = target;			
+		if (dtto) return dtto;
+		if (!dtto && --deep>0)
+			return data_to___get(
+				elem.parentElement, deep
+			);
+		else
+			return false;
 	}
+
+	var e_target = e.currentTarget || e.srcElement;//target
+	
+	//если это ссылка, берем из адреса
+	// если нет, то берем из formAction
+
+	var target = e_target.href ?
+		e_target.href.substr(location.origin.length) :
+		e_target.formAction;
+			
+	//если есть атрибут data-to, берем из атрибута
+	var target = target || e_target.getAttribute('data-to')// для ie8 (если e_target == esrcElement), ищем 'to'
+	var target = target ||data_to___get(e_target, 3);
+
+	
+	if (!target) throw new Error('cant be initialized');
+
+	//исключительно для <ie10 - прямой переход:
+	if (!window.atob) document.location.href = target;
 	else {
 		e.preventDefault();	
 		
 		var _rm = new RefreshManager(e);
 		
-			   _rm.target = target;
+				_rm.target = target;
 		return _rm;			//если нет, кастомизируем
 	};
 }
@@ -47,6 +66,8 @@ RefreshManager.Initialize = function(e){
 
 
 function RefreshManager(e, root_elem){
+	
+	
 	
 	
 	this.get_boxes = function(block_name){
@@ -111,13 +132,16 @@ function RefreshManager(e, root_elem){
 
 	function requested_blocks_by_require(){	
 	
+		var req_attr = e_target.dataset['_require'];
+		
+		var r_blocks = [];	
+		
 		var requared_blocks = 
-			e.target.dataset['_require'].split('.');
-			
-		var r_blocks = [];
+			req_attr ? req_attr.split('.') : [];
 		
 		
-		for(var key in requared_blocks){
+		for(var key in requared_blocks)
+		{
 			
 			var detail = requared_blocks[key].split('|');
 			
@@ -280,8 +304,6 @@ function RefreshManager(e, root_elem){
 	
 	this.package_animate = function(block_name){
 		
-		var responsed_content = null;
-		
 		var _boxes = this.get_boxes(block_name);
 		
 		if (_boxes.length){
@@ -335,9 +357,13 @@ function RefreshManager(e, root_elem){
 				/* блок инициализации: */
 
 	var self = this;
+	
+	var e_target = e.currentTarget;
+	
+	var responsed_content = null;	
 	var root_elem=root_elem || 'content';   	//obsolete
 	
-	var unique_templates = e.target.dataset['_refresh']
+	var unique_templates = e_target.dataset['_refresh']
 			.replace(/[\s]+/,'')
 			.split(',');	
 	

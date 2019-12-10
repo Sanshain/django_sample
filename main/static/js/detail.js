@@ -29,21 +29,18 @@ function async_get_friends(response){
 	while(index <len){
 		
 		//длина json до 30-го символа
-		var currentUserDesc = response.indexOf(unitSeparator, index);
+		var _cud = response.indexOf(unitSeparator, index);
 		
-		var UserDesc = response.slice(index, currentUserDesc);
+		var UserDesc = response.slice(index, _cud);
+		
 		var User = JSON.parse(UserDesc);
-		var imglen=response.slice(currentUserDesc+=1, currentUserDesc+=5);
-		
-		User.img=response.substr(currentUserDesc,imglen);
-		
-
-		var user_div = UserItem(User);
+		var imglen=response.slice(_cud+=1, _cud+=5);		
+		User.img=response.substr(_cud, imglen);		
 		
 		var asd = document.querySelector('.aside_menu');
-		asd.appendChild(user_div);
+		asd.appendChild(UserItem(User));
 		
-		index = currentUserDesc + Number(imglen);
+		index = _cud + Number(imglen);
 		
 	}
 				
@@ -52,7 +49,9 @@ function async_get_friends(response){
 }
 
 
-
+/*!
+	Создает один юзерблок на основе объекта User
+*/
 function UserItem(user){
 	
 	var ava_img = document.createElement('img');
@@ -63,10 +62,21 @@ function UserItem(user){
 	
 	var username = document.createElement('span');
 	username.innerText = user.username+'sgdgdgdfg';
-	username.style.paddingLeft = '9%';		
+	username.style.paddingLeft = '9%';	
+	
 	var user_div = document.createElement('div');
 	user_div.id = 'un' + user.id;
 	user_div.className = 'friend_pick';	
+	
+	user_div.setAttribute(
+		'data-_refresh', 		
+		'main>age.*,section,header');
+	user_div.setAttribute(
+		'data-to', 
+		'/users/'+user.id + '/');	
+		
+	user_div.onclick = fragment_refresh;
+	/*
 	user_div.onclick = function()
 	{
 		
@@ -76,7 +86,7 @@ function UserItem(user){
 			render_page);		
 		ajax_user.postData(user.id);	
 		
-	};		
+	};//*/		
 	
 	user_div.appendChild(ava_img);				
 	user_div.appendChild(username);				
