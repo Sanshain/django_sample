@@ -2,7 +2,8 @@
 
 this is an example of the use of a similar framework in the react front
 
-Light-React
+h2 Light-React
+----
 
 This framework does not have a virtual DOM. Developers of light react did not see meaning in virtual DOM. Instead they has used origian DOM of web-page.
 
@@ -15,7 +16,7 @@ The page consist of two types of element: **switches** and **containers**.
 
 Main and necessary attribute of **switch** is `data-_refresh`. This attribute contains elements `id`s in DOM needed to be refreshed. For example:
 
-```
+```html
 <a href='{% url %}' data-_refresh='content'>Refresh Content</a>
 ```
 
@@ -23,7 +24,7 @@ This means that on click on `<a>` element portion of the page by id='content' wi
 
 More difficult sample of switch: 
 
-```
+```html
 <a data-_refresh='main>age.city,section,header'>Some Refresh</a>
 ```
 
@@ -55,8 +56,12 @@ Except this two attributes **switches** may contain thirth - `data-_require`. Th
 
 
 ## Possible errors: 
+------
 - > base.js:181 Uncaught TypeError: Cannot read property 'style' of null
   >   at Viewer.render_field (base.js:181)
   >   at Viewer.render (base.js:122)
   >   at render_page (base.js:11)
   >   at snippet.js:283
+This error occurs by absence of server returned element on the page. 
+
+*Soluution*: 
