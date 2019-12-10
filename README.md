@@ -35,7 +35,7 @@ This means that on click on `<a>` element elements by id equal to 'section','hea
 
 It means all elements inside element with id='main'on the same level with id='age' will be reloaded.
 
-Server address for request defines:
+Server address for request is defined:
 - for `<a>` in attribute `href`
 - for `HTMLButton` inside attribute `formAction`
 - for other elements inside custom attribute `data-to`
@@ -48,4 +48,4 @@ Example:
 
 The `data-to` is equivalent `onclick` event calling inside job. 
 
-
+Except this two attributes **switches** may contain thirth - `data-_require`. This attribute similar `data-_refresh`, but consists of elements that's necessary for requested page, but has not necessity for be updated. its will requested optoonally.
