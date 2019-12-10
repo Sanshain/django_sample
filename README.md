@@ -11,6 +11,8 @@ All this product purpose is light making SPA site - site without refresh all pag
 
 The page consist of two types of element: **switches** and **containers**. 
 
+###switches
+
 Main and necessary attribute of **switch** is `data-_refresh`. This attribute contains elements `id`s in DOM needed to be refreshed. For example:
 
 ```
