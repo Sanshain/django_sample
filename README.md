@@ -35,5 +35,17 @@ This means that on click on `<a>` element elements by id equal to 'section','hea
 
 It means all elements inside element with id='main'on the same level with id='age' will be reloaded.
 
+Server address for request defines:
+- for `<a>` in attribute `href`
+- for `HTMLButton` inside attribute `formAction`
+- for other elements inside custom attribute `data-to`
+
+Example: 
+
+```
+<div data-to='/users/' data-_refresh='content,header'>Click me</div>
+```
+
+The `data-to` is equivalent `onclick` event calling inside job. 
 
 
