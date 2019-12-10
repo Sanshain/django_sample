@@ -10,11 +10,10 @@ function async_get_friends(response){
 
 		new Viewer(history.state).render_back();		
 
-		/*
-		if (history.state)
+		
+		/*if (history.state)
 			alert(JSON.stringify(Object.keys(history.state)));
-		else 
-			alert(0);//*/
+		else alert(0);//*/
 		
 		
 		console.timeEnd('check_for_popstate');
@@ -38,40 +37,8 @@ function async_get_friends(response){
 		
 		User.img=response.substr(currentUserDesc,imglen);
 		
-		
-		
-		
-		
-		var ava_img = document.createElement('img');
-		ava_img.style.float = 'left';		
-		ava_img.style.borderRadius = '20px';
-		ava_img.style.margin = "10px 0 0 10px";	
-		ava_img.src='data:image/jpeg;base64,'+ User.img; 
-		
-		var username = document.createElement('span');
-		username.innerText = User.username+'sgdgdgdfg';
-		username.style.paddingLeft = '9%';
-		
-		var user_div = document.createElement('div');
-		user_div.id = 'un' + User.id;
-		user_div.className = 'friend_pick';	
-		user_div.onclick = function()
-		{
-			
-			var page = '/users/'+User.id + '/';
-			var ajax_user = new Ajax(
-				page,
-				render_page);		
-			ajax_user.postData(User.id);	
-			
-		};		
-		
-		user_div.appendChild(ava_img);				
-		user_div.appendChild(username);				
-		
-		
-		
-		
+
+		var user_div = UserItem(User);
 		
 		var asd = document.querySelector('.aside_menu');
 		asd.appendChild(user_div);
