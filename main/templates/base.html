@@ -16,6 +16,9 @@
 	
 	<script src="{% static 'js/common.js' %}"></script>
 	
+	
+	<script src="{% static 'js/snippet_orig.js' %}"></script>
+	
 	<script src="{% static 'js/snippet.js' %}"></script>
 {% endblock %}	
 		
@@ -42,15 +45,7 @@
 				*/
 				
 				
-				function fragment_refresh(event){
-
-					var rm = null;
-					if (rm = RefreshManager.Initialize(event)){
-						
-						rm.Commit();
-					}
-
-				}				
+			
 				
 				window.onload = function()
 				{
