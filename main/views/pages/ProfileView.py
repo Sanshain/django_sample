@@ -178,7 +178,7 @@ class UserView(CSSMixin, DetailView):
         #тут приходит только user_id/ теперь будет приходить еще и
 
         print self.request.content_type
-        #print dir(self.request)
+        print (self.request.body)
         q = json.loads(self.request.body)
         print q
 

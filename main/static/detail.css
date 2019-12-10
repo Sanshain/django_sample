@@ -24,6 +24,11 @@
 
 .friend_pick{	
 	transition:0.2s;
+	cursor:pointer;
+	margin-bottom: 10px;
+	white-space: nowrap;
+	line-height: 60px;
+	
 }
 .friend_pick:hover{
 	background-color:beige;

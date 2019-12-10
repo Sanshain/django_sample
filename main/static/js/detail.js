@@ -35,8 +35,12 @@ function async_get_friends(response){
 		var UserDesc = response.slice(index, currentUserDesc);
 		var User = JSON.parse(UserDesc);
 		var imglen=response.slice(currentUserDesc+=1, currentUserDesc+=5);
-		index = currentUserDesc + Number(imglen);
+		
 		User.img=response.substr(currentUserDesc,imglen);
+		
+		
+		
+		
 		
 		var ava_img = document.createElement('img');
 		ava_img.style.float = 'left';		
@@ -50,13 +54,8 @@ function async_get_friends(response){
 		
 		var user_div = document.createElement('div');
 		user_div.id = 'un' + User.id;
-		user_div.style.cursor = 'Pointer';
-		user_div.style.marginBottom = '10px';
-		user_div.style.lineHeight = '40px';
-		user_div.style.whiteSpace = 'nowrap';
-		user_div.style.lineHeight = '60px';
 		user_div.className = 'friend_pick';	
-		user_div.onclick = function()/**/
+		user_div.onclick = function()
 		{
 			
 			var page = '/users/'+User.id + '/';
@@ -70,8 +69,14 @@ function async_get_friends(response){
 		user_div.appendChild(ava_img);				
 		user_div.appendChild(username);				
 		
+		
+		
+		
+		
 		var asd = document.querySelector('.aside_menu');
 		asd.appendChild(user_div);
+		
+		index = currentUserDesc + Number(imglen);
 		
 	}
 				
@@ -91,15 +96,9 @@ function UserItem(user){
 	
 	var username = document.createElement('span');
 	username.innerText = user.username+'sgdgdgdfg';
-	username.style.paddingLeft = '9%';	
-	
+	username.style.paddingLeft = '9%';		
 	var user_div = document.createElement('div');
 	user_div.id = 'un' + user.id;
-	user_div.style.cursor = 'Pointer';
-	user_div.style.marginBottom = '10px';
-	user_div.style.lineHeight = '40px';
-	user_div.style.whiteSpace = 'nowrap';
-	user_div.style.lineHeight = '60px';
 	user_div.className = 'friend_pick';	
 	user_div.onclick = function()
 	{
@@ -115,7 +114,7 @@ function UserItem(user){
 	user_div.appendChild(ava_img);				
 	user_div.appendChild(username);				
 	
-	this.element = user_div;
+	return user_div;
 	
 }
 
