@@ -49,3 +49,14 @@ Example:
 The `data-to` is equivalent `onclick` event calling inside job. 
 
 Except this two attributes **switches** may contain thirth - `data-_require`. This attribute similar `data-_refresh`, but consists of elements that's necessary for requested page, but has not necessity for be updated. its will requested optoonally.
+
+
+
+
+
+## Possible errors: 
+- > base.js:181 Uncaught TypeError: Cannot read property 'style' of null
+  >   at Viewer.render_field (base.js:181)
+  >   at Viewer.render (base.js:122)
+  >   at render_page (base.js:11)
+  >   at snippet.js:283
