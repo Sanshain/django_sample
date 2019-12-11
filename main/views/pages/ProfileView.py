@@ -179,7 +179,9 @@ class UserView(CSSMixin, DetailView):
 
         print self.request.content_type
         print (self.request.body)
+
         q = json.loads(self.request.body)
+
         print q
 
         aim = q.pop()
@@ -265,6 +267,7 @@ class UserView(CSSMixin, DetailView):
 
         user_dict = {}
         for key in aim:
+
             resp_raw = patterns.get(key, (lambda x: "", None))
             respond = resp_raw[0](resp_raw[1])                                     # patterns.prepare(resp_raw)
             if type(respond) is dict:
