@@ -1,0 +1,55 @@
+{% extends "detail.html" %}
+
+
+
+
+{% block style %}
+	{% load staticfiles %}
+	{{ block.super }}
+	
+
+	
+{% endblock %}
+
+{% block script %}
+	{{ block.super }}
+	
+
+
+{% endblock %}
+
+
+{% block main %}
+	<ul class='blocklist'>
+		{% if object_list|length == 0 %}
+			<div style='width:100%;line-height:70vh;text-align:center;'>У вас еще нет групп</div>
+		{% endif %}
+			
+		{% for community in object_list %}
+			<li id='{{community.id}}'>
+				<a href='{% url "group" community.id %}' class='object_link' onclick=''>
+				
+					{{community.title}}
+					
+					<img src='{{community.logo}}' class='' />
+				
+				</a>
+				
+			</li>
+		{% endfor  %}
+		
+		{% csrf_token %}
+		
+		<div class='add_button' onclick='insert_group(event);'>
+			+
+		</div>
+		
+		<div style="z-index: 10; position: fixed; top: 40vh; left: 40vw; background-color: red;"></div>
+				
+	<ul>		
+	
+	
+
+{% endblock %}
+
+

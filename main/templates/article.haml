@@ -1,18 +1,32 @@
 -extends "detail.html"
 	
-	-block user
+	-block script
+		={ block.super }
+		
+			function a(){
+				
+			}
+	
+	
+	-block section
 		#user_block			
 		
-			%figure
+			%section
 			
 				-with object.From as profile
 				
 					-include "fragments/_user_profile.html"
 				
-	-block articles
+	-block main
 		
 		%main %article
-				.article_title 
-					h3 ={object.Title}
-				.article_content ={object.Content}
+		
+				.article_block 
+				
+					.title 
+						button#close rkjk
+						h3 ={object.Title}
+						
+					.content ={object.Content}
 
+					

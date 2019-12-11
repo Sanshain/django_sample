@@ -55,7 +55,7 @@ urlpatterns = [
     #url(r'^raiting/$', CreateView.as_view(model=Raiting, template_name='main/create_raiting.html'))
     url(r'^raiting/$', ProfileView.CreateRate.as_view()),                                                   # debug
     url(r'^communities/$', Communie_List.as_view(), name='groups'),
-    url(r'^communitie/(?P<id>[0-9]+)/$', Communie.as_view(), name='group'),
+    url(r'^communitie/(?P<pk>[0-9]+)/$', Communie.as_view(), name='group'),
     url(r'^note_create/$', note_create.as_view(), name='note_create'),                                      # debug?
     url(r'^article/(?P<pk>[0-9]+)/$', ArticleView.as_view(), name='article_view'),                              # debug?
 
