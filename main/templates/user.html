@@ -72,9 +72,10 @@
 {% block main %}	
 	
 	<div class='left_unit' {# id='user_block' #}> 
-		{# для позиционирования #}
+	{# для позиционирования #}
 
 		<main>
+		{# для семантики #}
 			{% include "fragments/_user_profile.html" %}
 		</main>
 	</div>
@@ -97,5 +98,6 @@
 
 {% block aside_inside %}
 	
-	{% include "fragments/newnote_modalform.html" %}
+		{% include "fragments/newnote_modalform.html" %}
+	
 {% endblock %}

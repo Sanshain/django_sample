@@ -28,13 +28,21 @@
 	padding:1em;	
 }
 
-.article_title h3{
+
+.article_block{
+	/*????? ? (in common with) .articles in user.css*/
+	position:absolute;
+	left:24em;
+	right:16em;	
+}
+
+.title h3{
 	background-color:lightgray;
 	text-align:center;
 	margin:0;
 	padding:1em;
 }
 
-.article_content{
+.content{
 	padding:1em;
 }

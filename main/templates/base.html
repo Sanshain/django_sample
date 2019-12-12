@@ -104,8 +104,9 @@
 								name='{{user.id}}' 
 								href="{% url 'user' user.id %}" class='section_nav'
 								data-_refresh=
-									'main>age.*,section,header'
-								data-_require='aside'>
+							'main>age.*,section,header,aside>inside'
+								data-_require=
+							'aside'>
 							
 									К себе
 									
@@ -152,6 +153,7 @@
 		
 			
 			<div id='main'> {# может быть слева, может быть центр #}
+			{# для навигации #}
 			
 				{% block main %}
 					главное уникальное содержимое

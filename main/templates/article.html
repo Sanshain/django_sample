@@ -1,9 +1,18 @@
 {% extends "detail.html" %}
 
-	{% block user %}
+	{% block script %}
+		{{ block.super }}
+
+			function a(){
+
+			}
+
+
+	{% endblock %}
+	{% block section %}
 		<div id='user_block'>
 
-			<figure>
+			<section>
 
 				{% with object.From as profile %}
 
@@ -11,18 +20,24 @@
 
 				{% endwith %}
 
-			</figure>
+			</section>
 		</div>
 	{% endblock %}
-	{% block articles %}
+	{% block main %}
 
 		<main>
 			<article>
-				<div class='article_title'>
-					<h3>{{ object.Title }}</h3>
-				</div>
-				<div class='article_content'>{{ object.Content }}</div>
 
+				<div class='article_block'>
+
+					<div class='title'>
+						button#close rkjk
+						<h3>{{ object.Title }}</h3>
+
+					</div>
+					<div class='content'>{{ object.Content }}</div>
+
+				</div>
 			</article>
 		</main>
 	{% endblock %}

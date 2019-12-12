@@ -69,8 +69,8 @@ function UserItem(user){
 	user_div.className = 'friend_pick';	
 	
 	user_div.setAttribute(
-		'data-_refresh', 		
-		'main>age.*,section,header');
+		'data-_refresh', 
+		'main>age.*,section,header,aside>inside');
 	user_div.setAttribute(
 		'data-to', 
 		'/users/'+user.id + '/');	

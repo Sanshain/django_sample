@@ -134,7 +134,7 @@ class UserView(CSSMixin, DetailView):
             'formAction' : reverse('dialog', args=[user_id]),
             'onclick' : 'do_action(this, event)'
         }
-        user_dict.update({'note_create' : {'style':'display:none'} })
+        #user_dict.update({'note_create' : {'style':'display:none'} })
 
         return user_dict
 
@@ -258,8 +258,13 @@ class UserView(CSSMixin, DetailView):
             'section' : (_render_fragment, article_env),                           # was used in a template, but the context did not provide the value. This is usually caused by not using RequestContext
             'main' : (_render_fragment, user_env),
 
+            # минорные вариат шаблоны:
+            'inside' : (_render_fragment, ['newnote_modalform', {
+                'profile':cuser,
+                'user' : self.request.user
+            }]),
 
-            # при самом мизерном изменении:
+            # при самом мизерном (точечном) изменении:
             '*main' : (self._get_model_fields, [cuser, user_id]),
         }
         #patterns.prepare = lambda x: x[0](x[1])

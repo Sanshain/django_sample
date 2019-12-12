@@ -70,23 +70,11 @@ class Communie_List(CssMixin, ListView):
 
     def get_queryset(self):
 
-        qs = super(Communie_List, self).get_queryset()
+        qs = super(Communie_List, self).get_queryset().order_by('-id')
 
         return qs
 
     def post(self, *args, **kwargs):
-
-##        community_form = communityValidator(self.request.POST)
-##        if community_form.is_valid():
-##
-##            community = community_form.save(commit=False)                                      # commit=False
-##            community.Author= self.request.user
-##            community.save()
-##
-##            return HttpResponse(community.id)
-
-
-        #return HttpResponseRedirect(reverse('group'), {id:0})
 
         return HttpResponse('not index of Comminie is ...')
 

@@ -117,11 +117,11 @@ function RefreshManager(e, root_elem){
 				//если нет обощителя, значит ищем каждый указанный элемент
 				for(var key in signs)
 				{
-					var line = details[1].querySelector(
-						'#'+elems[key]
+					var line = _box.querySelector(
+						'#'+signs[key]
 					);
 					_boxes.push(line);
-					self.aim_blocks.push(elems[key]);
+					self.aim_blocks.push(signs[key]);
 				}								
 			}		
 		}
@@ -131,6 +131,8 @@ function RefreshManager(e, root_elem){
 	
 
 	function requested_blocks_by_require(){	
+	
+		// for example `aside|state>note_create.section`
 	
 		var req_attr = e_target.dataset['_require'];
 		
@@ -142,8 +144,15 @@ function RefreshManager(e, root_elem){
 		
 		for(var key in requared_blocks)
 		{
+			// example: `aside|state>note_create`
 			
-			var detail = requared_blocks[key].split('|');
+			var tree = requared_blocks[key].split('>');
+			
+			
+			var detail = tree.shift().split('|'); 			
+			var subb_id = tree.length ? tree.pop() : null;
+
+
 			
 			var b_id = detail.pop(); //id элемента
 			var r_state =detail.length ?detail.pop(): '';
@@ -178,11 +187,25 @@ function RefreshManager(e, root_elem){
 			//теперь у нас есть required_block и r_state:
 			//для выполнения условия required_block должен быть thruthy, а state==r_state
 			
-			if (required_block && r_state==state){
-				continue;
+			//.children.length?
+			if (required_block && 
+				r_state==state)
+			{ //здесь надо проверить под_элемент:
+			
+				if (!subb_id) continue;
+//!	 
+				if (!dom.obj(subb_id).children.length){				
+					r_blocks.push(sub_block);
+				}
+				
 			}
-			else 
+			else if (r_state!=state){ 
+			//тогда id с состоянием
+				r_blocks.push(b_id + '|' + r_state);
+			}else{
 				r_blocks.push(b_id);
+			}
+				
 		
 		
 		}
@@ -380,6 +403,9 @@ function RefreshManager(e, root_elem){
 	}
 		
 	var nec_blocks = requested_blocks_by_require();
+
+	//внутри этих блоков проверяем:
+	
 
 	//var blocks = aim_blocks.concat(nec_blocks);
 	

@@ -37,11 +37,14 @@
 {% block aside %}
 
 	<div class='aside'>
-	{# боковая колонка: декорируется через class='aside' #}
+	{# позиционирует (через class='aside') #}
 
 		<aside>
+		{# семантический тег #}
 			
 			<div class='aside_menu'>
+			{# декорирует #}
+			
 				<a href="{% url 'users'%}">
 					<div class='aside_btn'>Все</div>
 				</a> 
@@ -49,7 +52,11 @@
 				<!--остальные юзеры добавляются динамическим ajax-->
 			</div>
 			
-			{% block aside_inside %}{% endblock %}
+			<div id='inside' data-state="">
+			{# управляющий тег #}
+			
+				{% block aside_inside %}{% endblock %}
+			</div>
 			
 		</aside>
 	</div>				
