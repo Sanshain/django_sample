@@ -192,9 +192,17 @@ function RefreshManager(e, root_elem){
 				r_state==state)
 			{ //здесь надо проверить под_элемент:
 			
-				if (!subb_id) continue;
+				if (!subb_id) {
+				//если нет требуемых подэлементов,то чистим:
+					
+					var contnr = required_block.querySelector(
+						'[data-state]'
+					);					
+					contnr.innerHTML = '';   //continue;
+				}
+				else if (!dom.obj(subb_id).children.length)
 //!	 
-				if (!dom.obj(subb_id).children.length){				
+				{				
 					r_blocks.push(sub_block);
 				}
 				
@@ -404,7 +412,15 @@ function RefreshManager(e, root_elem){
 		
 	var nec_blocks = requested_blocks_by_require();
 
-	//внутри этих блоков проверяем:
+	//внутри этих блоков проверяем и удаляем лишние элементы:
+	for(var key in nec_blocks){
+		
+		var contnr = nec_blocks[key].querySelector(
+			'[data-state]'
+		);
+		contnr.innerHTML = '';
+		
+	}
 	
 
 	//var blocks = aim_blocks.concat(nec_blocks);
