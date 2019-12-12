@@ -127,13 +127,20 @@ class UserView(CSSMixin, DetailView):
 ##            with open(pathname + 'js/_get_dialog.js') as file_handler:
 ##                js_func = file_handler.read()
 
-
-        user_dict['action'] = {
-            'innerHTML':'Отправить сообщение',
-            'name' : reverse('get_dialog').strip('/'),
-            'formAction' : reverse('dialog', args=[user_id]),
-            'onclick' : 'do_action(this, event)'
-        }
+        if cuser == self.request.user:
+            user_dict['action'] = {
+                'innerHTML':'Измениться',
+                'name' : '',
+                'formAction' : reverse('edit_self', args=[user_id]),
+                'onclick' : 'do_action(this, event)'
+            }
+        else:
+            user_dict['action'] = {
+                'innerHTML':'Отправить сообщение' if cuser.id != user_id else 'Измениться',
+                'name' : reverse('get_dialog').strip('/'),                                  # то, куда будет отправлен пост-запрос
+                'formAction' : reverse('dialog', args=[user_id]),                           # адрес, по которому доступен результат
+                'onclick' : 'do_action(this, event)'
+            }
         #user_dict.update({'note_create' : {'style':'display:none'} })
 
         return user_dict
@@ -240,6 +247,8 @@ class UserView(CSSMixin, DetailView):
 
         # окружение для вариативных шаблонов:
         user_env = ["_user_profile", {
+            'self' :  cuser == self.request.user,
+            'user' : self.request.user,
             'profile':cuser }, ('left_unit',)]                                   # ,'user_block'
 
         article_env = ["articles_main", {
