@@ -46,7 +46,7 @@ from ..models.notes import Article
 from ..utils.utime import present_time
 
 from ..models.communitie import Community
-from ..views.Mixins import CSSMixin
+from ..views.Mixins import CSSMixin as CssMixin
 
 if settings.DEBUG:
     from datetime import timedelta, datetime
@@ -79,9 +79,9 @@ class Communie_List(CssMixin, ListView):
         return HttpResponse('not index of Comminie is ...')
 
 
-class Communie(DetailView):
+class Communie(CssMixin, DetailView):
     model = Community
-    template_name = 'pages/communitie.html'
+    template_name = 'pages/communitie.haml'
 
 
 

@@ -1,0 +1,14 @@
+#community_block{
+	padding: 0 1em 0 1em;
+	margin: 0 16em 0 1em;
+}
+
+.communitie_title{
+	background-color: lightgray;
+	text-align:center;
+}
+
+.communitie_title h3{
+	margin-top: 0;
+	padding:1em;
+}
