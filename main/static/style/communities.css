@@ -3,6 +3,7 @@
 	margin: 0 16em 0 1em;
 	min-height:70vh;
 	padding:1em;
+	list-style-type: none;
 	box-sizing: border-box;
 	position: relative;
 }	
@@ -89,3 +90,4 @@
 	z-index:5;
 	opacity:0.7;
 }
+
