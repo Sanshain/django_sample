@@ -5,6 +5,7 @@ import os
 from django.conf import settings
 from django.core.urlresolvers import resolve
 
+from django.template.loader import render_to_string
 
 class CSSMixin(object):
     css_path = 'style'
@@ -85,3 +86,71 @@ class CSSMixin(object):
         override this for to define custom css-files
         """
         pass
+
+
+
+
+
+
+
+
+
+
+def render_fragment(args):
+
+    #template_name, context, surround = args
+
+    request = args[1].pop('request', None)                                     # извлекаем request из 2-го аргумента
+
+    templ = render_to_string(
+        'fragments/%s.html'%args[0],
+        context=args[1],
+        request=request
+    ).strip()                                                                   # .replace('\t','') - для оптимизации
+
+    if len(args) == 3:
+        surround = args[2]                                                     # кортеж из класса и id элемента
+
+        if len(surround) == 2:
+            return u"<div class='{}' id='{}'>{}</div>".format(*(surround + (templ,)))
+        elif len(surround) == 1:
+            return u"<div class='{}'>{}</div>".format(*(surround + (templ,)))
+
+    else:
+        return templ
+
+def render_root_fragment(templates):
+
+    blocks = []
+    for tmpl in templates:
+        blocks.append(render_fragment(tmpl) if type(tmpl) is list else tmpl)
+
+
+    return u'{}{}{}{}{}{}'.format(
+        "<div id='main'>",blocks[0],'</div>',
+        "<div id='section'>", blocks[1] ,"</div>")
+
+
+
+class ReactMixin(object):
+
+    _render_fragment = lambda self, args: render_fragment(args)
+    _render_root_fragment = lambda self, args: render_root_fragment(args)
+
+    def _get_model_fields(self, args):
+        """
+        virtual
+        """
+        raise Exception('Must be overriden')
+
+
+
+class LightReact(object):
+
+    @staticmethod
+    def RenderFragment(args):
+        return render_fragment(args)
+
+    @staticmethod
+    def render_root_fragment(tmplts):
+        return render_root_fragment(tmplts)

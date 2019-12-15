@@ -42,6 +42,8 @@ if settings.DEBUG:
 from django.template.loader import render_to_string
 from django.db.models import Min, Max
 
+from ..Mixins import LightReact
+
 
 @login_required
 def bring_dialog(request):
@@ -66,17 +68,26 @@ def bring_dialog(request):
         messages = messages.annotate(sender_id=choose_sender('Sender__id'))
         messages = messages.order_by('-id')[:90]
 
-        messages_block = render_to_string("fragments/messages_list.html",context={
+        messages_block = ["messages_list", {
+            'buddy_id' : user_id,
             'user' : request.user,
-            'messages':messages,
-            'buddy_id':user_id,
-            'talker_image':settings.MEDIA_URL + dialog.talker_image
-        })
+            'messages' : messages,
 
-        start = timeit.default_timer()
-        messages_block = messages_block.replace('\t','')                            #сжимает с 35 до 14кб
+            'talker_image' : settings.MEDIA_URL + dialog.talker_image
+        }]
+
+##        messages_block = render_to_string("fragments/messages_list.html",context={
+##            'user' : request.user,
+##            'messages':messages,
+##            'buddy_id':user_id,
+##            'talker_image':settings.MEDIA_URL + dialog.talker_image
+##        })
+##
+##        start = timeit.default_timer()
+##        messages_block = messages_block.replace('\t','')                            #сжимает с 35 до 14кб
+
         #time.sleep(5)
-        print timeit.default_timer() - start
+##        print timeit.default_timer() - start
 
 ##        file = 'log.txt'
 ##        import io
@@ -87,7 +98,7 @@ def bring_dialog(request):
 ##        os.system(file)
 
         context = {
-            'content':messages_block,
+            'content': LightReact.render_root_fragment((messages_block, "")),
             'dynamic_link': settings.STATIC_URL + 'message_list.css',
             'dynamic_c_list': settings.STATIC_URL + 'js/message_list.js',
         }
