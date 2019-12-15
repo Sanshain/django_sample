@@ -106,7 +106,7 @@ def render_fragment(args):
         'fragments/%s.html'%args[0],
         context=args[1],
         request=request
-    ).strip()                                                                   # .replace('\t','') - для оптимизации
+    ).strip().replace('\t','')                                                                   # .replace('\t','') - для оптимизации
 
     if len(args) == 3:
         surround = args[2]                                                     # кортеж из класса и id элемента

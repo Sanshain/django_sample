@@ -72,30 +72,8 @@ def bring_dialog(request):
             'buddy_id' : user_id,
             'user' : request.user,
             'messages' : messages,
-
             'talker_image' : settings.MEDIA_URL + dialog.talker_image
         }]
-
-##        messages_block = render_to_string("fragments/messages_list.html",context={
-##            'user' : request.user,
-##            'messages':messages,
-##            'buddy_id':user_id,
-##            'talker_image':settings.MEDIA_URL + dialog.talker_image
-##        })
-##
-##        start = timeit.default_timer()
-##        messages_block = messages_block.replace('\t','')                            #сжимает с 35 до 14кб
-
-        #time.sleep(5)
-##        print timeit.default_timer() - start
-
-##        file = 'log.txt'
-##        import io
-##        with io.open('log.txt', 'w', encoding="utf-8") as my_file:
-##            my_file.write(messages_block)
-##
-##        import os
-##        os.system(file)
 
         context = {
             'content': LightReact.render_root_fragment((messages_block, "")),
