@@ -1,4 +1,4 @@
-.blocklist{
+.community_list{
 	background-color:beige;
 	margin: 0 16em 0 1em;
 	min-height:70vh;
@@ -7,13 +7,25 @@
 	box-sizing: border-box;
 	position: relative;
 }	
+
+.community_list li{
+	height:3em;
+	border:1px solid lightgray;
+	margin:3px;
+	padding:2px 8px;
+}
+
 .object_link{
 	height:100%; 
 	display: inline-block; 
 	width: 99%;
-	padding-left:90px;
+	/*padding-left:90px;*/
 	box-sizing: border-box;
+	text-decoration:none;
+	color:black;
 }
+
+
 .add_button{
 	height:50px;
 	width:50px;
@@ -35,9 +47,9 @@
 	z-index:10;
 	position:fixed;
 	top:30%;
-	left:30%;
+	left:30%; /*20*/
 	background-color:bisque;
-	width: 40%; 
+	width: 40%; /*60*/
 	height: 40%;
 	opacity:0.1;
 	transition:1s;
@@ -47,7 +59,7 @@
 .insert_group input, textarea{
 	width:100%;
 	box-sizing:border-box;
-	margin: 5px 0;
+	margin: 5px 0 0 0;/*5%*/
 	padding:5px;
 	border-radius:5px;
 	border: 1px solid burlywood;
@@ -62,6 +74,17 @@
 	height:80%;
 	z-index:10;
 }
+
+.logo_plus{
+	width:40px;
+	height:1em;
+	margin:5px;
+	background-color: orange;
+	border-radius: 15px;
+	display:inline-block;
+	outline:none;
+}
+
 .mc_btn{
 	position:absolute;
 	cursor:pointer;
