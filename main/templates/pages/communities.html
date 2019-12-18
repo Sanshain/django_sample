@@ -83,10 +83,15 @@
 		};		
 		
 		
-		vom.add(inbox, 'input', '').vs({ 
+		var titleInput = vom.add(inbox, 'input', '').vs({ 
 			placeholder : 'Наименование сообщества',
 			name : 'title'
 		});
+		/*
+		vom.add(inbox, 'button', 'logo_plus').vs({
+			onclick : "alert(0)",			
+		}).innerText = '...';//*/
+		
 		vom.add(inbox, 'textarea', '').vs({
 			placeholder : 'Краткое описание',
 			name : 'definition'
@@ -148,7 +153,7 @@
 
 {% endblock %}
 {% block main %}
-	<ul class='blocklist'>
+	<ul class='community_list'>
 		{% if object_list|length == 0 %}
 			<div style='width:100%;line-height:70vh;text-align:center;'>У вас еще нет групп</div>
 		{% endif %}
@@ -157,7 +162,9 @@
 			<li id='{{community.id}}'>
 				<a href='{% url "group" community.id %}' class='object_link' onclick=''>
 				
-					{{community.title}}
+					<h4>{{community.title}}</h4>
+					
+					<div>{{community.definition}}</div>
 					
 					<img src='{{community.logo}}' class='' />
 				
