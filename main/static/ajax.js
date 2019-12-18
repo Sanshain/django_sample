@@ -143,10 +143,12 @@ function Ajax(url, func, csrftoken) {
 	if (!('\v'=='v')) console.time('server_response_time');
 	//-
 
-	this.url = url || document.location.href;//целевйой урл
+	this.url = url || document.location.href;//целевйой урл	
+	
 	this.csrftoken = csrftoken;		// csrftoken-токен
 	this.func = func;				// функция принятия ответа
 	this.contentType = null;
+	
 	
 	var self = this;
 	
@@ -223,7 +225,7 @@ function Ajax(url, func, csrftoken) {
 			
 			if(this.readyState == 4 && this.status == 200)
 			{
-				func(this.responseText, url); 
+				func(this.responseText, url);
 				
 				//-
 				if (!('\v'=='v')) console.timeEnd('server_response_time');

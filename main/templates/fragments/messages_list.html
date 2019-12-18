@@ -54,7 +54,7 @@
 	</div>	
 
 	
-	<form method='post'>{% csrf_token %}
+	<form method='post' style='bottom:2em'>{% csrf_token %}
 		<textarea autofocus onkeydown='enter(this, event)' onmousedown='/*customizeEnter*/'></textarea>
 		
 		<label for='uploadImage' id='select_img' style="
@@ -68,6 +68,10 @@
 			
 			">+</label>
 		<input type="file" id="uploadImage" name='images' style='display:none' multiple accept="image/*"><!---->
+
+
+
+
 
 		<script>
 

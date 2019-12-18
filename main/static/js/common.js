@@ -53,7 +53,7 @@ function search_fixed(container, deep){
 	
 	if (deep == 0) return null;
 	else 
-		deep = deep || 2;
+		deep = deep || 3;
 	
 	var childs=container.children; // ie9+,ниже- childNodes 
 	

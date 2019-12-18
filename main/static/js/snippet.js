@@ -38,27 +38,39 @@ RefreshManager.Initialize = function(event){
 	var e_target = e.currentTarget || e.srcElement;//target
 	
 	//если это ссылка, берем из адреса
-	// если нет, то берем из formAction
+	// если нет, то берем из data-to
 
+	var set_url = null;
 	var target = e_target.href ?
 		e_target.href.substr(location.origin.length) :
-		e_target.formAction;
+		e_target.getAttribute('data-to');
+	
+	//если есть атрибут name, то адрес запроса на него
+	if (!target && e_target.name){
+		
+		target= 
+			e_target.name ?'/'+e_target.name+'/' :'';
 			
-	//если есть атрибут data-to, берем из атрибута
-	var target = target || e_target.getAttribute('data-to')// для ie8 (если e_target == esrcElement), ищем 'to'
+		set_url = e_target.formAction;
+	}
+	
+	//если есть атрибут formAction, берем из атрибута
+	var target = target || e_target.formAction; // для ie8
+	//(если e_target == esrcElement), ищем 'to'
 	var target = target ||data_to___get(e_target, 3);
 
 	
 	if (!target) throw new Error('cant be initialized');
 
 	//исключительно для <ie10 - прямой переход:
-	if (!window.atob) document.location.href = target;
+	if (!window.atob) document.location.href= set_url||target;
 	else {
 		e.preventDefault();	
 		
 		var _rm = new RefreshManager(e);
 		
-				_rm.target = target;
+			_rm.target = target;
+			_rm.set_url = set_url;			
 		return _rm;			//если нет, кастомизируем
 	};
 }
@@ -240,6 +252,61 @@ function RefreshManager(e, root_elem){
 		else{			//показываем:
 		
 			var temp_top = null;
+			var stor_style = {}; 			//null
+			
+			var tmp_poser = {
+				propy : 'top',						
+				origin : 0,						
+				_cstyle : null,
+				init : function(_content){
+					var cstyle = _content.style;
+					
+					if (cstyle['bottom'])this.propy ='bottom';
+					
+					
+					var temp = null;
+					var diff = parseInt(
+						window.getComputedStyle(
+							_content
+						)[this.propy]
+					);
+					
+					
+					if (this.propy == 'bottom'){
+						temp = diff - 
+							(window.innerHeight - 
+							(elem.offsetTop + 
+							elem.offsetHeight));
+					}
+					else{					
+						
+						temp = diff - elem.getBoundingClientRect().top; //offsetTop? - почему-то 0 для ava
+					} 
+					
+					
+					
+					if (cstyle[this.propy]){
+						this.origin = cstyle[this.propy];
+					}else
+					{
+						this.origin = 
+							window.getComputedStyle(
+								_content
+							)[this.propy];
+					}
+					
+					cstyle[this.propy] = temp + 'px';
+					this._cstyle = cstyle;
+					
+					return temp;
+				},
+				revive : function() 
+				{
+					this._cstyle[this.propy] = this.origin;
+				},
+			}
+			
+			
 		
 			//тут написать спец ф-ю, которая ищет элементы с fixed до первого дерева с дочерними элементами больше 1			
 			
@@ -247,13 +314,70 @@ function RefreshManager(e, root_elem){
 			
 			if (elem.id == 'main' || elem.id == 'content'){
 				//var _content = elem.children[0];
-				var _content = search_fixed(elem);
+				var _content = search_fixed(elem, 3);				
 				
 				if (_content){
 //!
+					/*
+					for(var i=0;i<_content.style.length;i++){
+						var prop = _content.style[i];
+						stor_style[prop]=_content.style[prop];
+						_content.style[prop] = '0';
+					}//*/
+					
+					//temp_top - может содержать одно из двух свойств: top или bottom в зависимости от заданного inline стиля элемента
+					
+					//для top:
+					
+					/*
+					orig_top = _content.style.top;
+					temp_top = elem.offsetTop;// + 'px';
+					_content.style.top = temp_top + 'px';
+					
+					//для bottom:
+					
+					сначала вычисляем, чему должен быть равно значение в пикселях:
+					
+					orig_bottom=_content.style.bottom;
+					tmp_bottom = 
+						window.innerHeight - 
+						elem.getBoundingClientRect().bottom;
+					_content.style.bottom = tmp_bottom + 'px';
+					
+					// допустим: bottom=3em/*
+					/*
+					Величина в пикселях будет равна 
+					
+					orig_bottom=_content.style.bottom;//3em
+					
+				{ //для себя:					
+					clc_bottom = window.getComputedStyle(_content).bottom
+					= 32px от низа страницы
+										
+					Находим расстояние от низа страницы до нижнего края scale:
+				}	
+				
+					tmp_bottom = window.innerHeight - elem.getBoundingClientRect().bottom
+					= 114 px от инза страницы
+					
+					Значит врменное положение станет от низа 114+32=146px
+				
+					
+					Нам нужно их обратно вернуть к 32:
+					вычесть -(146-32) = -114px;
+					= .bottom = -tmp_bottom;
+					
+					При scale эти 50px стали относительно нижнего края scale. То есть относительно страницы = 150px
+					
+					
+					
+					
+					/*
 					temp_top = window.getComputedStyle(_content).top;		//либо 
 					//temp_top = _content.offsetTop;
 					_content.style.top = '0';//*/
+					
+					tmp_poser.init(_content);
 				}
 				
 			}
@@ -268,7 +392,13 @@ function RefreshManager(e, root_elem){
 				elem.style.transform = 'none';
 				
 				
-				if (temp_top) _content.style.top = temp_top;
+				//if (temp_top) _content.style.top = temp_top;
+				/*
+				for(var k in stor_style){
+					_content.style[k] = stor_style[k];
+				}//*/
+				
+				if (_content) tmp_poser.revive();
 				
 				setTimeout(function(){
 					elem.style.transition = '0.5s';
@@ -313,7 +443,7 @@ function RefreshManager(e, root_elem){
 
 				render_page(
 					responsed_content.pop(), 
-					responsed_content.pop()
+					responsed_content.pop() 
 				);	
 				
 				//происходит анимация
@@ -357,13 +487,30 @@ function RefreshManager(e, root_elem){
 	}
 	
 
-	this.Commit = function(){
+	this.Commit = function(optional){
+		
+		//получаем аргументы:
+		var ps = /(\d+)\/{0,1}$/i;
+		
+		var arg = 
+			self.target.match(ps)||
+			loc.pathname.match(ps);
+		
+		var args = arg ? arg.slice(1) : [];
+		if (optional)
+		{			
+			args = args.concat(optional);
+		} 
+		
+		
 		var box_onload = function (resp, set_url) //
 		{
-			responsed_content = [set_url,resp];			
-		}		
+			responsed_content = [self.set_url||set_url, resp];
+		}
 			
 		var ajax = new Ajax(this.target, box_onload);
+		
+		ajax.set_url = self.set_url;		
 		ajax.onfail = function(){
 			//здесь может быть относительно 
 			// навязчивое сообщение о том, что 
@@ -374,7 +521,8 @@ function RefreshManager(e, root_elem){
 			document.location.href = this.target;
 		};
 		
-		var args = self.target.match(/\d+/g);//аргументы
+		//var args = self.target.match(/\d+/g);//аргументы
+		
 		
 		var q = [args, nec_blocks, self.aim_blocks];
 		

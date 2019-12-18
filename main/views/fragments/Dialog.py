@@ -8,7 +8,7 @@ import base64
 from django.core import serializers
 from django.shortcuts import render						# для страниц, или ниже:
 from django.template.response import TemplateResponse 	# для страниц 		https://stackoverflow.com/questions/38838601/django-templateresponse-vs-render
-from django.http import HttpResponse, JsonResponse, FileResponse
+from django.http import HttpResponse, JsonResponse, FileResponse, HttpResponseNotAllowed
 
 # для cbv-стиля:
 from django.views.generic.base import ContextMixin
@@ -50,18 +50,21 @@ def bring_dialog(request):
     '''
     Получение диалога
     '''
-    if request.method == "POST":
-        user_id = request.POST.get("id",'')
 
-        print '----------------------'
-        print user_id
+    if request.method == "POST":
+
+        print request.body
+        q = json.loads(request.body)
+
+        aim = q.pop()
+        rblocks = q.pop()
+        args = q.pop()
+        user_id = args[0]                                                       ##        user_id = request.POST.get("id",'')
+
 
         dialog = Dialogue.get_private_Dialog(user_id, request.user.id)
-        dialog_id = dialog.id
 
-
-
-        messages = Message.objects.filter(Target_id=dialog_id)
+        messages = Message.objects.filter(Target_id=dialog.id)
 
         choose_sender = Max if int(request.user.id) < user_id else Min
 
@@ -85,5 +88,5 @@ def bring_dialog(request):
 
         return HttpResponse(data, content_type="application/json")
     else:
-	   return HttpResponseRedirect(reverse('users'))
+        return HttpResponseNotAllowed(['POST'])                                            #reverse('users')
 
