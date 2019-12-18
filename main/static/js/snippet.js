@@ -251,13 +251,15 @@ function RefreshManager(e, root_elem){
 		
 						
 	function _animate(elem, visible){
-		if (!visible){ // скрываем
-		
-			//можно засунуть в класс
+		if (!visible){ // скрываем			
+			
+//!			
+			//назначаем класс трансформации in:			
 			elem.style.transition='0.5s ease-out';
 			elem.style.opacity = 0;			
 			elem.style.transform = 'scale(0.9,0.9)';								
 			var _content = search_fixed(elem);
+			
 			var tmp = 0;
 			
 			if (!_content) return;
@@ -270,17 +272,14 @@ function RefreshManager(e, root_elem){
 			}, 500);
 			
 		}
-		else{			//показываем:
+		else{
+		//показываем:
 		
-			//var temp_top = null;
-			//var stor_style = {}; 			//null
-			
-			
-			
 			var _content = null;
 			
 			//тут была идея написать спец ф-ю, которая ищет элементы с fixed до первого дерева с дочерними элементами больше 1. Эта реализация тоже неплоха:
 			
+			//var stor_style = {}; 			//null
 			var tmp_poser = {
 				propy : 'top',						
 				origin : 0,						
@@ -346,25 +345,23 @@ function RefreshManager(e, root_elem){
 			//показывает информацию через 1 сек:
 			
 				//возврат в top после анимации, чтобы не скроллился
-				elem.style.transition = 'none';			
-				elem.style.transform = 'none';
-				
-				/* obsolete:
-				for(var k in stor_style){
-					_content.style[k] = stor_style[k];
-				}//*/
-				
+								
+				elem.style.transition = 'none';		
+				elem.style.transform = 'none';//''
+			
 				if (_content) tmp_poser.revive();
 				
 				setTimeout(function(){
+//!					
+					//вместо этого можно восстановить исходный: elem.style.transition = '';
+					
 					elem.style.transition = '0.5s';
 				}, 40);//for slow transfer!*/
 				
-			},1000);	//*/							
+			},1000);						
 
-			elem.style.opacity =1;
-//!
-			
+			//назначаем класс трансформации out:
+			elem.style.opacity =1;		
 			elem.style.transform='scale(1,1)';			
 
 		}
