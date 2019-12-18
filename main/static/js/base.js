@@ -10,6 +10,8 @@ var render_page = function(data, url){
 	
 	var view = new Viewer(data).render();
 	
+	view.routers_initialize(vom.reInit);
+	
 	
 	if (url)// если это не происходит здесь, то остается (для несущ изм)
 	{
@@ -68,6 +70,7 @@ function Renderer(boxes){
 Viewer.prototype = abstract_viewer;
 function Viewer(data){
 	
+	this._containers = [];			//элементы для reInit
 	this.__container_rebuild = function(){ /**/
 		var container = document.getElementById('content');
 		
@@ -173,8 +176,13 @@ function Viewer(data){
 			
 			field[attr] = view;
 			
-		} else if (typeof view == "object")
-		{
+			
+			if (attr=='innerHTML') 
+				this._containers.push(field);
+			
+		} 
+		else if (typeof view == "object"){
+			
 			stored_data[key] = {};
 			for (k in view) 
 			{
@@ -183,7 +191,10 @@ function Viewer(data){
 					stored_data[key][k]=field.getAttribute(k);
 				} else stored_data[key][k]=field[k];
 				
-				if (k.startsWith('on')) field.setAttribute(k, view[k]);
+				if (k.search(/^(on|data-)/) == 0)
+				{
+					field.setAttribute(k, view[k]);
+				} 
 				else 
 					field[k] = view[k];
 			}
@@ -215,6 +226,13 @@ function Viewer(data){
 		return attr;		
 	};	//*/
 	
+	
+	this.routers_initialize = function(func)
+	{
+		for(var i=0;i<this._containers.length;i++) func(
+			this._containers[i]
+		);
+	}
 	
 	var stored_data = {};
 	var new_view = data;

@@ -1,4 +1,19 @@
 
+vom.reInit = function(elem){
+
+	var routes = (elem || document).querySelectorAll(
+		'[data-_refresh]'
+	);
+	
+	for (var way in routes){
+		if (!routes[way].onclick){
+			
+			routes[way].onclick = fragment_refresh;
+		}			
+	}	
+	
+}
+
 function fragment_refresh(event){
 
 	var rm = null;

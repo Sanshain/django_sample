@@ -136,10 +136,13 @@ class UserView(CSSMixin, DetailView):
             }
         else:
             user_dict['action'] = {
-                'innerHTML':'Отправить сообщение' if cuser.id != user_id else 'Измениться',
+                'innerHTML':'Отправить сообщение',
                 'name' : reverse('get_dialog').strip('/'),                                  # то, куда будет отправлен пост-запрос
                 'formAction' : reverse('dialog', args=[user_id]),                           # адрес, по которому доступен результат
-                'onclick' : 'do_action(this, event)'
+
+                'onclick' : 'fragment_refresh(event)',
+				'data-_refresh' : 'content',
+				'data-_require' : 'aside',
             }
         #user_dict.update({'note_create' : {'style':'display:none'} })
 
