@@ -258,16 +258,28 @@ function RefreshManager(e, root_elem){
 			elem.style.opacity = 0;			
 			elem.style.transform = 'scale(0.9,0.9)';								
 			var _content = search_fixed(elem);
-
+			var tmp = 0;
+			
 			if (!_content) return;
 			else 
+				tmp = _content.style.top;
 				_content.style.top = '0';
+				
+			setTimeout(function(){
+				_content.style.top = tmp;
+			}, 500);
 			
 		}
 		else{			//показываем:
 		
-			var temp_top = null;
-			var stor_style = {}; 			//null
+			//var temp_top = null;
+			//var stor_style = {}; 			//null
+			
+			
+			
+			var _content = null;
+			
+			//тут была идея написать спец ф-ю, которая ищет элементы с fixed до первого дерева с дочерними элементами больше 1. Эта реализация тоже неплоха:
 			
 			var tmp_poser = {
 				propy : 'top',						
@@ -296,9 +308,7 @@ function RefreshManager(e, root_elem){
 					else{					
 						
 						temp = diff - elem.getBoundingClientRect().top; //offsetTop? - почему-то 0 для ava
-					} 
-					
-					
+					} 					
 					
 					if (cstyle[this.propy]){
 						this.origin = cstyle[this.propy];
@@ -321,94 +331,25 @@ function RefreshManager(e, root_elem){
 				},
 			}
 			
-			
-		
-			//тут написать спец ф-ю, которая ищет элементы с fixed до первого дерева с дочерними элементами больше 1			
-			
-			var _content = null;
-			
 			if (elem.id == 'main' || elem.id == 'content'){
-				//var _content = elem.children[0];
-				var _content = search_fixed(elem, 3);				
-				
+
+				_content = search_fixed(elem, 3);				
 				if (_content){
 //!
-					/*
-					for(var i=0;i<_content.style.length;i++){
-						var prop = _content.style[i];
-						stor_style[prop]=_content.style[prop];
-						_content.style[prop] = '0';
-					}//*/
-					
-					//temp_top - может содержать одно из двух свойств: top или bottom в зависимости от заданного inline стиля элемента
-					
-					//для top:
-					
-					/*
-					orig_top = _content.style.top;
-					temp_top = elem.offsetTop;// + 'px';
-					_content.style.top = temp_top + 'px';
-					
-					//для bottom:
-					
-					сначала вычисляем, чему должен быть равно значение в пикселях:
-					
-					orig_bottom=_content.style.bottom;
-					tmp_bottom = 
-						window.innerHeight - 
-						elem.getBoundingClientRect().bottom;
-					_content.style.bottom = tmp_bottom + 'px';
-					
-					// допустим: bottom=3em/*
-					/*
-					Величина в пикселях будет равна 
-					
-					orig_bottom=_content.style.bottom;//3em
-					
-				{ //для себя:					
-					clc_bottom = window.getComputedStyle(_content).bottom
-					= 32px от низа страницы
-										
-					Находим расстояние от низа страницы до нижнего края scale:
-				}	
-				
-					tmp_bottom = window.innerHeight - elem.getBoundingClientRect().bottom
-					= 114 px от инза страницы
-					
-					Значит врменное положение станет от низа 114+32=146px
-				
-					
-					Нам нужно их обратно вернуть к 32:
-					вычесть -(146-32) = -114px;
-					= .bottom = -tmp_bottom;
-					
-					При scale эти 50px стали относительно нижнего края scale. То есть относительно страницы = 150px
-					
-					
-					
-					
-					/*
-					temp_top = window.getComputedStyle(_content).top;		//либо 
-					//temp_top = _content.offsetTop;
-					_content.style.top = '0';//*/
-					
 					tmp_poser.init(_content);
 				}
 				
 			}
 
-			//показывает информацию через 1 сек
-			
-			//elem.style.transform = 'scale(1,1)';
 			
 			setTimeout(function(){
+			//показывает информацию через 1 сек:
+			
 				//возврат в top после анимации, чтобы не скроллился
 				elem.style.transition = 'none';			
 				elem.style.transform = 'none';
 				
-				
-				//if (temp_top) _content.style.top = temp_top;
-				/*
+				/* obsolete:
 				for(var k in stor_style){
 					_content.style[k] = stor_style[k];
 				}//*/
@@ -417,13 +358,12 @@ function RefreshManager(e, root_elem){
 				
 				setTimeout(function(){
 					elem.style.transition = '0.5s';
-				}, 40);//*/
+				}, 40);//for slow transfer!*/
 				
 			},1000);	//*/							
 
 			elem.style.opacity =1;
 //!
-			//if (!_content) return; //<-скорее всего это убрать
 			
 			elem.style.transform='scale(1,1)';			
 
