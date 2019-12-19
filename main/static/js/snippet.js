@@ -10,7 +10,18 @@ vom.reInit = function(elem){
 			
 			routes[way].onclick = fragment_refresh;
 		}			
-	}	
+	}
+	
+	/*
+	setTimeout(function(){
+		
+		var activeElem = (elem || document).querySelector(
+			'[autofocus]'
+		);		
+		
+		//if (activeElem) activeElem.focus();
+		
+	}, 1000);//*/	
 	
 }
 
@@ -96,7 +107,10 @@ function RefreshManager(e, root_elem){
 	
 	
 	
-	
+	/*!
+		Возвращает боксы для анимации (если есть)
+		и пополняет aim_blocks
+	*/
 	this.get_boxes = function(block_name){
 		
 		
@@ -147,8 +161,16 @@ function RefreshManager(e, root_elem){
 					var line = _box.querySelector(
 						'#'+signs[key]
 					);
-					_boxes.push(line);
-					self.aim_blocks.push(signs[key]);
+					if (line) {
+						_boxes.push(line);
+						self.aim_blocks.push(signs[key]);
+					}
+					else{
+						
+						_boxes.push(_box);
+						self.aim_blocks.push(details[0]);break;				
+						
+					}
 				}								
 			}		
 		}
@@ -225,7 +247,9 @@ function RefreshManager(e, root_elem){
 					var contnr = required_block.querySelector(
 						'[data-state]'
 					);					
-					contnr.innerHTML = '';   //continue;
+					
+					//continue;
+					if (contnr) contnr.innerHTML = '';   
 				}
 				else if (!dom.obj(subb_id).children.length)
 //!	 
@@ -255,6 +279,8 @@ function RefreshManager(e, root_elem){
 			
 //!			
 			//назначаем класс трансформации in:			
+			//elem.classList.add('a_hide');
+			
 			elem.style.transition='0.5s ease-out';
 			elem.style.opacity = 0;			
 			elem.style.transform = 'scale(0.9,0.9)';								
@@ -268,6 +294,10 @@ function RefreshManager(e, root_elem){
 				_content.style.top = '0';
 				
 			setTimeout(function(){
+				
+				//удаляем класс трансформации in:
+				//elem.classList.remove('a_hide');
+				
 				_content.style.top = tmp;
 			}, 500);
 			
@@ -345,7 +375,10 @@ function RefreshManager(e, root_elem){
 			//показывает информацию через 1 сек:
 			
 				//возврат в top после анимации, чтобы не скроллился
-								
+				
+				//убираем класс out
+				//elem.classList.remove('a_show');
+				
 				elem.style.transition = 'none';		
 				elem.style.transform = 'none';//''
 			
@@ -361,6 +394,8 @@ function RefreshManager(e, root_elem){
 			},1000);						
 
 			//назначаем класс трансформации out:
+			//elem.classList.add('a_show');
+			
 			elem.style.opacity =1;		
 			elem.style.transform='scale(1,1)';			
 

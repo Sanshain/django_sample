@@ -239,7 +239,41 @@ function Viewer(data){
 }
 
 
-vom = {};
+//vom = {};
+
+function vom(elem){
+	
+	var robj = {};
+	
+	var _state = function(){
+		var r = elem.getAttribute('data-state');
+		if (!r){
+			var rc = r.firstElementChild;
+			if (rc) r = rc.id || 
+			(
+				rc.className ? 
+				rc.className.split(' ')[0] : 
+				null
+			);
+			else return null;
+		}
+		return r;
+	}
+	
+	
+	
+	if (window.atob)
+		
+		Object.defineProperty(robj, 'state', {get: _state})	;
+	else 
+		
+		robj.state = _state();
+
+	
+	return robj;
+}
+
+//vom(elem).state
 
 vom.add = function(container, elem, cls)
 {

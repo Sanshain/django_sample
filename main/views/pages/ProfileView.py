@@ -379,6 +379,7 @@ class UserUpdate(UpdateView):
     })
 
     def get_context_data(self, **kwargs):
+
         context = super(UserUpdate, self).get_context_data(**kwargs)
         context['form'].request = self.request
         context['links'] = [settings.STATIC_URL + 'form.css']

@@ -1,8 +1,16 @@
-{% extends "user.html" %}{% load staticfiles %}
+{% extends "base.html" %}{% load staticfiles %}
 
 
 {% block links %}
 	{{ block.super }}
+	
+	{% for link in links %}
+
+		<link id='dynamic_link' rel="stylesheet" href="{{link}}"> 
+		
+	{% endfor %}
+	
+	
 	<script src="{% static 'photo_up.js' %}"></script>	
 	
 {% endblock %}
@@ -13,4 +21,5 @@
 	
 {% endblock %}
 
+{% block section %}{% endblock %}
 {% block aside %}{% endblock %}
