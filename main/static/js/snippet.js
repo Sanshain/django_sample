@@ -1,6 +1,7 @@
 
 var leaser = {
 	r_time : 500,	// response time waiting
+	waiting : 3		// quantity of attempts to catch response
 	
 }
 
@@ -200,20 +201,30 @@ function RefreshManager(e, root_elem){
 		for(var key in requared_blocks)
 		{
 			// example: `aside|state>note_create`
-			
+			// example: `main?section~user_block.aside`
+
 			var tree = requared_blocks[key].split('>');
-			
-			
-			var detail = tree.shift().split('|'); 			
-			var subb_id = tree.length ? tree.pop() : null;
-
-
-			
+			var detail = tree.shift().split(/[\~\|]/);
 			var b_id = detail.pop(); //id элемента
-			var r_state =detail.length ?detail.pop(): '';
-			var state = '';
+			var required_block = null;
 			
-			required_block = dom.obj(b_id);
+			var r_state =detail.length ? detail.pop(): '';
+			//можно искать r_state через querySelector
+			
+			var _cnts = b_id.split('?');
+			if (_cnts.length > 1){
+				for (var k in _cnts){
+					
+					if (required_block =dom.obj(_cnts)) break;
+				}				
+			} 			
+			else 
+				required_block = dom.obj(b_id);
+			
+			
+			
+			
+			var state = '';			
 			
 			if (required_block && r_state){
 				
@@ -241,7 +252,9 @@ function RefreshManager(e, root_elem){
 			}
 			else {
 			//здесь надо проверить под_элемент:
-			
+				
+				var subb_id = tree.length ? tree.pop() : null;
+				
 				if (!subb_id) {
 				//если нет требуемых подэлементов,то чистим все подэлементы требуемого блока:
 					
