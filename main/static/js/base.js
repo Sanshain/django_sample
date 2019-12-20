@@ -12,11 +12,6 @@ var render_page = function(data, url){
 	
 	view.routers_initialize(vom.reInit);
 	
-	setTimeout(function(){
-		
-		while (vom.init_list.length) vom.init_list.pop()();
-	}, 300);
-		
 	
 	if (url)// если это не происходит здесь, то остается (для несущ изм)
 	{
@@ -186,16 +181,6 @@ function Viewer(data){
 			script.id = key;			
 			document.head.appendChild(script);	
 			
-			setTimeout(function(){
-				
-				if (reInit){
-					reInit();
-					reInit = null;
-				}//*/			\				
-			
-			}, 200);
-			
-			
 			return;
 			
 		}
@@ -262,6 +247,9 @@ function Viewer(data){
 	
 	this.routers_initialize = function(func)
 	{
+		
+		if (!vom.spa)  vom.spa = true; 
+		
 		for(var i=0;i<this._containers.length;i++) func(
 			this._containers[i]
 		);
@@ -333,9 +321,8 @@ function vom(elem){
 /*! 
 	функции инициализации фрагментов
 */
-vom.init_list = [];
 
-
+vom.spa = false;
 
 vom.add = function(container, elem, cls)
 {

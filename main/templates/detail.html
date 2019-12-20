@@ -10,9 +10,7 @@
 
 {% block onload %}
 
-	while (vom.init_list.length) vom.init_list.pop()();
-
-	//reInit();
+	reInit();
 
 	/*! detail	
 	var friReader = new Ajax("{% url 'get_friends' %}", async_get_friends);

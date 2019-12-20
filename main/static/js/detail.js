@@ -16,7 +16,7 @@ function reInit(){
 	reInit = null; 		// проверено на гугх хром
 }
 
-vom.init_list.push(reInit);
+if (vom.spa) reInit();
 
 /*! async get friends for detail-template called onload/
 

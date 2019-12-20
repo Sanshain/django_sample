@@ -334,5 +334,6 @@ function InitializePage(){					//reInit_detail
 	
 }
 
+if (vom.spa) InitializePage();
 
-vom.init_list.push(InitializePage);
+//vom.init_list.push(InitializePage);
