@@ -1,13 +1,7 @@
-* {
-	/*--*/
-	
-	/*bootstrap:*/
-	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-	font-size: 12px;
-}
 form{
 	text-align:center;
 }
+
 /*оформление описаний полей ввода*/
 p label{
 	display:inline-block;

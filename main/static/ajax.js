@@ -312,6 +312,12 @@ function Ajax(url, func, csrftoken) {
 		}
 
 
+		if (!frm.querySelector('[type=hidden]'))
+		{	
+	
+			self.csrftoken = getCookie('csrftoken');
+		}
+
 		var fdata = new FormData(frm);
 		//data.csrfmiddlewaretoken = frm.elements[0].value;
 		return fdata;

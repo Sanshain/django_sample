@@ -118,3 +118,17 @@ if (!String.prototype.startsWith) {
 	};
 
 }//*/
+
+
+
+function Elem(type_name, txt, css_cls){		
+	var elem = document.createElement(type_name);	
+	elem.innerText = txt;	//value
+	
+	if (css_cls) {
+		elem.className = css_cls;
+	}
+	
+	return elem;	
+}
+

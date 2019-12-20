@@ -37,7 +37,7 @@ from django.template.loader import render_to_string
 # main
 from main.models import Profile, Friends, State
 from main.models.messages import Dialogue, Message, Dialogue_Partakers
-from main.views.Mixins import CSSMixin
+from main.views.Mixins import CSSMixin, dynjs_insertion
 from ..utils.utime import present_time
 from ..utils import FileStorage, STORAGE
 
@@ -142,10 +142,17 @@ class Dialogs(CSSMixin, ListView):
         print query
         blocks = query[1]                                                               # required
 
-
+        # опциональные блоки:
         for point in blocks:                                                            # print requered
             template_snippet = os.path.join('fragments','_{}.html'.format(point))
             units[point] = render_to_string(template_snippet)
+
+            units.update(dynjs_insertion(point))                                # поиск динамического js
+
+
+        if 'aside' in blocks:
+            units['link*'] = settings.STATIC_URL + ' aside detail'
+            units['dynamic_c'] = settings.STATIC_URL + 'js/detail.js'
 
         template_snippet = os.path.join('fragments','_{}'.format(self.template_name))   # dialogue_list.html
 

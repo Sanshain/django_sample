@@ -7,6 +7,17 @@ from django.core.urlresolvers import resolve
 
 from django.template.loader import render_to_string
 
+
+def _get_file_info (base_path, name, ext = None):
+
+    baseurl = settings.STATIC_URL + base_path + '/' + name.replace('.html','')
+    basepath = os.path.join(settings.BASE_DIR, __package__.split('.')[0], baseurl[1:])
+    existence = os.path.exists(basepath + '.' + ext if ext else base_path)
+
+    return (existence, baseurl)
+
+
+
 class CSSMixin(object):
     css_path = 'style'
 
@@ -88,6 +99,13 @@ class CSSMixin(object):
         pass
 
 
+
+def dynjs_insertion(name, context = {}, path = 'js'):
+
+    availible, baseurl = _get_file_info(path, name)
+    context.update({'dynamic_c'+name : baseurl} if availible else {})           # dynamic_c
+
+    return context
 
 
 

@@ -1,4 +1,10 @@
 
+var leaser = {
+	r_time : 500,	// response time waiting
+	
+}
+
+
 vom.reInit = function(elem){
 
 	var routes = (elem || document).querySelectorAll(
@@ -210,62 +216,55 @@ function RefreshManager(e, root_elem){
 			required_block = dom.obj(b_id);
 			
 			if (required_block && r_state){
-				//получили блок. Теперь необходимо получить его состояние:
 				
-				//для (неуправляющего) простого тега (который содержит только текст) допускается атрибут data-state, который содержит состояние этого элемента (например data-state='1')
-				state = 	
-					required_block.getAttribute['data-state'];
-				
-				//если тег является управляющим (управляющие элементы не содержат своего состояния), то ловим состояние в его контенте, а именно - в элементе, управляющем позиционированием контента, - это первый элемент контента
-				if (!state){
-					var elem=
-						required_block.children[0];
-						
-					//его состояние хранится в его id
-					//либо в data-state, либо и там и там
-					state = 
-						elem? 
-							elem.id+
-							elem.dataset['state'] || ""
-						:"";
-						
-				}
+				//получили блок / теперь необходимо получить его состояние:				
+				state = vom(required_block).state;
+//!
 				
 			}
 			
 			//теперь у нас есть required_block и r_state:
 			//для выполнения условия required_block должен быть thruthy, а state==r_state
 			
-			//.children.length?
-			if (required_block && 
-				r_state==state)
-			{ //здесь надо проверить под_элемент:
+			
+
+			
+			if (r_state && (r_state != state)){ 	
+			//тогда id с состоянием
+			
+				r_blocks.push(b_id + '|' + r_state);
+			}
+			else if(!required_block ||
+				!required_block.children.length)
+			{
+				r_blocks.push(b_id);
+			}
+			else {
+			//здесь надо проверить под_элемент:
 			
 				if (!subb_id) {
-				//если нет требуемых подэлементов,то чистим:
+				//если нет требуемых подэлементов,то чистим все подэлементы требуемого блока:
 					
 					var contnr = required_block.querySelector(
 						'[data-state]'
 					);					
 					
-					//continue;
 					if (contnr) contnr.innerHTML = '';   
 				}
-				else if (!dom.obj(subb_id).children.length)
-//!	 
-				{				
+				else if (!dom.obj(subb_id).children.length){
+//! ?					
 					r_blocks.push(sub_block);
 				}
 				
 			}
-			else if (r_state!=state){ 
-			//тогда id с состоянием
-				r_blocks.push(b_id + '|' + r_state);
-			}else{
-				r_blocks.push(b_id);
-			}
+
 				
-		
+			/*итого: не запрашивает блок с сервера, 
+				- если у контейнера есть дочерние элементы и не задан r_state либо 
+				- если задан задан r_state, совпадающий с state 
+			* не запрашивает подблоки: 
+				- если они содержат дочерние элементы (пока так)
+				//*/
 		
 		}
 		
@@ -446,7 +445,8 @@ function RefreshManager(e, root_elem){
 				_await__animate(--deep, box);
 			}			
 
-		},700);								
+		//время ожидания сервера:
+		}, (leaser || {}).r_time || 700);
 	}	
 	
 	
@@ -548,6 +548,9 @@ function RefreshManager(e, root_elem){
 	var nec_blocks = requested_blocks_by_require();
 
 	//внутри этих блоков проверяем и удаляем лишние элементы:
+	/* 
+	//вроде как это реализовано в requested_blocks_by_require
+	
 	for(var key in nec_blocks){
 		
 		var contnr = nec_blocks[key].querySelector(
@@ -555,7 +558,7 @@ function RefreshManager(e, root_elem){
 		);
 		contnr.innerHTML = '';
 		
-	}
+	}//*/
 	
 
 	//var blocks = aim_blocks.concat(nec_blocks);

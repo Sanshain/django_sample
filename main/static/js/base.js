@@ -12,6 +12,11 @@ var render_page = function(data, url){
 	
 	view.routers_initialize(vom.reInit);
 	
+	setTimeout(function(){
+		
+		while (vom.init_list.length) vom.init_list.pop()();
+	}, 300);
+		
 	
 	if (url)// если это не происходит здесь, то остается (для несущ изм)
 	{
@@ -158,13 +163,40 @@ function Viewer(data){
 		if (!field) 
 			console.log('rebiuld_container on server');
 		
-		if (!field && key.startsWith('dynamic_c')){
+		if (!field && /link\*/.test(key)){
+			
+			var views = view.split(' ');
+			var i=1;while(i<views.length){
+				
+				var istyle = document.createElement('link');
+				istyle.href = views[0] + views[i++] + '.css';
+				istyle.rel = "stylesheet";
+				document.head.appendChild(istyle);	
+			}
+			
+			return;
+			
+		}
+		else if (!field && key.startsWith('dynamic_c')){
 			//если не найден скрипт
 			
 			var script = document.createElement('script');
 			script.src = view;
-			script.id = key;
-			document.head.appendChild(script);	return;
+			script.type = "text/javascript";
+			script.id = key;			
+			document.head.appendChild(script);	
+			
+			setTimeout(function(){
+				
+				if (reInit){
+					reInit();
+					reInit = null;
+				}//*/			\				
+			
+			}, 200);
+			
+			
+			return;
 			
 		}
 		else if (typeof view == "string")
@@ -179,6 +211,7 @@ function Viewer(data){
 			
 			if (attr=='innerHTML') 
 				this._containers.push(field);
+				// здесь, по идее, можно еще eval(<script>), но это плохой стиль. Пока откажусь
 			
 		} 
 		else if (typeof view == "object"){
@@ -247,14 +280,34 @@ function vom(elem){
 	
 	var _state = function(){
 		var r = elem.getAttribute('data-state');
+		
 		if (!r){
-			var rc = r.firstElementChild;
-			if (rc) r = rc.id || 
-			(
-				rc.className ? 
-				rc.className.split(' ')[0] : 
-				null
-			);
+			
+			/* for recursive:
+			
+			var rec = function(container, deep){
+				
+				var rc = container.firstElementChild;
+				if (rc) r = rc.id || 
+				(
+					rc.className ? 
+					rc.className.split(' ')[0] : 
+					null
+				);
+				else return null;				
+			}//*/
+			
+			var rc = elem.firstElementChild;
+			if (rc) r = 
+				rc.getAttribute('data-state') || rc.id || 
+				(
+					rc.className ? 
+					rc.className.split(' ')[0] : 
+					null
+				);
+				
+			
+				
 			else return null;
 		}
 		return r;
@@ -274,6 +327,15 @@ function vom(elem){
 }
 
 //vom(elem).state
+
+
+
+/*! 
+	функции инициализации фрагментов
+*/
+vom.init_list = [];
+
+
 
 vom.add = function(container, elem, cls)
 {

@@ -10,9 +10,13 @@
 
 {% block onload %}
 
-	/*! detail	*/
+	while (vom.init_list.length) vom.init_list.pop()();
+
+	//reInit();
+
+	/*! detail	
 	var friReader = new Ajax("{% url 'get_friends' %}", async_get_friends);
-	friReader.postData('id=0');           //0- юзер сам. в бд от 1 счет
+	friReader.postData('id=0');           //0- юзер сам. в бд от 1 счет //*/
 	
 {% endblock %}
 

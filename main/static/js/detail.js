@@ -1,4 +1,23 @@
 
+
+function reInit(){
+	
+	var friReader = new Ajax(
+		"/get_friends/", 
+		async_get_friends
+	);
+	
+	friReader.postData('id=0');
+	
+	
+	
+	//throw new Error('no init');
+		
+	reInit = null; 		// проверено на гугх хром
+}
+
+vom.init_list.push(reInit);
+
 /*! async get friends for detail-template called onload/
 
 */

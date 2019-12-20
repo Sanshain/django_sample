@@ -278,6 +278,9 @@ class UserView(CSSMixin, DetailView):
 
             # при самом мизерном (точечном) изменении:
             '*main' : (self._get_model_fields, [cuser, user_id]),
+
+            # вне контекста (опциональные):
+
         }
         #patterns.prepare = lambda x: x[0](x[1])
 
