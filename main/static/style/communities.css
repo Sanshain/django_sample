@@ -2,29 +2,85 @@
 	background-color:beige;
 	margin: 0 16em 0 1em;
 	min-height:70vh;
-	padding:1em;
+	padding:0 1em;
 	list-style-type: none;
 	box-sizing: border-box;
 	position: relative;
 }	
 
 .community_list li{
-	height:3em;
+	height:4em;
 	border:1px solid lightgray;
-	margin:3px;
-	padding:2px 8px;
+	margin:3px 0px;	
+	border-radius: 5px;
 }
+
+
+
 
 .object_link{
 	height:100%; 
 	display: inline-block; 
-	width: 99%;
-	/*padding-left:90px;*/
+	width: 100%;
+	padding:2px 8px;
 	box-sizing: border-box;
 	text-decoration:none;
 	color:black;
+	border-radius:5px;
+	transition: 2s;
 }
 
+.object_link h4{
+	margin-top:3px;
+}
+
+.object_link p{
+	color:darkolivegreen;
+	height: 1.1em;
+	overflow:hidden;
+}
+
+
+
+
+
+.object_link:hover{
+	background-color: darkkhaki;
+
+}
+
+.object_link:active{
+	transition: none;
+	background-color: orange;
+}
+
+.logo_item{
+    position: absolute;
+    width: 100px;
+    height: 100%;
+    top: 0;
+    right: 0;    
+	border-radius:15px;	
+	border:none;
+	outline:none;
+}
+
+.logo_item:before{
+	content: "No";
+	text-align:center;
+	line-height:4em;
+	margin:auto;
+	position:absolute;
+	background-color:green;
+	border-radius:15px;	
+	
+	height:100%;
+	width:100%;
+	
+}
+
+
+/*create community:*/
 
 .add_button{
 	height:50px;
