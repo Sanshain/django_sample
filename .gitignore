@@ -4,9 +4,8 @@ manage.py
 
 *.jpg
 *.jpeg
-*.png
 /Notepad++
-
+/media
 
 
 #standart:
