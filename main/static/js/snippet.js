@@ -201,29 +201,19 @@ function RefreshManager(e, root_elem){
 		for(var key in requared_blocks)
 		{
 			// example: `aside|state>note_create`
-			// example: `main?section~user_block.aside`
+			// example: `section~user_block.aside`
 
 			var tree = requared_blocks[key].split('>');
 			var detail = tree.shift().split(/[\~\|]/);
-			var b_id = detail.pop(); //id элемента
-			var required_block = null;
+			var b_id = detail.pop(); //id элемента			
+
 			
+			var	required_block = dom.obj(b_id);
+			
+			
+			
+//!			
 			var r_state =detail.length ? detail.pop(): '';
-			//можно искать r_state через querySelector
-			
-			var _cnts = b_id.split('?');
-			if (_cnts.length > 1){
-				for (var k in _cnts){
-					
-					if (required_block =dom.obj(_cnts)) break;
-				}				
-			} 			
-			else 
-				required_block = dom.obj(b_id);
-			
-			
-			
-			
 			var state = '';			
 			
 			if (required_block && r_state){
