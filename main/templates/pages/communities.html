@@ -164,20 +164,28 @@
 				
 					<h4>{{community.title}}</h4>
 					
-					<div>{{community.definition}}</div>
+					<p>{{community.definition}}</p>
 					
-					<img src='{{community.logo}}' class='' />
+					
+					<img src=
+						{% if community.logo %} 
+							'{{ MEDIA_URL }}{{community.logo}}'
+						{% else %}
+							'{% static "images/_default_group.png" %}'
+						{% endif %}
+
+					class='logo_item' alt='a'/>
 				
+					<button class='micro' style='bottom:0;'>#</button>
+				
+				
+					
 				</a>
 				
 			</li>
 		{% endfor  %}
 		
 		{% csrf_token %}
-		
-		<div class='add_button' onclick='insert_group(event);'>
-			+
-		</div>
 		
 		<div style="z-index: 10; position: fixed; top: 40vh; left: 40vw; background-color: red;"></div>
 				
@@ -188,3 +196,10 @@
 {% endblock %}
 
 
+{% block aside_inside %}
+
+	<div class='add_button' onclick='insert_group(event);'>
+		+
+	</div>
+
+{% endblock %}

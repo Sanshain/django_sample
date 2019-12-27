@@ -122,8 +122,16 @@ function RefreshManager(e, root_elem){
 		
 		
 		var details = block_name.split(">");
+
+		var _box = null;
 		
-		var _box = document.getElementById(details[0]);
+		if (detail[0]=='*') {
+			//doc.get
+			var _source_elem = dom.obj(detail[0].slice(1));
+			_box = vom.parent_container(_source_elem);
+		}
+		else 
+			_box = document.getElementById(details[0]);
 		
 		if (!_box)
 			throw new Error('root element not found');

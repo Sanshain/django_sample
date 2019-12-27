@@ -39,7 +39,7 @@ from django.utils.decorators import method_decorator
 # main
 from main.models import Profile, Friends, State
 from main.models.messages import Dialogue, Message, Dialogue_Partakers
-from main.views.Mixins import CSSMixin
+from main.views.Mixins import CSSMixin, ReactMixin, render_fragment
 from ..forms import create_note
 from ..models.notes import Article
 from ..utils.utime import present_time
@@ -109,15 +109,13 @@ class note_create(CreateView):
 ##        return super(note_create, self).form_valid(form)
 
 
-class ArticleView(CSSMixin, DetailView):
+class ArticleView(CSSMixin, ReactMixin, DetailView):
     model = Article
     template_name = '{}.haml'.format(model._meta.object_name.lower())
 
     def get_object(self, queryset=None):
 
-        obj = super(ArticleView, self).get_object()
-
-        #obj = obj.select_related('From')
+        obj = super(ArticleView, self).get_object()                                #obj = obj.select_related('From')
 
         return obj
 
@@ -128,4 +126,48 @@ class ArticleView(CSSMixin, DetailView):
 
         qs = qs.select_related('From')
 
+        print qs
+
         return qs
+
+    def post(self, request, *args, **kwargs):
+        print args
+        print kwargs
+
+
+        q = json.loads(self.request.body)
+
+        print q
+
+        aim = q.pop()
+        req_blocks = q.pop()
+        article_id = q.pop()[0]
+
+        if len(aim) > 10: return JsonResponse({'Exception':'Too large object'})
+
+
+
+
+
+        print self.model.__name__                                               # lower()
+
+
+        field_dict = {}
+
+        sample_dict = {
+            '*articles_block' : (self._render_fragment, ["_article", {
+                                            'object': self.get_object(),
+                                            'request' :self.request
+                                        },('', 'article_block')])                                                # - id, class
+
+        }
+
+        field_dict = {k : fa[0](fa[1]) for k, fa in sample_dict if k in aim}
+
+
+
+        field_dict.update(self.get_default_style('post'))
+
+        j = json.dumps(field_dict)
+        return JsonResponse(j, safe=False)
+

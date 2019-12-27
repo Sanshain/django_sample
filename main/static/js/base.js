@@ -146,6 +146,7 @@ function Viewer(data){
 		
 		return stored_data;
 	}
+
 	
 	/*! Render certain/definite fielt for view
 	
@@ -153,7 +154,15 @@ function Viewer(data){
 	*/
 	this.render_field = function(key, view){
 		
-		var field=document.getElementById(key.toLowerCase());
+		var field=null;
+		
+		if (key[0] == '*')
+			cfield=dom.obj(key.slice(1).toLowerCase());
+
+			field = vom.parent_container(cfield);
+		else
+			field =document.getElementById(key.toLowerCase());
+		
 		
 		if (!field) 
 			console.log('rebiuld_container on server');
@@ -321,8 +330,9 @@ function vom(elem){
 /*! 
 	функции инициализации фрагментов
 */
-
 vom.spa = false;
+
+
 
 vom.add = function(container, elem, cls)
 {
@@ -348,6 +358,21 @@ vom.create = function(tagname, attrs){
 	}
 	return elem;
 }
+
+
+vom.parent_container = function(cfield){
+	
+	var _root = cfield.parentElement;
+	
+	if (_root.id) {
+		
+		return _root;
+	}		
+	else 
+		return parent_conteiner(_root);
+
+}
+
 
 /*!
 	Собирает данные со страницы для анимации во время

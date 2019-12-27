@@ -21,7 +21,7 @@ def _get_file_info (base_path, name, ext = None):
 class CSSMixin(object):
     css_path = 'style'
 
-    def get_default_style(self, **kwargs):
+    def get_default_style(self, *args, **kwargs):
         """
         Добавляет в контекст ключ link со списком для хранения наименований подгружаемых файлов css.
         И добавляет туда одноименный файл css, который должен лежать в корне папки /static/
@@ -38,7 +38,10 @@ class CSSMixin(object):
         basepath = os.path.join(settings.BASE_DIR, __package__.split('.')[0], baseurl[1:])
 
         print basepath+'.css'
-        if os.path.exists(basepath+'.css'): context['links'] = [baseurl + '.css']
+        if os.path.exists(basepath+'.css'):
+            if 'post' in args: context['dynamic_link'] = baseurl + '.css'
+            else: context['links'] = [baseurl + '.css']
+
 
         return context
 
@@ -120,19 +123,34 @@ def render_fragment(args):
 
     request = args[1].pop('request', None)                                     # извлекаем request из 2-го аргумента
 
-    templ = render_to_string(
-        'fragments/%s.html'%args[0],
-        context=args[1],
-        request=request
-    ).strip().replace('\t','')                                                                   # .replace('\t','') - для оптимизации
+    templ = ''
+
+    try:
+
+        templ = render_to_string(
+            'fragments/%s.haml'%args[0],
+            context=args[1],
+            request=request
+        ).strip().replace('\t','')                                                         # .replace('\t','') - для оптимизации
+
+    except:
+
+        templ = render_to_string(
+            'fragments/%s.html'%args[0],
+            context=args[1],
+            request=request
+        ).strip().replace('\t','')
+
 
     if len(args) == 3:
         surround = args[2]                                                     # кортеж из класса и id элемента
 
         if len(surround) == 2:
-            return u"<div class='{}' id='{}'>{}</div>".format(*(surround + (templ,)))
+            if surround[0]: return u"<div class='{}' id='{}'>{}</div>".format(*(surround + (templ,)))
+            else: return u"<div class='{}'>{}</div>".format(surround[1], templ)
         elif len(surround) == 1:
             return u"<div class='{}'>{}</div>".format(*(surround + (templ,)))
+
 
     else:
         return templ
@@ -152,6 +170,14 @@ def render_root_fragment(templates):
 
 class ReactMixin(object):
 
+    """
+        Sample for `args`:
+
+        args = ["articles_main", {
+            'articles':articles,
+            'request' :self.request }, (
+                'articles', 'articles_block')] # - id, class
+    """
     _render_fragment = lambda self, args: render_fragment(args)
     _render_root_fragment = lambda self, args: render_root_fragment(args)
 
@@ -159,7 +185,7 @@ class ReactMixin(object):
         """
         virtual
         """
-        raise Exception('Must be overriden')
+        raise Exception('Must be overriden')                                    # see ProfileView for example
 
 
 
