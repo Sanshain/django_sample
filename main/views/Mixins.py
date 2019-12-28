@@ -35,6 +35,10 @@ class CSSMixin(object):
             context = kwargs['context']
 
         baseurl = settings.STATIC_URL + self.css_path + '/' + self.template_name.replace('.html','')
+
+        if settings.DEBUG:
+            baseurl = baseurl.replace('.haml','')
+
         basepath = os.path.join(settings.BASE_DIR, __package__.split('.')[0], baseurl[1:])
 
         print basepath+'.css'

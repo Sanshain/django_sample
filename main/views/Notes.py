@@ -155,19 +155,20 @@ class ArticleView(CSSMixin, ReactMixin, DetailView):
         field_dict = {}
 
         sample_dict = {
-            '*articles_block' : (self._render_fragment, ["_article", {
+            '<articles_block' : (self._render_fragment, ["_article", {
                                             'object': self.get_object(),
                                             'request' :self.request
                                         },('', 'article_block')])                                                # - id, class
 
         }
 
-
-        field_dict = {k : fa[0](fa[1]) for k, fa in sample_dict if k in aim}
+        field_dict = {k : fa[0](fa[1]) for k, fa in sample_dict.iteritems() if k in aim}
 
 
 
         field_dict.update(self.get_default_style('post'))
+
+        print field_dict.keys()
 
         j = json.dumps(field_dict)
         return JsonResponse(j, safe=False)
