@@ -162,6 +162,7 @@ class ArticleView(CSSMixin, ReactMixin, DetailView):
 
         }
 
+
         field_dict = {k : fa[0](fa[1]) for k, fa in sample_dict if k in aim}
 
 

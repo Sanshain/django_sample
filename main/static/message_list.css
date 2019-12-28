@@ -128,7 +128,7 @@ li img, .img_in_message{
 	text-align: center;
 }
 	
-@media screen and (max-height: 800px) {
+@media screen and (max-height: 638px) { /* для экранов <766 с учетом нижнего и верхнего отступа */
 	form{
 		right:16em;
 	}

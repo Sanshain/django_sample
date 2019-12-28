@@ -156,10 +156,12 @@ function Viewer(data){
 		
 		var field=null;
 		
-		if (key[0] == '*')
+		if (key[0] == '<')
+		{
 			cfield=dom.obj(key.slice(1).toLowerCase());
 
 			field = vom.parent_container(cfield);
+		}
 		else
 			field =document.getElementById(key.toLowerCase());
 		
@@ -359,7 +361,9 @@ vom.create = function(tagname, attrs){
 	return elem;
 }
 
-
+/*!
+	Ищет родительский контейнер. Как вариант еще добавить поиск по атрибуту data-_refresh
+*/
 vom.parent_container = function(cfield){
 	
 	var _root = cfield.parentElement;
@@ -369,7 +373,7 @@ vom.parent_container = function(cfield){
 		return _root;
 	}		
 	else 
-		return parent_conteiner(_root);
+		return vom.parent_container(_root);
 
 }
 

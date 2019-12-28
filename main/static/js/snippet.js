@@ -124,10 +124,13 @@ function RefreshManager(e, root_elem){
 		var details = block_name.split(">");
 
 		var _box = null;
+		var _lazy_box = null;
 		
-		if (detail[0]=='*') {
-			//doc.get
-			var _source_elem = dom.obj(detail[0].slice(1));
+		if (details[0][0]=='<') {
+			
+			_lazy_box = details[0];
+			
+			var _source_elem = dom.obj(_lazy_box.slice(1));	//doc.get
 			_box = vom.parent_container(_source_elem);
 		}
 		else 
@@ -148,16 +151,23 @@ function RefreshManager(e, root_elem){
 				if (sign==0){
 					//если не заданы одноуровневые поля
 					
-					//такого случая пока нет, но скорее всего брать все дочерние с id 
+					//такого случая пока нет, но скорее всего брать все дочерние с id //(либо data-state)
+					//вместо всего для бокса:
 					
-					//(либо data-state)
+					_boxes=_box.querySelectorAll('[id]');
+					
+					self.aim_blocks.push('*'+_box.id);					
 				}			
 				else{
-					var sample = _box.querySelector(
-						'#'+signs[0]
-					);	
-					//если типовой элемент найден
+					var sample = _box.querySelector('#'+signs[0]);	
+					
+					
 					if (sample){
+					//если типовой элемент найден
+					
+						_container = vom.parent_container(sample);//вставить ниже _container.querySelectorAll
+						//вместо всего для бокса:
+						
 						_boxes=_box.querySelectorAll(
 							'[id]'
 						);
@@ -189,9 +199,17 @@ function RefreshManager(e, root_elem){
 				}								
 			}		
 		}
-		
-		return _boxes.length ? _boxes : _box;
+
+		if (!_boxes.length) 
+		{
+			self.aim_blocks.push(_lazy_box ? _lazy_box : _box.id);		
+			
+			return _box;
+		}
+				
+		return _boxes; //_lazy_box
 	}
+	
 	
 
 	function requested_blocks_by_require(){	
@@ -478,8 +496,10 @@ function RefreshManager(e, root_elem){
 			_animate(_boxes, false);
 			
 			_await__animate(3, _boxes);
-						
-			self.aim_blocks.push(_boxes.id);			
+				
+
+//! перенес внутрь 	get_boxes		
+			//self.aim_blocks.push(_boxes.id);			
 		}
 		
 	}
