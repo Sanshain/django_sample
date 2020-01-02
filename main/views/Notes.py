@@ -158,9 +158,11 @@ class ArticleView(CSSMixin, ReactMixin, DetailView):
             '<articles_block' : (self._render_fragment, ["_article", {
                                             'object': self.get_object(),
                                             'request' :self.request
-                                        },('', 'article_block')])                                                # - id, class
+                                        },('article_block', 'article')])                                         # - id, class
 
         }
+
+
 
         field_dict = {k : fa[0](fa[1]) for k, fa in sample_dict.iteritems() if k in aim}
 

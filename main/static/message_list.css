@@ -49,6 +49,7 @@ textarea{
 	border-radius: 10px;
 	padding: 10px;
 	outline: none;		
+    font-family: sans-serif;	
 }
 .dialog_container{
 	margin-right: 16em;
@@ -73,6 +74,7 @@ textarea{
 	padding-left:40px;		
 	
 	overflow-y:scroll;
+	font-family: sans-serif;
 }
 .messages{
 	position: absolute;

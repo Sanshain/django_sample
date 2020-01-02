@@ -3,202 +3,37 @@
 
 
 
-{% block style %}
-	{% load staticfiles %}
-	{{ block.super }}
+{% block style %}{{ block.super }}
 	
-
-	.pp_create{
-		position:absolute;
-		cursor:pointer;
-		width:40px;
-		height:40px;
-		border-radius:50px;
-		transition:0.5s;	
-		bottom:-10px;
-		left:-20px;
-		background-color:#4cd64c;
-		background-image: url({% static 'images/check.png' %});
-		background-size: contain;
-	}
-	
-	.pp_create:hover{
-		transform:scale(1.1,1.1);
-		box-shadow: 0 0 5px 2px green;
-	}
-	
-	.pp_create:focus{
-		outline:none;
-		transition:none;
-		box-shadow: 0 0 5px 2px blue;
-	}
-	
-	.pp_close{
-		position:absolute;
-		width:40px;
-		height:40px;		
-		border-radius:50%;
-		cursor:pointer;
-		transition:0.5s;
-		
-		top:-10px;
-		right:-10px;
-		opacity:0.9;
-		background-image: url({% static 'images/cross.png' %});
-		background-size: contain;
-	}
+	{% include "fragments/_communities_style.css" %}
 	
 {% endblock %}
 
-{% block script %}
-	{{ block.super }}
+
+
+{% block script %}{{ block.super }}
 	
-	/*!  Elem
-	
-	*/
-	function PopupIntroduce(switch_off){
-		var inbox = document.createElement('div');
-		inbox.className = 'insert_group';
-		event.target.parentElement.appendChild(inbox);
-		
-		this.switch_off = switch_off;
-		var self = this;
-		
-		
-		var backdrop = vom.add(dom.body, 'div','fon');
-		vom.add(inbox, 'div', 'pp_close').vs({title:'Закрыть'}).onclick = function(){
-			if (confirm("Вы уверены, что не хотите создать группу?")){
-				self.Destroy();
-			}			
-		};
-		
-		vom.add(inbox, 'div', 'pp_create').vs({
-			tabindex:0
-		}).onclick = function(){
-			var community_creator = new Ajax("{% url 'group' 0 %}", function(response){
-				alert(response);
-				self.Destroy();       
-			});
-			community_creator.submit_form(inbox);
-		};		
-		
-		
-		var titleInput = vom.add(inbox, 'input', '').vs({ 
-			placeholder : 'Наименование сообщества',
-			name : 'title'
-		});
-		/*
-		vom.add(inbox, 'button', 'logo_plus').vs({
-			onclick : "alert(0)",			
-		}).innerText = '...';//*/
-		
-		vom.add(inbox, 'textarea', '').vs({
-			placeholder : 'Краткое описание',
-			name : 'definition'
-		});
-		/*
-		vom.add(inbox, 'input', '').vs({
-			type : 'file',
-			name : 'logo',
-			style : 'display:none;'
-		});
-		//*/
-		
-		
-		//анимирует плавное появление:
-		setTimeout(function()											//вместо requestAnimationFrame
-		{									
-			inbox.style.opacity = '1';
-			inbox.style.transition = '0.6s';
-			inbox.querySelector('input').focus();
-		}
-		, 20);		
-		
-		
-		
-		this.Destroy = function(func){
-		
-			inbox.style.opacity = '0';			
-			backdrop.style.opacity = '0';
-			
-			if (this.switch_off) switch_off();
-			
-			setTimeout(function()											//вместо requestAnimationFrame
-			{									
-				inbox.parentElement.removeChild(inbox);								//parentNode	
-				backdrop.parentElement.removeChild(backdrop);						//parentNode	
-			}
-			, 600);		
-					
-		}
-		
-	}
-	
-	
-	var group_introduce = null;
-	function insert_group(event){
-		if (event.target.innerText == '+')
-		{
-			// здесь может быть утечка:
-			group_introduce = new PopupIntroduce(function(){
-				event.target.innerText = '+';
-			});
-			event.target.innerText = '-';
-		}
-		else
-		{
-			group_introduce.Destroy();			
-		}
-	}
+	{% include "fragments/_communities_script.js" %}
 
 {% endblock %}
+
+
+
 {% block main %}
-	<ul class='community_list'>
-		{% if object_list|length == 0 %}
-			<div style='width:100%;line-height:70vh;text-align:center;'>У вас еще нет групп</div>
-		{% endif %}
-			
-		{% for community in object_list %}
-			<li id='{{community.id}}'>
-				<a href='{% url "group" community.id %}' class='object_link' onclick=''>
-				
-					<h4>{{community.title}}</h4>
-					
-					<p>{{community.definition}}</p>
-					
-					
-					<img src=
-						{% if community.logo %} 
-							'{{ MEDIA_URL }}{{community.logo}}'
-						{% else %}
-							'{% static "images/_default_group.png" %}'
-						{% endif %}
 
-					class='logo_item' alt='a'/>
-				
-					<button class='micro' style='bottom:0;'>#</button>
-				
-				
-					
-				</a>
-				
-			</li>
-		{% endfor  %}
-		
-		{% csrf_token %}
-		
-		<div style="z-index: 10; position: fixed; top: 40vh; left: 40vw; background-color: red;"></div>
-				
-	<ul>		
-	
-	
+	<main>
 
+		{% include "fragments/_communities.html" %}
+		
+	</main>
+	
 {% endblock %}
+
 
 
 {% block aside_inside %}
 
-	<div class='add_button' onclick='insert_group(event);'>
+	<div class='add_button' onclick="insert_group(event, '{% url "group" 0 %}');">
 		+
 	</div>
 

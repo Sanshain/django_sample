@@ -132,7 +132,7 @@ def render_fragment(args):
     try:
 
         templ = render_to_string(
-            'fragments/%s.haml'%args[0],
+            'fragments/%s%s'%(args[0], '' if '.' in args[0] else '.haml'),
             context=args[1],
             request=request
         ).strip().replace('\t','')                                                         # .replace('\t','') - для оптимизации
@@ -140,7 +140,7 @@ def render_fragment(args):
     except:
 
         templ = render_to_string(
-            'fragments/%s.html'%args[0],
+            'fragments/%s%s'%(args[0], '' if '.' in args[0] else '.html'),
             context=args[1],
             request=request
         ).strip().replace('\t','')
@@ -151,7 +151,7 @@ def render_fragment(args):
 
         if len(surround) == 2:
             if surround[0]: return u"<div class='{}' id='{}'>{}</div>".format(*(surround + (templ,)))
-            else: return u"<div class='{}'>{}</div>".format(surround[1], templ)
+            else: return u"<div id='{}'>{}</div>".format(surround[1], templ)
         elif len(surround) == 1:
             return u"<div class='{}'>{}</div>".format(*(surround + (templ,)))
 

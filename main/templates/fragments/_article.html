@@ -1,5 +1,7 @@
 <div class='title'>
-	<button title='' id='close'>-</button>
+	{% url "user" object.From.id as back %}
+
+	<button title='' data-_refresh='<article' formAction='{{ back }}' id='close'>-</button>
 
 	<h3>{{ object.Title }}</h3>
 

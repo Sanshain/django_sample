@@ -1,5 +1,7 @@
+/*in common with .main in user.html*/
 
-#user_block {			/*in common with .main in user.html*/
+
+.user_block {			
     position: fixed;
     top: 150px;
     left: 10px;
@@ -27,6 +29,16 @@
 	margin-left:24em;
 	padding:1em;	
 }
+
+
+
+
+
+
+
+
+
+
 
 
 .article_block{

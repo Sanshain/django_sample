@@ -40,7 +40,7 @@ from django.utils.decorators import method_decorator
 # main
 from main.models import Profile, Friends, State
 from main.models.messages import Dialogue, Message, Dialogue_Partakers
-from main.views.Mixins import CSSMixin as CssMixin
+from main.views.Mixins import CSSMixin as CssMixin, ReactMixin
 from ..forms import create_note
 from ..models.notes import Article
 from ..utils.utime import present_time
@@ -64,7 +64,7 @@ class communityValidator(forms.ModelForm):
 
 
 
-class Communie_List(CssMixin, ListView):
+class Communie_List(CssMixin, ReactMixin, ListView):
     model = Community
     template_name = 'pages/communities.html'
 
@@ -76,7 +76,35 @@ class Communie_List(CssMixin, ListView):
 
     def post(self, *args, **kwargs):
 
-        return HttpResponse('not index of Comminie is ...')
+        q = json.loads(self.request.body)
+
+        aim = q.pop()
+        req_blocks = q.pop()
+#        object_id = q.pop()[0]
+
+        if len(aim) > 10: return JsonResponse({'Exception':'Too large object'})
+
+        _model = 'communities'                                                       #self.model.__name__.lower()
+
+
+
+        sample_dict = {
+            'content' : (self._render_fragment, ['_' + _model, {
+                'object_list': self.get_queryset(),
+                'request' : self.request
+            }]),
+        }
+
+        field_dict = {
+            'dynamic_c_in_head' : settings.STATIC_URL + 'js/_' + _model + '.js',           #self._render_fragment(['_' + _model + '_script.js', {}]),
+            'dynamic_link' : settings.STATIC_URL + 'style/' + _model + '.css',
+            'dynamic_style' : self._render_fragment(['_' + _model + '_style.css', {}]),
+            'content' : self._render_root_fragment([sample_dict['content'][0](sample_dict['content'][1]),''])
+        }
+
+        print field_dict['dynamic_c_in_head']
+
+        return JsonResponse(field_dict, safe=False)                                      # HttpResponse('not index of Comminie is ...')
 
 
 class Communie(CssMixin, DetailView):

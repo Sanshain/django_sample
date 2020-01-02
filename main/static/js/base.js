@@ -186,11 +186,22 @@ function Viewer(data){
 		else if (!field && key.startsWith('dynamic_c')){
 			//если не найден скрипт
 			
+			if (dom.obj(key)) return;
+
 			var script = document.createElement('script');
-			script.src = view;
-			script.type = "text/javascript";
-			script.id = key;			
-			document.head.appendChild(script);	
+
+			//if (key.indexOf('in_head') < 0)
+			{
+
+				script.src = view;
+				script.type = "text/javascript";
+			
+			}
+			//else script.innerText = view;
+			
+			
+			script.id = key;
+			document.head.appendChild(script);		
 			
 			return;
 			

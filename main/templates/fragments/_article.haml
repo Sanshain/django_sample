@@ -1,5 +1,7 @@
 .title 
-	button#close(title='') -
+	-url "user" object.From.id as back
+
+	button#close(title='' data-_refresh='<article' formAction='={back}') -
 		
 	h3 ={object.Title}
 	

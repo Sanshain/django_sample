@@ -252,7 +252,7 @@ class UserView(CSSMixin, DetailView):
         user_env = ["_user_profile", {
             'self' :  cuser == self.request.user,
             'user' : self.request.user,
-            'profile':cuser }, ('left_unit',)]                                   # ,'user_block'
+            'profile':cuser }, ('user_block',)]                                   # ,'user_block'
 
         article_env = ["articles_main", {
             'articles':articles,
@@ -267,7 +267,10 @@ class UserView(CSSMixin, DetailView):
             #вариативные шаблоны:
             'content': (_render_root_fragment, [user_env, article_env]),
 
+            #два одинаковых
+            '<article' : (_render_fragment, article_env),
             'section' : (_render_fragment, article_env),                           # was used in a template, but the context did not provide the value. This is usually caused by not using RequestContext
+
             'main' : (_render_fragment, user_env),
 
             # минорные вариат шаблоны:
