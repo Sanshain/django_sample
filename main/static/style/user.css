@@ -1,4 +1,5 @@
 .note_action{
+	margin: 0;
 	min-width:7em;
 	min-height: 40px; 
 	margin-left: 5%;
@@ -6,14 +7,77 @@
 	line-height:40px;
 }
 
+#note p, #note input{ /*:first-child*/
+	margin-top:0;
+}
+
+
+
+#note #id_Title{
+	/*font-weight: bold;*/
+	width: 90%;
+	margin: 0em 5% 0 5%;
+	line-height: 1em;
+	padding: 0 5px 0 5px;
+	border-radius: 5px 5px 0 0;
+	padding:5px;
+
+	border-style: groove;
+	box-sizing: border-box;
+
+	font-size: x-large;
+	text-align: center;
+	outline: none;	
+}
+
+
+
+#article__imgpreviewer{
+	position: absolute;
+    right: 5%;
+    z-index: 2;
+    top: 3.65em;
+    min-width: 64px;
+    
+    background-color: rgba(15, 15, 15, 0.32);
+	
+	height: 320px;/*60vh;*/
+	height: calc(100vh - 150px - 10rem);
+}
+
+#note textarea{
+	height:20em;
+	height: calc(100vh - 150px - 10rem);
+	
+	/*height: 60vh;*/
+	width: 80%;
+	z-index: 1;
+	border-color: blanchedalmond;
+	outline: none;
+
+	/*
+	width: calc(90% - 64px);
+	*/
+
+	margin: 0 5% 0 5%;
+	padding:15px;
+
+	border-style: groove;
+	border-right:none;
+	box-sizing: border-box;
+
+	font-size: large;	/*x-*/
+}
+
 #win{
-    position: absolute;
+    position: fixed;
     z-index: 10000;
     background-color: aliceblue;
     right: 0;
     bottom: 0;
-    left: 0;
-    top: 0;
+    left: 23em;
+    top: 150px;
+    right: 16em;
 	opacity:0;
 	transition:1s;
 }

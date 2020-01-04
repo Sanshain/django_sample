@@ -15,6 +15,10 @@ Note.createView = function(){
 	//document.querySelector('.articles_list').style.visibility='hidden';
 	
 	var new_art = document.getElementById('win');	
+	
+	dom.get('.articles_list').style.visibility = 'hidden';	
+	window.onmousewheel = function(){ return false };
+	
 	//new_art.removeAttribute('style');	
 	
 	new_art.style.visibility = 'visible';
@@ -38,6 +42,12 @@ Note.hideView = function(){
 	
 	document.getElementById('win').style.opacity='0';
 
+	dom.get('.articles_list').style.visibility = 'visible';
+	//setTimeout(function(){ dom.get('.articles_list').style.display = 'block';} , 1000);
+	
+	window.onmousewheel = function(){ return true };
+	
+	
 	
 	//document.querySelector('.articles_list').style.visibility='visible';
 	
