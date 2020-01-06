@@ -76,7 +76,7 @@ class create_note(HTMLabelForm):
             'Content':''
         }
         widgets = {
-            'Title': forms.TextInput(attrs={'placeholder':u'заголовок', 'style':
+            'Title': forms.TextInput(attrs={'placeholder':u'Название', 'style':
                 '''
 
 

@@ -11,6 +11,10 @@
 	margin-top:0;
 }
 
+#note p:first-of-type{
+	/*margin-bottom:0;*/
+}
+
 
 
 #note #id_Title{
@@ -22,7 +26,7 @@
 	border-radius: 5px 5px 0 0;
 	padding:5px;
 
-	border-style: groove;
+	border: 1px solid gray;
 	box-sizing: border-box;
 
 	font-size: x-large;
@@ -36,13 +40,13 @@
 	position: absolute;
     right: 5%;
     z-index: 2;
-    top: 3.65em;
+    top: 3.5em;
     min-width: 64px;
     
     background-color: rgba(15, 15, 15, 0.32);
 	
 	height: 320px;/*60vh;*/
-	height: calc(100vh - 150px - 10rem);
+	height: calc(100vh - 155px - 10rem);
 }
 
 #note textarea{
@@ -72,7 +76,7 @@
 #win{
     position: fixed;
     z-index: 10000;
-    background-color: aliceblue;
+    /*background-color: aliceblue;*/
     right: 0;
     bottom: 0;
     left: 23em;
@@ -115,18 +119,51 @@
 	right:16em;
 }
 
+.btn .note_action{
+    margin-right: 5%;
+    float: right;	
+
+}
+
 @media screen and (max-width: 1280px) {
-	.left_unit{
+	.user_block{
 		/*position:relative;*/
 		/*top:0px;*/
 		/*width:77%;	*/
 		/*right:16em;*/
 		width:16em;
 	}
+	.user{
+		padding:30px;
+	}
+	
+	
+	
 	.articles{
 /*		left:10px;*/
 		right:80px;
 		left:18em;
+	}
+	#win{
+		left:18em;
+		right:70px;
+	}
+	#note #id_Title, #note textarea{
+		margin:0 !important;
+		width:100% !important;
+	}
+	
+	input.note_action{
+		margin: 0;
+	}
+	
+	#win button {
+		margin: 0 !important;	
+	}	
+	
+	#article__imgpreviewer{
+		right:0%;
+		border-style: ridge;
 	}
 	
 	
@@ -134,6 +171,7 @@
 	/*вероятно, это стоит перенести в aside*/
 	.aside{
 		width:60px;
+		left:auto;
 	}
 	.aside_menu span{
 		display:none;
@@ -219,6 +257,7 @@
 
 
 .articles_list{
+	transition: 1s;
 	border:1px solid lightgray;
 	border-radius: 8px;
 }
