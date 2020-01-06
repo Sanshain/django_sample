@@ -17,22 +17,24 @@ Note.createView = function(){
 	var new_art = document.getElementById('win');	
 	
 	//dom.get('.articles_list').style.transition ='1s';		
-	dom.get('.articles_list').style.opacity = 0;	
+		
 
 	window.onmousewheel = function(){ return false };
 	
 	//new_art.removeAttribute('style');	
 	
-
+	new_art.style.transition = "2s";	
+	new_art.style.visibility = 'visible';
+	new_art.style.opacity = 1;	
 	
 	
 	setTimeout(function(){
+		dom.get('.articles_list').style.opacity = 0;
 		dom.get('.articles_list').style.visibility = 'hidden';	
 	
 		
-		new_art.style.transition = "2s";
-		new_art.style.visibility = 'visible';
-		new_art.style.opacity = 1;		
+
+	
 		//document.getElementById('id_Content').focus();
 	},1100);
 	
@@ -55,13 +57,15 @@ Note.hideView = function(){
 	
 	window.onmousewheel = function(){ return true };
 	
-	
 	dom.get('.articles_list').style.visibility = 'visible';	
+	dom.get('.articles_list').style.opacity = 1;		
+	
 	
 	setTimeout(function(){
 
 		document.getElementById('win').style.transition ='2s';
-		dom.get('.articles_list').style.opacity = 1;	
+		
+
 		//document.getElementById('id_Content').focus();
 	},1100);
 	
@@ -111,8 +115,28 @@ Note.post_View = function(sender, e){
 	//скрываем article_editor:
 	document.getElementById('win').style.visibility='hidden';
 	document.getElementById('win').style.opacity='0';
-	document.getElementById('id_Title').value = '';
-	document.getElementById('id_Content').value = '';	
+
+	
+
+	
+	setTimeout(function(){
+		
+		window.onmousewheel = function(){ return true };
+		
+		document.getElementById('id_Title').value = '';
+		document.getElementById('id_Content').value = '';
+		
+	
+		
+	}, 2000);
+	
+	
+	setTimeout(function(){
+		dom.get('.articles_list').style.visibility = 'visible';	
+		dom.get('.articles_list').style.opacity = 1;
+	}, 1000);
+
+	
 };
 
 
