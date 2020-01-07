@@ -23,7 +23,7 @@ Note.createView = function(){
 	
 	//new_art.removeAttribute('style');	
 	
-	new_art.style.transition = "2s";	
+	new_art.style.transition = "1s";	
 	new_art.style.visibility = 'visible';
 	new_art.style.opacity = 1;	
 	
