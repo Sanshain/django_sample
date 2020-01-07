@@ -1,7 +1,7 @@
 
 var leaser = {
 	r_time : 500,	// response time waiting
-	waiting : 3		// quantity of attempts to catch response
+	wait : 5		// quantity of attempts to catch response
 	
 }
 
@@ -489,13 +489,13 @@ function RefreshManager(e, root_elem){
 				
 				_animate(_boxes[k], false);
 				
-				_await__animate(3, _boxes[k]);
+				_await__animate(leaser.wait, _boxes[k]);
 			}
 		}
 		else{
 			_animate(_boxes, false);
 			
-			_await__animate(3, _boxes);
+			_await__animate((leaser || {}).wait || 0, _boxes);
 				
 
 //! перенес внутрь 	get_boxes		

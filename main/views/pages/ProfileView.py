@@ -252,12 +252,12 @@ class UserView(CSSMixin, DetailView):
         user_env = ["_user_profile", {
             'self' :  cuser == self.request.user,
             'user' : self.request.user,
-            'profile':cuser }, ('user_block',)]                                   # ,'user_block'
+            'profile':cuser }, ('left_block',)]                                   # ,'user_block'
 
         article_env = ["articles_main", {
             'articles':articles,
             'request' :self.request }, (
-                'articles', 'articles_block')]
+                'centre_block', 'articles_block')]
 
         patterns = {
             #при любом раскладе:

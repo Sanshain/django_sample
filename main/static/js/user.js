@@ -15,13 +15,26 @@ Note.createView = function(){
 	//document.querySelector('.articles_list').style.visibility='hidden';
 	
 	var new_art = document.getElementById('win');	
+	
+	//dom.get('.articles_list').style.transition ='1s';		
+		
+
+	window.onmousewheel = function(){ return false };
+	
 	//new_art.removeAttribute('style');	
 	
+	new_art.style.transition = "2s";	
 	new_art.style.visibility = 'visible';
-	new_art.style.opacity = 1;
+	new_art.style.opacity = 1;	
 	
 	
 	setTimeout(function(){
+		dom.get('.articles_list').style.opacity = 0;
+		dom.get('.articles_list').style.visibility = 'hidden';	
+	
+		
+
+	
 		//document.getElementById('id_Content').focus();
 	},1100);
 	
@@ -35,9 +48,28 @@ Note.createView = function(){
 Note.hideView = function(){
 
 	document.getElementById('win').style.visibility ='hidden';
+	document.getElementById('win').style.transition ='1s';
 	
 	document.getElementById('win').style.opacity='0';
 
+	dom.get('.articles_list').style.visibility = 'visible';
+	//setTimeout(function(){ dom.get('.articles_list').style.display = 'block';} , 1000);
+	
+	window.onmousewheel = function(){ return true };
+	
+	dom.get('.articles_list').style.visibility = 'visible';	
+	dom.get('.articles_list').style.opacity = 1;		
+	
+	
+	setTimeout(function(){
+
+		document.getElementById('win').style.transition ='2s';
+		
+
+		//document.getElementById('id_Content').focus();
+	},1100);
+	
+	
 	
 	//document.querySelector('.articles_list').style.visibility='visible';
 	
@@ -83,8 +115,28 @@ Note.post_View = function(sender, e){
 	//скрываем article_editor:
 	document.getElementById('win').style.visibility='hidden';
 	document.getElementById('win').style.opacity='0';
-	document.getElementById('id_Title').value = '';
-	document.getElementById('id_Content').value = '';	
+
+	
+
+	
+	setTimeout(function(){
+		
+		window.onmousewheel = function(){ return true };
+		
+		document.getElementById('id_Title').value = '';
+		document.getElementById('id_Content').value = '';
+		
+	
+		
+	}, 2000);
+	
+	
+	setTimeout(function(){
+		dom.get('.articles_list').style.visibility = 'visible';	
+		dom.get('.articles_list').style.opacity = 1;
+	}, 1000);
+
+	
 };
 
 

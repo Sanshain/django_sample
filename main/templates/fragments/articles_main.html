@@ -4,16 +4,7 @@
 	}
 ">
 
-	<div id="article__imgpreviewer" style='
-		position:absolute;
-		right:5%;
-		z-index: 2;
-		top:5.5em;
-				
-		min-width:64px;
-		height:60vh;		
-		background-color:rgba(15, 15, 15, 0.32);
-		'>
+	<div id="article__imgpreviewer" style=''>
 		
 	</div>
 
@@ -23,17 +14,7 @@
 		{{create_articles.as_p}}
 		
 		<!-- Кнопки: -->
-		
-		<button 
-			class='btn' 
-			style='
-				position:absolute;
-				margin-top:0;
-				top:1em;
-				right:15px;
-				border-radius:25px;
-				' 
-			onclick=''>+</button>		
+			
 		
 		<input 
 			form='note' 
@@ -61,7 +42,7 @@
 
 		<button 
 			class='btn note_action' 
-			style='margin-right: 5%;float:right;' 
+			style='' 
 			onclick='event.preventDefault(); Note.hideView()'>
 			
 				Скрыть
