@@ -2,8 +2,6 @@ manage.py
 *.pyc
 *.sh
 
-*.jpg
-*.jpeg
 /Notepad++
 /media
 

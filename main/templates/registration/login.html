@@ -1,11 +1,25 @@
 {% extends "base.html" %}{% load staticfiles %}
 
 	
-{% block links %}<link rel="stylesheet" href="{% static 'login.css' %}">{% endblock %}
-	
+{% block links %}
+	{{ block.super }} 
+	<link rel="stylesheet" href="{% static 'login.css' %}">
+{% endblock %}
+
+{% block style %}
+	{{ block.super }}
+	.section_nav{
+		margin-right: -5px;
+	}
+{% endblock %}
+
+
+
 {% block nav %}
-	<a href="{% url 'signup' %}" class='sign me'>Регистрация</a>	
-	<a href="{% url 'users' %}" class='sign'>Участники</a>	
+	<a href="{% url 'users' %}" class='section_nav'>Статьи</a>
+	<a href="{% url 'users' %}" class='section_nav'>Лидеры</a>
+	<a href="{% url 'users' %}" class='section_nav'>О нас</a>	
+	<a href="{% url 'signup' %}" class='section_nav'>Регистрация</a>
 {% endblock %}
 	
 {% block section %}
