@@ -17,8 +17,20 @@
 		ul.blocklist
 			-for User in Users				
 				li(id='={User.id}' onclick='user_click(this, event)' onmousedown='user_mousedown(this,event)')
-					={User.username}
-					={User.last_name}
+					h3
+						={User.username}
+						={User.last_name}
+					
+					.i_desc
+						Male: 29
+						Sex: jenshina
+						
+					.logo
+					
+					.i_mnu
+						button 12456
+						button 12456
+						button 12456
 					
 					-if User.Recipient
 						button.to_friend.sended Reconside
