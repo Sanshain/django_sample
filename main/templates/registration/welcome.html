@@ -7,6 +7,13 @@
 	<script src="{% static 'ajax.js' %}"></script>	
 {% endblock %}
 	
+{% block style %}
+	{{ block.super }}
+	.section_nav{
+		margin-right: -5px;
+	}
+{% endblock %}
+	
 {% block nav %}
 	<a href="{% url 'users' %}" class='section_nav'>Статьи</a>
 	<a href="{% url 'users' %}" class='section_nav'>Лидеры</a>

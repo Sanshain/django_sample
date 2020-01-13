@@ -39,7 +39,7 @@ body{
 	color:darkgray;
 }
 
-.section_nav{
+.section_nav, nav a{
 	display:inline-block;
 	border-left:1px solid #dccdab;		
 	line-height:60px;
