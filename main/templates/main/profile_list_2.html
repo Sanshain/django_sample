@@ -7,13 +7,6 @@
 		<link rel='stylesheet' href='{% static "profile_list_2.css" %}'>
 		<script src='{% static "ajax.js" %}'></script>
 	{% endblock %}
-	{% block style %}
-		{{ block.super }}
-		.sended.out{
-			right:125px;
-			background-color:#ffa50082;}
-
-	{% endblock %}
 	{% block script %}
 		{% include 'main/profile_list/behavior.js' %}
 
