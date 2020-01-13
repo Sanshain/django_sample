@@ -1,10 +1,13 @@
+#не используется:
+
 {% extends "base.html" %}{% load staticfiles %}
 
 	
 	
 {% block links %}
-	{{ block.super }} 
-	<link rel="stylesheet" href="{% static 'login.css' %}">
+	{{ block.super }} 	
+	<link rel="stylesheet" href="{% static 'form.css' %}">
+	<script src="{% static 'ajax.js' %}"></script>		
 {% endblock %}
 
 
@@ -24,9 +27,7 @@
 {% endblock %}
 
 
-
 {% block main %} {% endblock %} {% block aside %} {% endblock %}
-
 
 
 {% block section %}

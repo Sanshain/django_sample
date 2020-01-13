@@ -37,12 +37,13 @@ urlpatterns = [
     url(r'^user/$', ProfileView.Mirror, name='Me'),                                             # я сам
     url(r'^users/(?P<pk>[0-9]+)/$',login_required(ProfileView.UserView.as_view()), name = 'user'),         # число в аргументе, страница польз-ля
     url(r'^users/$', ProfileView.UserList.as_view(), name='users'),                                         # список друзей
+
     url(r'^$', ProfileView.Load, name='Profile_Load'),
 	url(r'^about/$', TemplateView.as_view(template_name="about.htm")),
-	url(r'^signme/$', ProfileView.Create.as_view()),
-	url(r'^signup/$', ProfileView.SignUp.as_view(), name= 'signup'),
+	url(r'^signme/$', ProfileView.Create.as_view(), name= 'signup'),
     url(r'^signin/$', ProfileView.SignIn.as_view(), name= 'signin'),
-    url(r'^signout/$', LogoutView.as_view(next_page='/signin/'), name= 'signout'),                       # LogoutView.as_view(next_page = '/signin/'),
+    url(r'^signup/$', ProfileView.SignUp.as_view()),
+    url(r'^signout/$', LogoutView.as_view(next_page='/signin/'), name= 'signout'),                 # LogoutView.as_view(next_page = '/signin/'),
 	url(r'^success/$', TemplateView.as_view(template_name="gradulation.html"), name='gradulation'),
     url(r'^edit_self/(?P<pk>[0-9]+)/', ProfileView.UserUpdate.as_view(), name= 'edit_self'),
 

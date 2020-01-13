@@ -508,7 +508,7 @@ class UserList(LoginRequiredMixin, ListView):
 
 class Create(CreateView):
     form_class = user.CreatePerson
-    template_name = 'welcome.html'
+    template_name = 'registration/welcome.html'
     succes_url = '/success/' 									# reverse_lazy('contact') или reverse
 
     def get_context_data(self, **kwargs):
@@ -533,12 +533,21 @@ class CreateRate(CreateView):
 
 class SignUp(CreateView):
     form_class = user.SignUpForm
-    template_name = 'welcome.html'
+    template_name = 'registration/signup.html'
     succes_url = '/success/'
 
     def get_context_data(self, **kwargs):
+
+        print '+++++++++++++++++++++'
+
         context = super(SignUp, self).get_context_data(**kwargs)
+
+        print '---------------------'
+
         context['form'].request = self.request
+
+        print '===================='
+
         return context
 
     def form_valid(self, form):
@@ -557,6 +566,7 @@ class SignUp(CreateView):
         #suc = self.get_success_url()
         #contact_name = self.form.cleaned_data['contact_name']
         return redirect(self.succes_url)
+
 
 
 class SignIn(LoginView):

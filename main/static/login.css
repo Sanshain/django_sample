@@ -31,11 +31,15 @@ form input[type=submit]{
 	text-transform:uppercase;
 	color: green;
 	background-color: rgb(221, 221, 221);
+	outline:none;
 }		
 form input[type=submit]:hover{
 	border: 1px solid green;	
 	background-color: rgb(221, 221, 221);
 	color: green;			
 }		
-
+form input[type=submit]:focus{
+	transition: 0s;
+	background-color: lightgray;
+}
 	
