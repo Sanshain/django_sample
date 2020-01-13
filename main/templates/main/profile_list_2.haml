@@ -1,0 +1,42 @@
+-extends "base.html"
+		
+	-block links
+		-load staticfiles
+	
+		/ [if IE 8]><script src='~static "ie8.js"'></script><![endif]
+		link(rel="stylesheet" href='~static "profile_list_2.css"')
+		script(src='~static "ajax.js"')		
+
+	-block style
+		={block.super}
+		\.sended.out{
+			right:125px;
+			background-color:#ffa50082;}
+
+	-block script
+		-include 'main/profile_list/behavior.js'
+	
+	-block header
+		Users:
+		
+	-block main
+		ul.blocklist
+			-for User in Users				
+				li(id='={User.id}' onclick='user_click(this, event)' onmousedown='user_mousedown(this,event)')
+					={User.username}
+					={User.last_name}
+					
+					-if User.Recipient
+						button.to_friend.sended Reconside
+					-elif User.Sender
+						button.to_friend.sended.out Refuse
+						button.to_friend.sended Accept
+					-elif User.Friend
+						.friend.to_friend Your friend
+					-else
+						button.to_friend To_friend
+				-csrf_token
+	
+	-block section
+	-block aside
+	

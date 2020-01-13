@@ -459,6 +459,7 @@ class UserUpdate(UpdateView):
 class UserList(LoginRequiredMixin, ListView):
     model = Profile
     # template_name = "home.html" 							                       	# по умолчанию main/profile_list.html
+    template_name = 'main/profile_list_2.haml'
     context_object_name = 'Users'							                    	# object_list by default
     login_url = '/signin/'
 

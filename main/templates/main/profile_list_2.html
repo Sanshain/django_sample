@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+	{% block links %}
+		{% load staticfiles %}
+
+<!-- [if IE 8]><script src='{% static "ie8.js" %}'></script><![endif] -->
+		<link rel='stylesheet' href='{% static "profile_list_2.css" %}'>
+		<script src='{% static "ajax.js" %}'></script>
+	{% endblock %}
+	{% block style %}
+		{{ block.super }}
+		.sended.out{
+			right:125px;
+			background-color:#ffa50082;}
+
+	{% endblock %}
+	{% block script %}
+		{% include 'main/profile_list/behavior.js' %}
+
+	{% endblock %}
+	{% block header %}
+		Users:
+
+	{% endblock %}
+	{% block main %}
+		<ul class='blocklist'>
+			{% for User in Users %}
+				<li onclick='user_click(this, event)' onmousedown='user_mousedown(this,event)' id='{{ User.id }}'>
+					{{ User.username }}
+					{{ User.last_name }}
+
+					{% if User.Recipient %}
+						<button class='to_friend sended'>Reconside</button>
+					{% elif User.Sender %}
+						<button class='to_friend sended out'>Refuse</button>
+						<button class='to_friend sended'>Accept</button>
+					{% elif User.Friend %}
+						<div class='friend to_friend'>Your friend</div>
+					{% else %}
+						<button class='to_friend'>To_friend</button>
+					{% endif %}
+				</li>
+				{% csrf_token %}
+
+			{% endfor %}
+		</ul>
+	{% endblock %}
+	{% block section %}
+	{% endblock %}
+	{% block aside %}
+
+	{% endblock %}
+
