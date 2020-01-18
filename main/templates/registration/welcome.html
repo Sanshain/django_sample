@@ -1,0 +1,32 @@
+{% extends "base.html" %}{% load staticfiles %}
+
+	
+{% block links %}
+	{{ block.super }} 	
+	<link rel="stylesheet" href="{% static 'form.css' %}">
+	<script src="{% static 'ajax.js' %}"></script>	
+{% endblock %}
+	
+{% block style %}
+	{{ block.super }}
+	.section_nav{
+		margin-right: -5px;
+	}
+{% endblock %}
+	
+{% block nav %}
+	<a href="{% url 'users' %}" class='section_nav'>Статьи</a>
+	<a href="{% url 'users' %}" class='section_nav'>Лидеры</a>
+	<a href="{% url 'users' %}" class='section_nav'>О нас</a>	
+	<a href="{% url 'signin' %}" class='section_nav'>Вход</a>
+{% endblock %}
+	
+	
+{% block section %}		
+	{{ form }}
+	
+{% endblock %}
+
+
+{% block main %} {% endblock %} {% block aside %} {% endblock %}
+

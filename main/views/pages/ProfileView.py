@@ -252,12 +252,12 @@ class UserView(CSSMixin, DetailView):
         user_env = ["_user_profile", {
             'self' :  cuser == self.request.user,
             'user' : self.request.user,
-            'profile':cuser }, ('user_block',)]                                   # ,'user_block'
+            'profile':cuser }, ('left_block',)]                                   # ,'user_block'
 
         article_env = ["articles_main", {
             'articles':articles,
             'request' :self.request }, (
-                'articles', 'articles_block')]
+                'centre_block', 'articles_block')]
 
         patterns = {
             #при любом раскладе:
@@ -459,6 +459,7 @@ class UserUpdate(UpdateView):
 class UserList(LoginRequiredMixin, ListView):
     model = Profile
     # template_name = "home.html" 							                       	# по умолчанию main/profile_list.html
+    template_name = 'main/profile_list_2.haml'
     context_object_name = 'Users'							                    	# object_list by default
     login_url = '/signin/'
 
@@ -508,7 +509,7 @@ class UserList(LoginRequiredMixin, ListView):
 
 class Create(CreateView):
     form_class = user.CreatePerson
-    template_name = 'welcome.html'
+    template_name = 'registration/welcome.html'
     succes_url = '/success/' 									# reverse_lazy('contact') или reverse
 
     def get_context_data(self, **kwargs):
@@ -533,12 +534,21 @@ class CreateRate(CreateView):
 
 class SignUp(CreateView):
     form_class = user.SignUpForm
-    template_name = 'welcome.html'
+    template_name = 'registration/signup.html'
     succes_url = '/success/'
 
     def get_context_data(self, **kwargs):
+
+        print '+++++++++++++++++++++'
+
         context = super(SignUp, self).get_context_data(**kwargs)
+
+        print '---------------------'
+
         context['form'].request = self.request
+
+        print '===================='
+
         return context
 
     def form_valid(self, form):
@@ -557,6 +567,7 @@ class SignUp(CreateView):
         #suc = self.get_success_url()
         #contact_name = self.form.cleaned_data['contact_name']
         return redirect(self.succes_url)
+
 
 
 class SignIn(LoginView):

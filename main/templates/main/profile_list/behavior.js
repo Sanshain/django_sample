@@ -39,7 +39,7 @@ function user_click(sender, e){
 		return;				
 	}
 	
-	var addressee = sender.id.substring(3);
+	var addressee = Number(sender.id) || sender.id.substring(3);
 	
 	if(sender == e.target){											// по строке - переходим на страницу юзера
 		
@@ -72,6 +72,9 @@ function user_click(sender, e){
 	}
 }	
 
+
+
+
 function user_mousedown(sender, event){
 	if (event.which == 2){										// колесиком - открываем в новой вкладке	
 		ToUser(sender.id.substring(3));
@@ -79,6 +82,21 @@ function user_mousedown(sender, event){
 }
 
 
+/*!
+	Отправляем заявку о дружбе
+*/
+function ToFriend(addressee){
+	
+	if (addressee) POST_AJAX('id=' + addressee, '{% url 'to_friend' %}');
+	else
+	{
+		
+		var base_url = "{% url 'edit_self' 0 %}";		
+		base_url = base_url.replace('0', addressee); //can add links for return to list users after save
+		document.location.href = base_url;//*/
+				
+	}
+}
 
 function ToUser(addressee){
 		var base_url = "{% url 'user' 0 %}";		

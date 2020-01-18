@@ -38,7 +38,8 @@ body{
 	text-decoration: none;
 	color:darkgray;
 }
-.section_nav{
+
+.section_nav, nav a{
 	display:inline-block;
 	border-left:1px solid #dccdab;		
 	line-height:60px;
@@ -54,6 +55,9 @@ body{
 .section_nav:hover{
 	background-color:#eff1ce;
 	color:black;
+}
+.nav a:active{	
+	background-color:orange;
 }
 
 

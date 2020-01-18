@@ -1,0 +1,70 @@
+@import url(https://fonts.googleapis.com/css?family=Tenor+Sans|PT+Serif:400,400italic,700,700italic&subset=latin,cyrillic);
+* {
+  position: relative;
+  font-family: 'Tenor Sans', sans-serif;
+}
+.container {
+  width: 75%;
+  position: relative;
+  height: 7em;
+  /*100px*/
+  padding-right: 140px;
+  box-sizing: border-box;
+  background-color: #add8e6;
+  overflow: hidden;
+  white-space: nowrap;
+}
+h3 {
+  margin: 10px 0 0 20px;
+  font-family: 'Tenor Sans', sans-serif;
+}
+.i_desc {
+  margin: 10px 0 0 20px;
+  display: inline-block;
+  font-size: large;
+  color: brown;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /*just for ie*/
+}
+.logo {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: green;
+  width: 7em;
+  height: 7em;
+  transition: 1s;
+  z-index: 1;
+  opacity: 0.8;
+  background: url(http://raduga-shop.ru/wa-data/public/shop/products/18/14/21418/images/23955/23955.96x96.jpg) no-repeat center;
+  /*background-size:cover;*/
+  border: 1px solid;
+}
+.i_mnu {
+  position: absolute;
+  bottom: -40px;
+  border-radius: 15px 0px 0 0;
+  overflow: hidden;
+  right: 7em;
+  background-color: beige;
+  transition: opacity 1s, bottom 1s ease-out;
+  opacity: 0;
+}
+.container:hover > .i_mnu {
+  bottom: 0px;
+  opacity: 0.95;
+}
+button {
+  transition: 1s;
+  padding: 10px;
+  cursor: pointer;
+  color: #98846d;
+  border: none;
+  /*border:1px burlywood solid;*/
+}
+button:hover {
+  background-color: orange;
+  color: black;
+}

@@ -34,6 +34,22 @@
 	background-color:beige;
 }
 
+
+
+
+
+
+@media screen and (max-width: 1280px) {
+
+	.aside{
+		width:60px;
+		left:auto;
+	}	
+}
+
+
+
+
 .aside{
 	position:fixed;
 }

@@ -158,7 +158,7 @@ class ArticleView(CSSMixin, ReactMixin, DetailView):
             '<articles_block' : (self._render_fragment, ["_article", {
                                             'object': self.get_object(),
                                             'request' :self.request
-                                        },('article_block', 'article')])                                         # - id, class
+                                        },('centre_block', 'article')])                                         # - id, class
 
         }
 

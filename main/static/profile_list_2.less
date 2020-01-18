@@ -1,0 +1,90 @@
+@i_height : 7em;
+@backcolor: bisque; 				//azure;
+@border_r : 15px;
+
+.blocklist{
+	list-style-type: none;
+	padding: 0 20px 0 40px;
+}
+.blocklist > li{
+
+	width:85%;				
+	position: relative;
+	height:@i_height;
+	padding: 10px 140px 5px 20px;
+	box-sizing: border-box;
+
+	background-color: lighten(@backcolor, 8%);
+	overflow:hidden;
+	white-space:nowrap;	
+	
+	margin-bottom:10px;
+	transition: 0.3s;
+	border-radius:@border_r;
+	cursor:pointer;
+		
+}
+.blocklist > li h3{
+  margin:10px 0 0 20px;
+  font-family:'Tenor Sans';
+}
+.i_desc{
+  margin:10px 0 0 20px;
+  display:inline-block;
+  font-size: large;
+  color:brown;
+  width:100%;
+  overflow:hidden;
+  text-overflow:ellipsis;/*just for ie*/
+}
+.logo{
+  position: absolute;
+  top:0;
+  right:0;
+  background-color: green;
+  width: @i_height;
+  height: @i_height;
+  
+  transition:1s;
+  z-index:1;
+  opacity:0.8;
+  background: url(http://raduga-shop.ru/wa-data/public/shop/products/18/14/21418/images/23955/23955.96x96.jpg) no-repeat center;  
+  background-size:cover;
+  border:1px solid;
+  border-radius: @border_r;
+  box-sizing:border-box;
+}
+.i_mnu{
+  position:absolute;
+  bottom:-40px;
+  
+  border-radius:15px 0px 0 0;
+  overflow:hidden;
+  right:@i_height;
+  
+  background-color: beige;
+  transition: opacity 1s, bottom 1s ease-out;
+
+  opacity:0;
+}
+.blocklist>li:hover .i_mnu{
+  bottom:0px;
+  opacity:0.95;
+}
+.blocklist>li:hover{
+	background-color:lighten(orange, 40%);
+}
+
+.i_mnu>button{
+  transition:1s;
+  
+  padding:10px;
+  cursor: pointer; 
+  color:#98846d;
+  border:none;
+  /*border:1px burlywood solid;*/
+}
+.i_mnu>button:hover{
+  background-color: orange;
+  color:black;
+}

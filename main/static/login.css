@@ -31,36 +31,15 @@ form input[type=submit]{
 	text-transform:uppercase;
 	color: green;
 	background-color: rgb(221, 221, 221);
+	outline:none;
 }		
 form input[type=submit]:hover{
 	border: 1px solid green;	
 	background-color: rgb(221, 221, 221);
 	color: green;			
 }		
-
-
-.sign{
-	position:fixed;
-	top: 10px;
-	right: 30px;
-	padding: 5px;
-	padding-left: 15px;
-	padding-right: 15px;				
-	border: 1px solid burlywood;
-	border-radius: 5px;
-	text-decoration: none;
-	color: black;				
-	transition: 1s;
+form input[type=submit]:focus{
+	transition: 0s;
+	background-color: lightgray;
 }
-.sign:hover{
-	background-color: lightcyan;
-	border: 1px solid chocolate;
-}		
-
-.me{
-	left: 50px;
-	right: auto;
-	padding-left: 30px;
-	padding-right: 30px;
 	
-}	
