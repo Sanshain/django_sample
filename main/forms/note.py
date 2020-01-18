@@ -84,7 +84,7 @@ class create_note(HTMLabelForm):
                 'oninput' : 'window.flag = true;'
                 }
             ),
-            'Content': forms.Textarea(attrs={'placeholder':u'содержимое', 'style':
+            'Content': forms.Textarea(attrs={ 'placeholder': u'содержимое', 'style':
                 '''
 
                 ''',

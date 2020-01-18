@@ -6,6 +6,7 @@
 }
 
 .left_block{
+	z-index: 10;
 	position:fixed;
 	top:150px;
 	left:10px;
@@ -44,8 +45,12 @@
 	.atr{
 		font-weight: bold;
 		img{		
-			max-width: 16em;	/*height: 200px;*/			
+			max-width: 16em;	/*height: 200px;*/		
+			min-height: 200px;
 			width: 16vw;}}
+	img:after{
+		content:'';
+		background-color: lightgreen; }
 		
 	.ab{
 		color: brown;

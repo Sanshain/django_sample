@@ -4,6 +4,7 @@
   height: 300px;
 }
 .left_block {
+  z-index: 10;
   position: fixed;
   top: 150px;
   left: 10px;
@@ -35,7 +36,12 @@
 .user .atr img {
   max-width: 16em;
   /*height: 200px;*/
+  min-height: 200px;
   width: 16vw;
+}
+.user img:after {
+  content: '';
+  background-color: lightgreen;
 }
 .user .ab {
   color: brown;
