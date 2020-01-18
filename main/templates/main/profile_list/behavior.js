@@ -95,7 +95,7 @@ function ToFriend(addressee){
 		base_url = base_url.replace('0', addressee); //can add links for return to list users after save
 		document.location.href = base_url;//*/
 				
-	}  
+	}
 }
 
 function ToUser(addressee){
