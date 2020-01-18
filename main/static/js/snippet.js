@@ -1,7 +1,7 @@
 
 var leaser = {
 	r_time : 500,	// response time waiting
-	wait : 5		// quantity of attempts to catch response
+	wait : 7		// quantity of attempts to catch response
 	
 }
 
