@@ -90,8 +90,11 @@ function ToFriend(addressee){
 	if (addressee) POST_AJAX('id=' + addressee, '{% url 'to_friend' %}');
 	else
 	{
-		alert('its you!');
-		document.getElementById('me').click();
+		
+		var base_url = "{% url 'edit_self' 0 %}";		
+		base_url = base_url.replace('0', addressee); //can add links for return to list users after save
+		document.location.href = base_url;//*/
+				
 	}  
 }
 
