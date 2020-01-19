@@ -1,0 +1,18 @@
+.user {
+  padding: 50px;
+  padding-top: 0;
+  box-sizing: border-box;
+}
+.user .atr,
+.user .user_action {
+  font-weight: bold;
+  margin-top: 20px;
+}
+.user .atr img {
+  max-width: 16em;
+  width: 16vw;
+}
+.user .atr span {
+  color: brown;
+  font-weight: normal;
+}

@@ -25,24 +25,6 @@
 	left:24rem;
 	right:16em;*/
 }
-.user {
-  padding: 50px;
-  padding-top: 0;
-  box-sizing: border-box;
-}
-.user .atr,
-.user .user_action {
-  font-weight: bold;
-  margin-top: 20px;
-}
-.user .atr img {
-  max-width: 16em;
-  width: 16vw;
-}
-.user .atr span {
-  color: brown;
-  font-weight: normal;
-}
 .articles_list {
   transition: 1s;
   border: 1px solid lightgray;
@@ -268,4 +250,22 @@ textarea {
   border-top: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
   background: WhiteSmoke;
+}
+.user {
+  padding: 50px;
+  padding-top: 0;
+  box-sizing: border-box;
+}
+.user .atr,
+.user .user_action {
+  font-weight: bold;
+  margin-top: 20px;
+}
+.user .atr img {
+  max-width: 16em;
+  width: 16vw;
+}
+.user .atr span {
+  color: brown;
+  font-weight: normal;
 }

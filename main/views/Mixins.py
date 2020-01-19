@@ -8,6 +8,19 @@ from django.core.urlresolvers import resolve
 from django.template.loader import render_to_string
 
 
+from django.http import HttpResponse
+from django.utils.translation import ugettext as _
+
+
+
+def my_view(request):
+    output = _("Welcome to my site.")
+    # Translators: This message appears on the home page only
+    output = _(u"Добро.")
+    return HttpResponse(output)
+
+
+
 def _get_file_info (base_path, name, ext = None):
 
     baseurl = settings.STATIC_URL + base_path + '/' + name.replace('.html','')
@@ -84,7 +97,7 @@ class CSSMixin(object):
 
                 os.system(basepath+'.css')
 
-        if os.path.exists(basepath):
+        if os.path.exists(basepath) and settings.DEBUG:
             for css in os.listdir(basepath):
                 context['links'].append(os.path.join(baseurl, css))
 

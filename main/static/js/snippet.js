@@ -445,9 +445,10 @@ function RefreshManager(e, root_elem){
 		console.log(deep + ' - waiting for ' + box.id);
 		
 		
-		if (!deep){ //animation отсутствия интернета
-			
-			alert('нет соединения с сервером');
+		if (!deep) {
+			 //animation отсутствия интернета
+
+			alert('нет соединения с сервером (здесь должна быть анимация ожидания)');
 			
 			return false;
 		}										

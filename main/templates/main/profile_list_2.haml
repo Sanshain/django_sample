@@ -23,9 +23,11 @@
 		
 	-block main
 		ul.blocklist
-			-for User in Users				
-				li(id='={User.id}' 
-					onclick='user_click(this, event)'
+			-for User in Users
+			
+				/ User.Status
+			
+				li(id='us_={User.id}' 
 					onmousedown='user_mousedown(this,event)')
 					
 					h3
@@ -35,8 +37,11 @@
 					.i_desc
 						Male: 29
 						Sex: jenshina
-						
-					.logo
+					
+					-if User.Image		
+						%image.logo(src='={User.Image.url}')
+					-else
+						.logo
 					
 					.i_mnu
 						button 12456
@@ -46,12 +51,20 @@
 							button.to_friend.sended Reconside
 							
 						-elif User.Sender
-							button.to_friend.sended.out Refuse
-							button.to_friend.sended Accept
+						
+							button.to_friend.sended.out 
+								Refuse
+								
+							button.to_friend.sended 
+								Accept
 							
 						-elif User.Friend
-							.friend.to_friend Your friend
-							
+							button.to_friend Remove friend
+						-elif User.Me
+							button.to_friend(
+								name='self'
+								style='border:1px solid orange;') Profile
+								
 						-else
 							button.to_friend To_friend
 				-csrf_token

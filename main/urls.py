@@ -33,6 +33,8 @@ from main.models import Raiting
 from .views.fragments.Dialog import bring_dialog
 from .views.Communities import Communie_List, Communie
 
+from .views.Mixins import my_view
+
 urlpatterns = [
     url(r'^user/$', ProfileView.Mirror, name='Me'),                                             # я сам
     url(r'^users/(?P<pk>[0-9]+)/$',login_required(ProfileView.UserView.as_view()), name = 'user'),         # число в аргументе, страница польз-ля
@@ -66,6 +68,7 @@ urlpatterns = [
     url(r'^get_friends/$', read_friends, name='get_friends'),
     url(r'^get_dialog/$', bring_dialog, name='get_dialog'),
 
+    url(r'^test/$', my_view),
 ]
 
 if settings.DEBUG: urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)             #{'document_root': settings.MEDIA_ROOT,}

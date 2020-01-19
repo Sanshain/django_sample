@@ -53,7 +53,7 @@ function POST_AJAX(data, url){
 			}
 		}			
 		
-		if (this.readyState == 3) {
+		if (this.readyState == 4) {
 			//alert('responseText:' + this.responseText );					
 			
 			var elem = document.getElementById(this.responseText).querySelector('.to_friend');
@@ -214,7 +214,15 @@ function Ajax(url, func, csrftoken) {
 			if (this['status']){										//для ie8
 				if (xhr.status != 200) 
 				{					
-					alert("Проверьте соединение с интернетом: " + xhr.statusText + ' в статусе ' + this.readyState);
+					console.log(
+						"Проверьте соединение с интернетом: " + 
+						xhr.statusText + ' в статусе ' + this.readyState);
+					
+						if (this.readyState == 4) {
+							alert(
+								"Проверьте соединение с интернетом: " +
+								xhr.statusText + ' в статусе ' + this.readyState);	
+						}
 					
 					if (this.onfail) this.onfail();
 					

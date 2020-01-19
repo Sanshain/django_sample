@@ -105,6 +105,8 @@ function Bell(sound) {
 
 /*!
 	@brief Проверяет, яляется ли браузер ie8
+	
+	Obsolete
 */
 function ie8(){
 	if (!document.addEventListener) return 8;
@@ -112,6 +114,16 @@ function ie8(){
 	return false;
 }
 
+
+function ie()
+{
+	if (!document.addEventListener) 
+		return 8;
+	else if ('\v'=='v')
+		return 10;
+	else
+		return false;
+}
 
 
 

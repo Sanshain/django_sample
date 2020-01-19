@@ -302,6 +302,9 @@ class UserView(CSSMixin, DetailView):
 
         user_dict['dynamic_link'] = settings.STATIC_URL + 'style/user.css'
 
+        print '99999999999999999999999'
+        print user_dict['action'] if 'action' in user_dict else '////////'
+
         ret = json.dumps(user_dict)                                                 # работает, если убрать связь 1:8
         return JsonResponse(ret, safe=False)
 
@@ -365,6 +368,10 @@ class UserUpdate(UpdateView):
     context_object_name = 'profile'
     login_url = '/signin/'                                                          # только для Mixin, reverse('signin') - не работает
     success_url = '/users/'                                                         # переопределен get_success_url
+
+
+    #def get(self)
+
 
     def additional_init(self, *args, **kwargs ):
         self.submit = 'Сохранить'
