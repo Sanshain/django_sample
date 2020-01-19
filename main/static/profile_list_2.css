@@ -41,7 +41,7 @@
   opacity: 0.8;
   background: url(http://raduga-shop.ru/wa-data/public/shop/products/18/14/21418/images/23955/23955.96x96.jpg) no-repeat center;
   background-size: cover;
-  border: 1px solid;
+  border: 1px solid lightgray;
   border-radius: 15px;
   box-sizing: border-box;
 }

@@ -34,6 +34,7 @@ from django.http import JsonResponse
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 
+from django.utils.translation import ugettext_lazy as _
 
 
 # main

@@ -1,18 +1,24 @@
-{% extends "base.html" %}
+{% extends "detail.html" %}
 
 	{% block links %}
+
+		{{ block.super }}
 		{% load staticfiles %}
 
 <!--[if IE 8]>
 			<script src='{% static "ie8.js" %}'></script>
 <![endif]-->
-		<link rel='stylesheet' href='{% static "profile_list_2.css" %}'>
+		<link rel='stylesheet' href='{% static "profile_list_2.css" %}' id='dynamic_link'>
 		<script src='{% static "ajax.js" %}'></script>
 	{% endblock %}
+
 	{% block script %}
+
+		{{ block.super }}
 		{% include 'main/profile_list/behavior.js' %}
 
 	{% endblock %}
+
 	{% block header %}
 		Users:
 
@@ -59,7 +65,4 @@
 	{% endblock %}
 	{% block section %}
 	{% endblock %}
-	{% block aside %}
-
-	{% endblock %}
-
+<!-- -block aside -->

@@ -30,20 +30,16 @@
   padding-top: 0;
   box-sizing: border-box;
 }
-.user .atr {
+.user .atr,
+.user .user_action {
   font-weight: bold;
+  margin-top: 20px;
 }
 .user .atr img {
   max-width: 16em;
-  /*height: 200px;*/
-  min-height: 200px;
   width: 16vw;
 }
-.user img:after {
-  content: '';
-  background-color: lightgreen;
-}
-.user .ab {
+.user .atr span {
   color: brown;
   font-weight: normal;
 }
@@ -174,7 +170,6 @@ textarea {
   .left_block {
     width: auto;
     right: 80px;
-    min-height: 250px;
     background-color: white;
     z-index: 10;
   }

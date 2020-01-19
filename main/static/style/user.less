@@ -37,29 +37,23 @@
 
 
 .user{
-
     padding: 50px;
     padding-top: 0;
     box-sizing: border-box;
-	
-	.atr{
-		font-weight: bold;
-		img{		
-			max-width: 16em;	/*height: 200px;*/		
-			min-height: 200px;
-			width: 16vw;}}
-	img:after{
-		content:'';
-		background-color: lightgreen; }
-		
-	.ab{
-		color: brown;
-		font-weight: normal;}
-
+}
+.user .atr, .user .user_action{ 
+	font-weight: bold;
+	margin-top:20px;
+}
+.user .atr img{		
+	max-width: 16em;	
+	width: 16vw;
 }
 
-
-
+.user .atr span{
+	color: brown;
+	font-weight: normal;
+}
 
 
 
@@ -236,7 +230,6 @@ button.note_action{
 	.left_block{
 		width:auto;
 		right:80px;
-		min-height:250px;
 		background-color: white;
 		z-index: 10;		
 	}

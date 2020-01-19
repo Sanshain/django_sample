@@ -3,8 +3,7 @@
 	display:inline-block;	/*_*/
 	z-index:1;				/*_*/
 	
-	
-	position:absolute;		/*_*/
+	position:fixed;
 	right:0;				/*только для ie8*/
 	top:150px;				/*_*/
 
@@ -16,7 +15,9 @@
 	
 }
 
+
 .aside_menu{
+	height: 300px;
 	min-height: calc(100vh - 240px); /* 70vh */
 	
 	border: 1px solid lightgray;
@@ -26,43 +27,34 @@
 	overflow: hidden;
 }
 
+
+
+
 .aside_menu .aside_btn{
+	width: 100%;
+	
+	box-sizing:border-box;
+	
+	border: None;
+	border-bottom: 1px solid orange;
+	border-radius: 0px;
+}
+/* Кнопка все сверху меню */
+.aside_btn{
 	width: 100%;
 	box-sizing:border-box;
 	border: None;
 	border-bottom: 1px solid orange;
 	border-radius: 0px;
-}
-
-
-
-
-.aside_menu .btn{
-	width: 100%;	
-	box-sizing:border-box;
-	border: None;
-	border-bottom: 1px solid orange;
-	border-radius: 0px;
-	margin: 0px;
-}
-
-
-
-
-.aside_btn{
 	
 	padding: 10px;
-	border: 1px solid brown;
 	display: inline-block;
-	border-radius: 8px;		
 	cursor:pointer;			
 	transition: 0.5s linear;		
 	
 	font-family: sans-serif;
     color: darkgray;	
 }
-
-
 
 .aside_btn a{
 	text-decoration: none;		
@@ -71,4 +63,36 @@
 .aside_btn:hover{
 	background-color: orange;
 	color: brown;
+}
+
+
+
+/* имя юзера в aside-menu */
+.aside_menu .friend_pick{	
+	transition:0.2s;
+	cursor:pointer;
+	margin-bottom: 10px;
+	white-space: nowrap;
+	line-height: 60px;
+	
+}
+.aside_menu .friend_pick:hover{
+	background-color:beige;
+}
+
+
+
+
+
+
+
+
+
+
+@media screen and (max-width: 1280px) {
+
+	.aside{
+		width:60px;
+		left:auto;
+	}	
 }

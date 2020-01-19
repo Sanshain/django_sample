@@ -24,7 +24,7 @@ vom.reInit = function(elem){
 		
 		var activeElem = (elem || document).querySelector(
 			'[autofocus]'
-		);		
+		);
 		
 		//if (activeElem) activeElem.focus();
 		

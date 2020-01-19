@@ -149,12 +149,22 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
 #LOCALE_PATHS = (os.path.join(BASE_DIR, 'translations'),)			#?
+# месторасположение файлов перевода
+LOCALE_PATHS = (
+    'locale',
+    # os.path.join(PROJECT_DIR, 'locale'),
+)
 
 LANGUAGE_CODE = 'ru'         	# 'en-us'
 
+LANGUAGES = (
+    ('ru', 'Russian'),
+    ('en', 'English'),
+)
+
 TIME_ZONE = 'Europe/Moscow' 	#'UTC' +3
 
-USE_I18N = True					# опция перевода включить/выключить
+USE_I18N = True					# опция перевода включить/выключить django translate system
 
 USE_L10N = True                 # управление локализацией времени
 

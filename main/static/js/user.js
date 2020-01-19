@@ -1,4 +1,4 @@
-function Note(){} /* пространство имен Note */
+var Note = {}; 								/* пространство имен Note */
 	
 
 
@@ -6,7 +6,8 @@ function Note(){} /* пространство имен Note */
 	
 	Вызов лежит в aside_inside блоке юзера
 */
-Note.createView = function(){
+function __createView(){
+
 	//document.location.href = "{% url 'note_create' %}";
 	
 	//document.getElementById('id_Title').focus();
@@ -45,7 +46,7 @@ Note.createView = function(){
 /*! Скрывает окно создания записей...
 	 (обратная note_create)
 */
-Note.hideView = function(){
+function __hideView(){
 
 	document.getElementById('win').style.visibility ='hidden';
 	document.getElementById('win').style.transition ='1s';
@@ -82,9 +83,8 @@ Note.hideView = function(){
  записей (статей) страницы. 
  
 	И отправляет на сервер 
-	
 */
-Note.post_View = function(sender, e){
+function __post_View(sender, e){
 	e.preventDefault();
 	
 	//отправляем данные формы на сервер
@@ -138,6 +138,16 @@ Note.post_View = function(sender, e){
 
 	
 };
+
+
+
+
+
+
+
+Note.createView = __createView;
+Note.post_View = __post_View;
+Note.hideView = __hideView;
 
 
 function microButtonAnimated(container, content, name){

@@ -1,16 +1,21 @@
--extends "base.html"
+-extends "detail.html"
 		
-	-block links
+	-block links 
+	
+		={block.super}
 		-load staticfiles
 	
 		/[if IE 8] 
 			script(src='~static "ie8.js"')
 		link(
+			id="dynamic_link"
 			rel="stylesheet" 
 			href='~static "profile_list_2.css"')
 		script(src='~static "ajax.js"')		
 
 	-block script
+	
+		={block.super}
 		-include 'main/profile_list/behavior.js'
 	
 	-block header
@@ -52,5 +57,5 @@
 				-csrf_token
 	
 	-block section
-	-block aside
+	/-block aside
 	

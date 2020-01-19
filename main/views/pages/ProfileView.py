@@ -43,6 +43,9 @@ from django.forms.models import model_to_dict
 
 from main.views.Mixins import CSSMixin
 
+#common_init.py:
+from django.utils.translation import ugettext_lazy as _
+
 if settings.DEBUG:
     from datetime import timedelta, datetime
     import time
@@ -129,7 +132,7 @@ class UserView(CSSMixin, DetailView):
 
         if cuser == self.request.user:
             user_dict['action'] = {
-                'innerHTML':'Измениться',
+                'innerHTML': ('Измениться'),
                 'name' : '',
                 'formAction' : reverse('edit_self', args=[user_id]),
                 'onclick' : 'do_action(this, event)'
