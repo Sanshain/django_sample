@@ -52,7 +52,7 @@ textarea{
     font-family: sans-serif;	
 }
 .dialog_container{
-	margin-right: 16em;
+	/*margin-right: 16em;*/
 	position:relative;
 	overflow: hidden;
 	
@@ -134,9 +134,10 @@ li img, .img_in_message{
 	form{
 		right:16em;
 	}
-	.content, .aside{
-		top: 80px;
+	.dialog{
+		height:62vh;
 	}
+
 }	
 @media screen and (max-height: 500px) {
 	.dialog, .aside{

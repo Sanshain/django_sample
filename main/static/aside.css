@@ -1,21 +1,28 @@
-/*область aside*/
+/* в дальнейшем можно заменить позиционирование по id с подтягиванием соответствующих css, хотя это не во всех случаях верно. Пока пробуем так: */
+
+#content{
+	margin-right: 22%;		/*только для ie8*/
+	
+	margin-right: 16em;		/* ie9+ */
+}
+
+
+/*область aside - позиционирование */
 .aside{	
 	display:inline-block;	/*_*/
 	z-index:1;				/*_*/
-	
 	position:fixed;
 	right:0;				/*только для ie8*/
 	top:150px;				/*_*/
-
-	width:25vw;				/*legacy*/
 	
 	width:21%;				/*только для ie8*/
-	max-width: 15em;		/*только для ie8*/
+	/*max-width: 15em;		/*только для ie8 ?-> media*/
+	
 	left:calc(100vw - 15em);/*ie9+*/
 	
 }
 
-
+/* декорирование меню внутри aside */
 .aside_menu{
 	height: 300px;
 	min-height: calc(100vh - 240px); /* 70vh */
@@ -29,17 +36,7 @@
 
 
 
-
-.aside_menu .aside_btn{
-	width: 100%;
-	
-	box-sizing:border-box;
-	
-	border: None;
-	border-bottom: 1px solid orange;
-	border-radius: 0px;
-}
-/* Кнопка все сверху меню */
+/* Кнопка `все` сверху меню */
 .aside_btn{
 	width: 100%;
 	box-sizing:border-box;

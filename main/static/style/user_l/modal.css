@@ -1,0 +1,61 @@
+.overlay {
+  background: #000;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 1000;
+  opacity: 0.5;
+}
+.visible {
+  background: #fff;
+  position: fixed;
+  left: 15%;
+  margin-top: 15vh;
+  transition: 1s;
+  overflow: hidden;
+  z-index: 2000;
+  width: 70vw;
+  height: 10vh;
+  /*80vh;*/
+  padding: 0px;
+  /*margin-left: -35vw;*/
+  top: 15%;
+  top: 0;
+  border-radius: 15px;
+}
+#win {
+  position: fixed;
+  z-index: 10000;
+  background-color: white;
+  right: 0;
+  bottom: 0;
+  left: 24em;
+  top: 150px;
+  right: 16em;
+  opacity: 0;
+  transition: 1s;
+}
+/*содержимое*/
+#win button {
+  float: right;
+  line-height: 20px;
+  color: blue;
+  background-color: transparent;
+}
+#win button[type="button"]:hover {
+  cursor: pointer;
+  color: navy;
+  text-decoration: underline;
+}
+#win h3 {
+  text-align: center;
+  color: #555;
+}
+.modal_content {
+  padding: 0 1em;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  background: WhiteSmoke;
+}

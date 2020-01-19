@@ -1,7 +1,6 @@
 .blocklist {
   list-style-type: none;
   padding: 0 20px 0 40px;
-  width: 75%;
 }
 .blocklist > li {
   position: relative;
