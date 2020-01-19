@@ -3,7 +3,9 @@
 	{% block links %}
 		{% load staticfiles %}
 
-<!-- [if IE 8]><script src='{% static "ie8.js" %}'></script><![endif] -->
+<!--[if IE 8]>
+			<script src='{% static "ie8.js" %}'></script>
+<![endif]-->
 		<link rel='stylesheet' href='{% static "profile_list_2.css" %}'>
 		<script src='{% static "ajax.js" %}'></script>
 	{% endblock %}
@@ -19,6 +21,7 @@
 		<ul class='blocklist'>
 			{% for User in Users %}
 				<li onclick='user_click(this, event)' onmousedown='user_mousedown(this,event)' id='{{ User.id }}'>
+
 					<h3>
 						{{ User.username }}
 						{{ User.last_name }}
@@ -33,19 +36,21 @@
 					<div class='i_mnu'>
 						<button>12456</button>
 						<button>12456</button>
-						<button>12456</button>
 
+						{% if User.Recipient %}
+							<button class='to_friend sended'>Reconside</button>
+
+						{% elif User.Sender %}
+							<button class='to_friend sended out'>Refuse</button>
+							<button class='to_friend sended'>Accept</button>
+
+						{% elif User.Friend %}
+							<div class='friend to_friend'>Your friend</div>
+
+						{% else %}
+							<button class='to_friend'>To_friend</button>
+						{% endif %}
 					</div>
-					{% if User.Recipient %}
-						<button class='to_friend sended'>Reconside</button>
-					{% elif User.Sender %}
-						<button class='to_friend sended out'>Refuse</button>
-						<button class='to_friend sended'>Accept</button>
-					{% elif User.Friend %}
-						<div class='friend to_friend'>Your friend</div>
-					{% else %}
-						<button class='to_friend'>To_friend</button>
-					{% endif %}
 				</li>
 				{% csrf_token %}
 
