@@ -123,6 +123,7 @@ class ArticleView(CSSMixin, ReactMixin, DetailView):
 
     def get_queryset(self):
 
+
         qs = super(ArticleView, self).get_queryset()
 
         qs = qs.select_related('From')
@@ -145,8 +146,6 @@ class ArticleView(CSSMixin, ReactMixin, DetailView):
         article_id = q.pop()[0]
 
         if len(aim) > 10: return JsonResponse({'Exception':'Too large object'})
-
-
 
 
 

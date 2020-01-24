@@ -19,55 +19,10 @@
 		-include 'main/profile_list/behavior.js'
 	
 	-block header
-		Users:
+		/Users:
 		
 	-block main
-		ul.blocklist
-			-for User in Users
-			
-				/ User.Status
-			
-				li(id='us_={User.id}' 
-					onmousedown='user_mousedown(this,event)')
-					
-					h3
-						={User.username}
-						={User.last_name}
-					
-					.i_desc
-						Male: 29
-						Sex: jenshina
-					
-					-if User.Image		
-						%image.logo(src='={User.Image.url}')
-					-else
-						.logo
-					
-					.i_mnu
-						button 12456
-						button 12456
-					
-						-if User.Recipient
-							button.to_friend.sended Reconside
-							
-						-elif User.Sender
-						
-							button.to_friend.sended.out 
-								Refuse
-								
-							button.to_friend.sended 
-								Accept
-							
-						-elif User.Friend
-							button.to_friend Remove friend
-						-elif User.Me
-							button.to_friend(
-								name='self'
-								style='border:1px solid orange;') Profile
-								
-						-else
-							button.to_friend To_friend
-				-csrf_token
+		-include "fragments/__profiles.haml"
 	
 	-block section
 	/-block aside

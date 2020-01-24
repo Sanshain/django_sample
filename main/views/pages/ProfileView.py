@@ -41,7 +41,7 @@ from main.forms.note import RatingForm, create_note
 
 from django.forms.models import model_to_dict
 
-from main.views.Mixins import CSSMixin
+from main.views.Mixins import CSSMixin, ReactMixin
 
 #common_init.py:
 from django.utils.translation import ugettext_lazy as _
@@ -466,7 +466,7 @@ class UserUpdate(UpdateView):
 
 # В Класс-V-стиле
 
-class UserList(LoginRequiredMixin, ListView):
+class UserList(LoginRequiredMixin, ReactMixin, ListView):
     model = Profile
     # template_name = "home.html" 							                       	# по умолчанию main/profile_list.html
     template_name = 'main/profile_list_2.haml'
@@ -481,7 +481,8 @@ class UserList(LoginRequiredMixin, ListView):
         context['header'] = self.request.user.username
         return context
 
-    def get_queryset(self):
+    def get_queryset(self, **kwargs):
+
 
         qs = super(UserList, self).get_queryset()
 
@@ -516,6 +517,72 @@ class UserList(LoginRequiredMixin, ListView):
                 pal.Sender = True
 
         return qs
+
+    def post(self, request, *args, **kwargs):
+        q = json.loads(request.body)
+
+
+        requested_blocks = q.pop()
+        if len(requested_blocks) > 10: return JsonResponse({'Exception':'Too large objects'})
+        requared_blocks = q.pop()
+
+        filter_param = q.pop()
+
+
+        # block_name ='content' должен задаваться на уровне LightReact как поле
+        prime_block ='content'
+
+        def get_response(
+                block_name=None, _template=None, _filter_param=None, css__cls_id=None):
+
+            block_name = block_name or prime_block
+
+            if not block_name:
+                raise Exception('block_name is nit defined')
+
+            s = 's' if ListView in self.__mro__() else ''
+
+            _template_name = _template or '__%s%s'%(self.model.__name__.lower(), s)
+            _prime_key = self.context_object_name or ('object_list' if s else 'object')
+            _prime_value = self.get_queryset(_filter_param) if s else self.get_object()
+
+
+            prime_env = [
+                _template_name, {_prime_key : _prime_value,  'request' :self.request }]
+
+            if css__cls_id: prime_env.append(css__cls_id)
+
+            sample_dict = {
+                block_name : (self._render_fragment, prime_env)}
+
+
+
+        _template_name = '__profiles'
+
+        _query_set = self.get_queryset(filter_param)
+
+
+
+
+        sample_dict = {
+            'content' : (self._render_fragment, [_template_name, {
+                                            'Users': self.get_object(),
+                                            'request' :self.request
+                                        },('centre_block', 'article')])                                         # - id, class
+
+        }
+
+
+
+        field_dict = {k : fa[0](fa[1]) for k, fa in sample_dict.iteritems() if k in aim}
+
+
+
+        field_dict.update(self.get_default_style('post'))
+
+
+
+
 
 class Create(CreateView):
     form_class = user.CreatePerson

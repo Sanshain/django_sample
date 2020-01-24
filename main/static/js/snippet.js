@@ -93,7 +93,7 @@ RefreshManager.Initialize = function(event){
 	var target = target ||data_to___get(e_target, 3);
 
 	
-	if (!target) throw new Error('cant be initialized');
+	if (!target) throw new Error('Leaser cant be initialized without target specify');
 
 	//исключительно для <ie10 - прямой переход:
 	if (!window.atob) document.location.href= set_url||target;

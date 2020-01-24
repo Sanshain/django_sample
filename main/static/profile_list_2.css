@@ -1,8 +1,13 @@
 .blocklist {
   list-style-type: none;
-  padding: 0 20px 0 40px;
+  padding: 0;
+  border-left: 1px solid #f2f2f2;
+  border-right: 1px solid #f2f2f2;
+  border-radius: 15px;
+  margin-left: 20px;
 }
 .blocklist > li {
+  transition: 1.5s;
   position: relative;
   height: 7em;
   padding: 10px 140px 5px 20px;
@@ -11,9 +16,13 @@
   overflow: hidden;
   white-space: nowrap;
   margin-bottom: 10px;
-  transition: 0.3s;
   border-radius: 15px;
+  border: 1px solid #ffd19b;
   cursor: pointer;
+}
+.blocklist > li:hover {
+  background-color: #ffedcc;
+  border: 1px solid #f78600;
 }
 .blocklist > li h3 {
   margin: 10px 0 0 20px;
@@ -42,7 +51,13 @@
   background-size: cover;
   border: 1px solid lightgray;
   border-radius: 15px;
+  overflow: hidden;
   box-sizing: border-box;
+}
+.logo img {
+  transition: 1s;
+  width: 7em;
+  height: 7em;
 }
 .i_mnu {
   position: absolute;
@@ -57,9 +72,6 @@
 .blocklist > li:hover .i_mnu {
   bottom: 0px;
   opacity: 0.95;
-}
-.blocklist > li:hover {
-  background-color: #ffedcc;
 }
 .i_mnu > button {
   transition: 1s;

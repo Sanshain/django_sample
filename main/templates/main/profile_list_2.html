@@ -20,63 +20,11 @@
 	{% endblock %}
 
 	{% block header %}
-		Users:
-
+<!-- Users: -->
 	{% endblock %}
 	{% block main %}
-		<ul class='blocklist'>
-			{% for User in Users %}
+		{% include "fragments/__profiles.haml" %}
 
-<!-- User.Status -->
-				<li onmousedown='user_mousedown(this,event)' id='us_{{ User.id }}'>
-
-					<h3>
-						{{ User.username }}
-						{{ User.last_name }}
-
-					</h3>
-					<div class='i_desc'>
-						Male: 29
-						Sex: jenshina
-
-					</div>
-					{% if User.Image %}
-						<image src='{{ User.Image.url }}' class='logo'></image>
-					{% else %}
-						<div class='logo'></div>
-					{% endif %}
-					<div class='i_mnu'>
-						<button>12456</button>
-						<button>12456</button>
-
-						{% if User.Recipient %}
-							<button class='to_friend sended'>Reconside</button>
-
-						{% elif User.Sender %}
-
-							<button class='to_friend sended out'>
-								Refuse
-
-							</button>
-							<button class='to_friend sended'>
-								Accept
-
-							</button>
-						{% elif User.Friend %}
-							<button class='to_friend'>Remove friend</button>
-						{% elif User.Me %}
-							<button name='self' style='border:1px solid orange;' class='to_friend'>Profile</button>
-
-						{% else %}
-							<button class='to_friend'>To_friend</button>
-						{% endif %}
-					</div>
-				</li>
-				{% csrf_token %}
-
-			{% endfor %}
-
-		</ul>
 	{% endblock %}
 	{% block section %}
 	{% endblock %}

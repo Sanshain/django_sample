@@ -1,15 +1,21 @@
+
+.less{}								// less sign
 @i_height : 7em;
 @backcolor: bisque; 				//azure;
 @border_r : 15px;
 
+@_block_side : lighten(lightgray, 12%);
+
 .blocklist{
 	list-style-type: none;
-	padding: 0 20px 0 40px;
+	padding: 0;
+	border-left:1px solid @_block_side;
+	border-right:1px solid @_block_side;
 	
-}
-
+	border-radius:@border_r;
+	margin-left: 20px; }
 .blocklist > li{
-
+	transition: 1.5s;
 			
 	position: relative;
 	height:@i_height;
@@ -21,11 +27,15 @@
 	white-space:nowrap;	
 	
 	margin-bottom:10px;
-	transition: 0.3s;
+	
 	border-radius:@border_r;
-	cursor:pointer;
-		
+	border:1px solid darken(@backcolor, 8%);
+	cursor:pointer;	}
+.blocklist>li:hover{
+	background-color:lighten(orange, 40%);
+	border:1px solid darken(@backcolor, 40%);
 }
+
 .blocklist > li h3{
   margin:10px 0 0 20px;
   font-family:'Tenor Sans';
@@ -39,6 +49,7 @@
   overflow:hidden;
   text-overflow:ellipsis;/*just for ie*/
 }
+
 .logo{
   position: absolute;
   top:0;
@@ -53,8 +64,14 @@
   background-size:cover;
   border:1px solid lightgray;
   border-radius: @border_r;
-  box-sizing:border-box;
+  overflow:hidden;
+  box-sizing:border-box;}
+.logo img{
+  transition:1s;
+  width: @i_height;
+  height: @i_height;	
 }
+
 .i_mnu{
   position:absolute;
   bottom:-40px;
@@ -72,9 +89,7 @@
   bottom:0px;
   opacity:0.95;
 }
-.blocklist>li:hover{
-	background-color:lighten(orange, 40%);
-}
+
 
 .i_mnu>button{
   transition:1s;

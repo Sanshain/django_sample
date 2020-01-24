@@ -159,7 +159,7 @@ def render_fragment(args):
         ).strip().replace('\t','')
 
 
-    if len(args) == 3:
+    if len(args) == 3 and args[2]:
         surround = args[2]                                                     # кортеж из класса и id элемента
 
         if len(surround) == 2:
@@ -203,6 +203,7 @@ class ReactMixin(object):
         virtual
         """
         raise Exception('Must be overriden')                                    # see ProfileView for example
+
 
 
 

@@ -1,8 +1,13 @@
 
 
-function user_mousedown(sender, event)
+function friend_act(sender, event)
 {
-
+    alert(1);
+    
+    event.stopPropagation();
+    
+    return;
+    
 	var target = event.srcElement || event.target;							// e.srcElement - для IE8
 
 	var addressee = Number(sender.id) || sender.id.substring(3);
