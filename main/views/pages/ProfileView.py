@@ -529,22 +529,37 @@ class UserList(LoginRequiredMixin, ReactMixin, ListView):
         filter_param = q.pop()
 
 
+
+
+
+
         # block_name ='content' должен задаваться на уровне LightReact как поле
-        prime_block ='content'
+        block_name ='content'
+        css_ajax = True
 
-        def get_response(
-                block_name=None, _template=None, _filter_param=None, css__cls_id=None):
+        def _get_samples(
+                _block_name=None, _filter_param=None, _template=None, css__cls_id=None):
+            """
+            _block_name - имя блока (id) на странице. По дефолту = block_name класса
+            _filter_param - должен быть словарем
+            _template - имя шаблона, по дефолту равно _(_)model_name(s)
+            _css__cls_id - id и class тега для заворачивания. По дефолту не заворачивает
+            """
 
-            block_name = block_name or prime_block
+            filter_param = _filter_param or {}
 
-            if not block_name:
+            _block_name = _block_name or block_name
+
+            if not _block_name:
                 raise Exception('block_name is nit defined')
+                return {}
 
-            s = 's' if ListView in self.__mro__() else ''
+            s = 's' if ListView in self.__class__.__mro__ else ''
 
-            _template_name = _template or '__%s%s'%(self.model.__name__.lower(), s)
+            # можно так же вычислять на основе template_name.split('/')[-1].split('.')[0]
+            _template_name = _template or '_%s%s%s'%('_' if s else '', self.model.__name__.lower(), s)
             _prime_key = self.context_object_name or ('object_list' if s else 'object')
-            _prime_value = self.get_queryset(_filter_param) if s else self.get_object()
+            _prime_value = self.get_queryset(**filter_param) if s else self.get_object()
 
 
             prime_env = [
@@ -553,32 +568,55 @@ class UserList(LoginRequiredMixin, ReactMixin, ListView):
             if css__cls_id: prime_env.append(css__cls_id)
 
             sample_dict = {
-                block_name : (self._render_fragment, prime_env)}
+                _block_name : (self._render_fragment, prime_env)}
+
+            return sample_dict
 
 
 
-        _template_name = '__profiles'
+        def fill_response_for(_requested_blocks, _by_samples = None):
+            """
 
-        _query_set = self.get_queryset(filter_param)
+            _requested_blocks - требуемые блоки для заполнения
+            _by_samples - образцы. Если они не заданы, то будут вычислены дефолтные на основе _get_samples() и block_name
+
+            """
+
+            _by_samples = _by_samples or _get_samples()
+
+            _field_dict = {k : fa[0](fa[1]) for k, fa in _by_samples.iteritems() if k in _requested_blocks}
+
+            if CSSMixin in self.__class__.__mro__:
+                _field_dict.update(self.get_default_style('post'))
+            elif css_ajax:
+                _field_dict['dynamic_link'] = self.template_name.split('/')[-1].split('.')[0] + '.css'
+
+            return _field_dict
+
+
+        field_dict = fill_response_for(requested_blocks)
+
+        j = json.dumps(field_dict)
+
+        print '>>>>>>>>>>>>>>>>>>>>>>>>>>>'
+        print field_dict.keys()
+        return JsonResponse(j, safe=False)
+
+
+##        _template_name = '__profiles'
+##
+##        _query_set = self.get_queryset(filter_param)
+##
+##        sample_dict = {
+##            'content' : (self._render_fragment, [_template_name, {
+##                                            'Users': self.get_object(),
+##                                            'request' :self.request
+##                                        },('centre_block', 'article')])                                         # - id, class
+##
+##        }
 
 
 
-
-        sample_dict = {
-            'content' : (self._render_fragment, [_template_name, {
-                                            'Users': self.get_object(),
-                                            'request' :self.request
-                                        },('centre_block', 'article')])                                         # - id, class
-
-        }
-
-
-
-        field_dict = {k : fa[0](fa[1]) for k, fa in sample_dict.iteritems() if k in aim}
-
-
-
-        field_dict.update(self.get_default_style('post'))
 
 
 
