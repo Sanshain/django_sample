@@ -207,8 +207,13 @@ class Dialog(ListView):
         context['header'] = self.request.user.username
 
         context['today'] = datetime.now()
-        print 'this is buddy_id ' + str(self.buddy_id)
-        context['buddy_id'] = self.buddy_id
+
+
+        if hasattr(self, 'buddy_id'):
+            print 'this is buddy_id ' + str(self.buddy_id)
+
+            context['buddy_id'] = self.buddy_id
+
 
 ##        r = re.findall('(?<=to_)\d+',self.request.path)
 ##        buddy_id = r.pop() if r else '#'

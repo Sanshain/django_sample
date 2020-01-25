@@ -1,17 +1,20 @@
 <div class='dialog_container'>
 	
 	{#this is {{buddy_id}}#}
-	<div class='face_container'>
-		<a 
-			href='{% url 'user' buddy_id %}'
-			class='buddy_face' 
-			style='
-				background-image:url({{talker_image}});
-				background-size: contain;
-				background-position: -25px 50px;
-				'>
-		</a>
-	</div>
+	
+	{% if buddy_id %}
+		<div class='face_container'>
+			<a 
+				href='{% url 'user' buddy_id %}'
+				class='buddy_face' 
+				style='
+					background-image:url({{talker_image}});
+					background-size: contain;
+					background-position: -25px 50px;
+					'>
+			</a>
+		</div>
+	{% endif %}
 	
 	
 	<div class="dialog">
