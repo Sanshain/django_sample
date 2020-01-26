@@ -100,7 +100,10 @@ class CSSMixin(object):
                 os.system(basepath+'.css')
 
         if os.path.exists(basepath) and settings.DEBUG:
-            for css in os.listdir(basepath):
+
+            files = [file for file in os.listdir(basepath) if file.endswith(".css")]
+            for css in files:
+
                 context['links'].append(os.path.join(baseurl, css))
 
         self.set_css(context)
