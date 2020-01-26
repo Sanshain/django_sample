@@ -177,16 +177,20 @@ def render_fragment(args):
     else:
         return templ
 
-def render_root_fragment(templates):
+def render_root_fragment(templates, root_pattern = None):
 
+    """
+    Принимает в качестве аргумента кортеж/список по умолчанию из двух 2-х элементов
+    """
     blocks = []
     for tmpl in templates:
         blocks.append(render_fragment(tmpl) if type(tmpl) is list else tmpl)
 
+    root = (root_pattern or
+        ("<div id='main'>%s</div>" + "<div id='section'>%s</div>")
+    )
 
-    return u'{}{}{}{}{}{}'.format(
-        "<div id='main'>",blocks[0],'</div>',
-        "<div id='section'>", blocks[1] ,"</div>")
+    return root%(tuple(blocks))
 
 
 

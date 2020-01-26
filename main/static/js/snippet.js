@@ -126,6 +126,7 @@ function RefreshManager(e, root_elem){
 		var _box = null;
 		var _lazy_box = null;
 		
+        // 
 		if (details[0][0]=='<') {
 			
 			_lazy_box = details[0];

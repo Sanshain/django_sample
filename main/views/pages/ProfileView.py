@@ -567,12 +567,16 @@ class UserList(LoginRequiredMixin, ReactMixin, ListView):
 
             if css__cls_id: prime_env.append(css__cls_id)
 
+            sample = (self._render_root_fragment, [prime_env, '']) \
+                if _block_name == block_name \
+                else (self._render_fragment, prime_env)
+
+
             sample_dict = {
-                _block_name : (self._render_fragment, prime_env)}
+                _block_name : sample
+            }
 
             return sample_dict
-
-
 
         def fill_response_for(_requested_blocks, _by_samples = None):
             """
@@ -598,11 +602,18 @@ class UserList(LoginRequiredMixin, ReactMixin, ListView):
             return _field_dict
 
 
+
+        # render_root_fragment
+
+
         field_dict = fill_response_for(requested_blocks)
 
         j = json.dumps(field_dict)
 
         return JsonResponse(j, safe=False)
+
+
+
 
 
 ##        _template_name = '__profiles'
