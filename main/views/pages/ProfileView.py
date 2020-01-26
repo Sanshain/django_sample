@@ -259,6 +259,7 @@ class UserView(CSSMixin, DetailView):
 
         article_env = ["articles_main", {
             'articles':articles,
+            'create_articles' : create_note,
             'request' :self.request }, (
                 'centre_block', 'articles_block')]
 
@@ -301,6 +302,7 @@ class UserView(CSSMixin, DetailView):
             else: user_dict[key] = respond
 
         user_dict['dynamic_link'] = settings.STATIC_URL + 'style/user.css'
+        user_dict['dynamic_c_user'] = settings.STATIC_URL + 'js/user.js'
 
         print '99999999999999999999999'
         print user_dict['action'] if 'action' in user_dict else '////////'
