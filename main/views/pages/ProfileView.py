@@ -587,9 +587,13 @@ class UserList(LoginRequiredMixin, ReactMixin, ListView):
             _field_dict = {k : fa[0](fa[1]) for k, fa in _by_samples.iteritems() if k in _requested_blocks}
 
             if CSSMixin in self.__class__.__mro__:
-                _field_dict.update(self.get_default_style('post'))
+                _field_dict.update(
+                    self.get_default_style('post')
+                )
             elif css_ajax:
-                _field_dict['dynamic_link'] = self.template_name.split('/')[-1].split('.')[0] + '.css'
+                _field_dict['dynamic_link'] = (settings.STATIC_URL +
+                        self.template_name.split('/')[-1].split('.')[0] + '.css'
+                )
 
             return _field_dict
 
@@ -598,8 +602,6 @@ class UserList(LoginRequiredMixin, ReactMixin, ListView):
 
         j = json.dumps(field_dict)
 
-        print '>>>>>>>>>>>>>>>>>>>>>>>>>>>'
-        print field_dict.keys()
         return JsonResponse(j, safe=False)
 
 
