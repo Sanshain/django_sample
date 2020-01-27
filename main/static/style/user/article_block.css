@@ -36,12 +36,12 @@
   padding-right: 140px;
   box-sizing: border-box;
   margin-bottom: 10px;
-  border-bottom: 1px solid lightgray;
-  border-top: 1px solid lightgray;
+  border: 1px solid lightgray;
   overflow: hidden;
   white-space: nowrap;
   cursor: pointer;
   transition: 1s;
+  border-radius: 8px;
 }
 .note:hover {
   background-color: #fbeddc;
@@ -73,11 +73,12 @@
   background-color: green;
   width: 7em;
   height: 7em;
+  border-radius: 0 8px 8px 0;
   transition: 1s;
   opacity: 0.8;
   background: url(https://raduga-shop.ru/wa-data/public/shop/products/18/14/21418/images/23955/23955.96x96.jpg) no-repeat center;
   /*background-size:cover;*/
-  border: 1px solid;
+  border: 1px solid lightgray;
 }
 .note ._i_console {
   position: absolute;
