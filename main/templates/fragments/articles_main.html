@@ -61,6 +61,44 @@
 		{% for article in articles %}
 				<section>
 				
+				
+				
+				
+				
+				
+				
+					<div class="note">
+
+						<a href="">
+						  <h3>Лучшая</h3>
+						</a>
+						
+					  <div class='desc'>Эта статья о том, как похудеть</div>  
+					  
+					  <div class="logo"></div>
+					  <!--<button class="i_mnu">Поделиться</button>-->
+					  <div class="i_mnu">
+						 
+						 <button class="">Поделиться</button>
+						 
+					  </div>
+					  
+					  <div class="_i_console">
+						
+						<span class="i_time">1.15</span>
+						<span class="i_tags">Ntu</span>
+					  </div>
+					  					  
+					</div>						
+				
+		
+				
+				
+				
+				
+				
+				{% comment %}
+				
 					<div class='Anote'>
 					
 						<a href={% url "article_view" article.id %} data-_refresh = '<articles_block'>
@@ -73,6 +111,8 @@
 						</a>
 						<div>{{article.Content}}</div>
 					</div>
+				
+				{% endcomment %}
 					
 				</section>
 		{% endfor %}

@@ -1,0 +1,50 @@
+#win(
+	style="visibility:hidden" 
+	onkeydown="if (event.keyCode == 27) Note.hideView()")
+	
+	#article__imgpreviewer
+	
+	form#note(
+		action='#' 
+		onsubmit='Note.post_View(this, event)'
+		method='post')
+		
+		-csrf_token
+		={create_articles.as_p}
+				
+		%input.btn.note_action(
+			form='note' 
+			type='submit' 
+			value=~trans 'Share' noop
+			style='
+				float:left;
+				box-shadow: 0 0 5px 1px grey;
+				background-color: #c3bdb0;')
+			
+		label.btn.note_action(for='upload_images') +
+		
+		%input#upload_images(
+			type='file'
+			name = 'images'
+			style='display:none' 
+			accept = 'image/*'
+			multiple
+			onchange='Note.__upload_images(event)')
+		
+		button.btn.note_action(
+			style='margin-right: 5%;float:right;'
+			onclick='event.preventDefault();Note.hideView()'
+		) ~trans 'Hide' noop
+		
+article
+	-if articles
+		.articles_list
+		-for article in articles
+			section 
+				div.Anote
+					%a( href=~url "article_view" article.id
+					    data-_refresh = '<articles_block')
+					
+						h4(style='margin-top:5px') =article.Title
+							
+							

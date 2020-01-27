@@ -25,11 +25,6 @@
 	left:24rem;
 	right:16em;*/
 }
-.articles_list {
-  transition: 1s;
-  border: 1px solid lightgray;
-  border-radius: 8px;
-}
 .note_action {
   margin: 0;
   min-width: 7em;
@@ -178,13 +173,153 @@ textarea {
 }
 .Anote {
   border-bottom: 1px #eab8b8 solid;
-  width: 60%;
+  /*width: 60%;*/
   padding: 5px;
   margin: 5px;
 }
 .Anote a {
   text-decoration: none;
   color: black;
+}
+@font-face {
+  font-family: 'PT Serif';
+  font-style: italic;
+  font-weight: 400;
+  src: local('PT Serif Italic'), local('PTSerif-Italic'), url(https://fonts.gstatic.com/s/ptserif/v11/EJRTQgYoZZY2vCFuvAFT_rm1dw.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'PT Serif';
+  font-style: italic;
+  font-weight: 700;
+  src: local('PT Serif Bold Italic'), local('PTSerif-BoldItalic'), url(https://fonts.gstatic.com/s/ptserif/v11/EJRQQgYoZZY2vCFuvAFT9gaQZy3fpQ.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'PT Serif';
+  font-style: normal;
+  font-weight: 400;
+  src: local('PT Serif'), local('PTSerif-Regular'), url(https://fonts.gstatic.com/s/ptserif/v11/EJRVQgYoZZY2vCFuvAFSzro.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'PT Serif';
+  font-style: normal;
+  font-weight: 700;
+  src: local('PT Serif Bold'), local('PTSerif-Bold'), url(https://fonts.gstatic.com/s/ptserif/v11/EJRSQgYoZZY2vCFuvAnt66qWVy4.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Tenor Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Tenor Sans'), local('TenorSans'), url(https://fonts.gstatic.com/s/tenorsans/v11/bx6ANxqUneKx06UkIXISn3F4Dw.ttf) format('truetype');
+}
+.note {
+  position: relative;
+  height: 7em;
+  /*100px*/
+  font-family: 'Tenor Sans', sans-serif;
+  padding-right: 140px;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+  border-bottom: 1px solid lightgray;
+  border-top: 1px solid lightgray;
+  overflow: hidden;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: 1s;
+}
+.note:hover {
+  background-color: #fbeddc;
+}
+.note a {
+  text-decoration: none;
+  color: darkgray;
+}
+.note h3 {
+  margin: 10px 0 0 20px;
+  display: inline-block;
+}
+.note h3:hover {
+  text-decoration: underline;
+}
+.note .desc {
+  margin: 10px 0 0 20px;
+  font-size: large;
+  color: brown;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /*just for ie*/
+}
+.note .logo {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: green;
+  width: 7em;
+  height: 7em;
+  transition: 1s;
+  opacity: 0.8;
+  background: url(https://raduga-shop.ru/wa-data/public/shop/products/18/14/21418/images/23955/23955.96x96.jpg) no-repeat center;
+  /*background-size:cover;*/
+  border: 1px solid;
+}
+.note ._i_console {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  padding: 10px;
+}
+.note .i_time,
+.note .i_tags {
+  margin-right: 2em;
+  background-color: #fff;
+  padding: 0 15px;
+  transition: 1s;
+  border-radius: 5px;
+  display: inline-block;
+}
+.note .i_tags {
+  overflow: hidden;
+  vertical-align: bottom;
+  max-width: 300px;
+}
+.note:hover {
+  cursor: pointer;
+  background-color: #faeed7;
+}
+.note .i_mnu {
+  position: absolute;
+  bottom: -40px;
+  border-radius: 15px 0px 0 0;
+  overflow: hidden;
+  right: 7em;
+  background-color: beige;
+  transition: opacity 1s, bottom 0.5s ease-out;
+  opacity: 0;
+}
+.note .i_mnu.i_mnu:hover {
+  opacity: 1;
+}
+.note:hover > .i_mnu {
+  bottom: 0px;
+  opacity: 0.95;
+}
+.note button {
+  transition: 1s;
+  padding: 10px;
+  cursor: pointer;
+  color: #98846d;
+  border: none;
+  /*border:1px burlywood solid;*/
+}
+.note button:hover {
+  background-color: orange;
+  color: black;
+}
+.articles_list {
+  transition: 1s;
+  border: 1px solid lightgray;
+  border-radius: 8px;
+  overflow: hidden;
 }
 #header {
   margin-left: 50px;

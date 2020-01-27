@@ -1,0 +1,156 @@
+.article_block____less{}
+
+@i_height : 7em;
+@backcolor : antiquewhite;
+@import url(https://fonts.googleapis.com/css?family=Tenor+Sans|PT+Serif:400,400italic,700,700italic&subset=latin,cyrillic);
+
+//одна статья
+
+@container__border : 8px;
+.note{
+  
+  position: relative;
+  height:@i_height;/*100px*/
+  font-family:'Tenor Sans', sans-serif;
+  
+  padding-right:140px;
+  box-sizing: border-box;
+  
+  margin-bottom:10px;
+  
+  //background-color: lighten(@backcolor, 5%);
+  
+  border-bottom: 1px solid lightgray;  
+  border-top: 1px solid lightgray;
+  
+  overflow:hidden;
+  white-space:nowrap;
+  cursor: pointer;
+  
+  transition:1s;
+  
+  //border-radius:@container__border;
+  
+  &:hover{
+	  background-color: lighten(@backcolor, 1%);
+  }
+  
+	a{
+		text-decoration:none;
+		color:darkgray;
+	}
+	h3{ 
+		margin:10px 0 0 20px;
+		display:inline-block;
+		&:hover{
+			text-decoration: underline;
+		}			
+	}  
+  
+}
+
+.note {
+	.desc{
+		margin:10px 0 0 20px;
+		//display:inline-block;
+		font-size: large;
+		color:brown;
+		width:100%;
+		overflow:hidden;
+		text-overflow:ellipsis;/*just for ie*/
+	}
+	.logo{
+		position: absolute;
+		top:0;
+		right:0;
+		background-color: green;
+		width: @i_height;
+		height: @i_height;
+
+
+		//border-radius:0 @container__border @container__border 0;
+		transition:1s;
+		opacity:0.8;
+		background: url(https://raduga-shop.ru/wa-data/public/shop/products/18/14/21418/images/23955/23955.96x96.jpg) no-repeat center;  
+		/*background-size:cover;*/
+		border:1px solid;
+	}
+}
+
+.note{
+	._i_console{
+		
+		position: absolute;
+		left:0;
+		bottom: 0;
+		padding:10px;
+	}
+	.i_time, .i_tags{
+	  margin-right: 2em;
+	  background-color: #fff;
+	  padding:0 15px;
+	  transition:1s;
+	  border-radius:5px; 
+	  display:inline-block;
+	}
+}
+
+
+.note{
+
+	.i_tags{
+
+	  overflow:hidden;
+	  vertical-align:bottom;
+	  max-width:300px; 
+	}
+	
+	&:hover{
+	  cursor: pointer;
+	  background-color: spin(@backcolor, 5%);
+	}
+	
+}
+
+
+.note{
+	  
+	.i_mnu{
+		position:absolute;
+		bottom:-40px;
+
+		border-radius:15px 0px 0 0;
+		overflow:hidden;
+		right:@i_height;
+
+		background-color: beige;
+		transition: opacity 1s, bottom 0.5s ease-out;
+		opacity:0;
+	
+		&.i_mnu:hover{
+			opacity:1;
+		}
+	}
+	&:hover>.i_mnu{
+	  bottom:0px;
+	  opacity:0.95;
+	}	
+
+	button{
+		transition:1s;
+		padding:10px;
+		cursor: pointer; 
+		color:#98846d;
+		border:none;
+		/*border:1px burlywood solid;*/
+		
+		&:hover{
+		  background-color: orange;
+		  color:black;
+		}
+	}
+
+}
+
+
+

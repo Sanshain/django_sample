@@ -1,3 +1,4 @@
+@container__border : 8px;
 
 
 .content{	
@@ -35,19 +36,6 @@
 
 
 
-
-
-
-
-
-
-
-
-.articles_list{
-	transition: 1s;
-	border:1px solid lightgray;
-	border-radius: 8px;
-}
 
 
 
@@ -245,15 +233,14 @@ button.note_action{
 
 
 
+// вид статей:
 
-
-
-
+//obsolete
 .Anote{
 	border-bottom: 1px #eab8b8 solid;
 	
 	
-	width: 60%;
+	/*width: 60%;*/
 	padding: 5px;
 	margin: 5px;
 }
@@ -262,6 +249,25 @@ button.note_action{
     color: black;	
 }
 
+
+//@container__border : 8px;
+@import "user/article_block.less";
+
+
+.articles_list{
+	transition: 1s;
+	border:1px solid lightgray;
+	border-radius: @container__border;
+	overflow: hidden;
+}
+
+
+
+
+
+
+
+// deprecated. Need check
 #header{
 	margin-left: 50px;
 	text-align: left;
@@ -272,3 +278,6 @@ button.note_action{
 
 @import "user/modal.less";
 @import "user/user_block.less";
+
+
+
