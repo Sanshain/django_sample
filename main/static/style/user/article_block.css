@@ -44,7 +44,7 @@
   border-radius: 8px;
 }
 .note:hover {
-  background-color: #fbeddc;
+  border: 1px solid;
 }
 .note a {
   text-decoration: none;
@@ -100,7 +100,7 @@
   vertical-align: bottom;
   max-width: 300px;
 }
-.note:hover {
+.note .i_tags:hover {
   cursor: pointer;
   background-color: #faeed7;
 }

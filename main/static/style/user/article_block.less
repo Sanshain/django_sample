@@ -31,7 +31,8 @@
   border-radius:@container__border;
   
   &:hover{
-	  background-color: lighten(@backcolor, 1%);
+	  //background-color: lighten(@backcolor, 5%);
+	  border:1px solid black;
   }
   
 	a{
@@ -102,12 +103,15 @@
 	  overflow:hidden;
 	  vertical-align:bottom;
 	  max-width:300px; 
+	  
+		&:hover{
+		  cursor: pointer;
+		  background-color: spin(@backcolor, 5%);
+		}	  
+	  
 	}
 	
-	&:hover{
-	  cursor: pointer;
-	  background-color: spin(@backcolor, 5%);
-	}
+	
 	
 }
 
