@@ -26,7 +26,7 @@
   white-space:nowrap;
   cursor: pointer;
   
-  transition:1s;
+  transition:border 1s, background-color 0s;
   
   border-radius:@container__border;
   
@@ -34,6 +34,13 @@
 	  //background-color: lighten(@backcolor, 5%);
 	  border:1px solid black;
   }
+  
+  &:focus{
+	  outline:none;
+	  transition:0s;
+	  background-color: aliceblue;
+	  //border:1px solid brown;
+  }  
   
 	a{
 		text-decoration:none;

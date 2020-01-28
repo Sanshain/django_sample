@@ -223,11 +223,16 @@ textarea {
   overflow: hidden;
   white-space: nowrap;
   cursor: pointer;
-  transition: 1s;
+  transition: border 1s, background-color 0s;
   border-radius: 8px;
 }
 .note:hover {
-  border: 1px solid;
+  border: 1px solid black;
+}
+.note:focus {
+  outline: none;
+  transition: 0s;
+  background-color: aliceblue;
 }
 .note a {
   text-decoration: none;

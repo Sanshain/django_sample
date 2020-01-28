@@ -1,9 +1,12 @@
+{% load i18n %}
+
 <div class='title'>
-	{% url "user" object.From.id as back %}
+<!-- -url "user" object.From.id as back -->
+	{% trans "Without Title" noop as title %}
 
-	<button title='' data-_refresh='<article' formAction='{{ back }}' id='close'>-</button>
+	<button title='' data-_refresh='<article' formAction='{% url "user" object.From.id %}' id='close'>-</button>
 
-	<h3>{{ object.Title }}</h3>
+	<h3>{{ object.Title|default:title }}</h3>
 
 </div>
 <div class='content'>{{ object.Content }}</div>

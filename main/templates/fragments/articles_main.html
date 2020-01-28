@@ -64,30 +64,39 @@
 				
 				
 				
+					{% url "article_view" article.id as noteref%}
 				
 				
-				
-					<div class="note">
+					<div class="note" 
+						tabindex=1 
+						data-to="{{noteref}}"
+						data-_refresh="<articles_block">
 
-						<a href="">
-						  <h3>Лучшая</h3>
+						<a href="{{noteref}}">
+							<h3>
+								{{article.Title}}
+							</h3>
 						</a>
 						
-					  <div class='desc'>Эта статья о том, как похудеть</div>  
+						<div class='desc'>
+						 {{ article.Content|striptags }}
+						</div>  
 					  
-					  <div class="logo"></div>
-					  <!--<button class="i_mnu">Поделиться</button>-->
-					  <div class="i_mnu">
+						<div class="logo"></div>
+
+						<div class="i_mnu">
 						 
-						 <button class="">Поделиться</button>
+							<button class="">Поделиться</button>
 						 
-					  </div>
+						</div>
 					  
-					  <div class="_i_console">
+						<div class="_i_console">
 						
-						<span class="i_time">1.15</span>
-						<span class="i_tags">Ntu</span>
-					  </div>
+							<span class="i_time">
+								{{ article.Time }}
+							</span>
+							<span class="i_tags">Ntu</span>
+						</div>
 					  					  
 					</div>						
 				
@@ -115,6 +124,10 @@
 				{% endcomment %}
 					
 				</section>
+				
+		{% empty %}
+			 <li>Sorry, no athlete in this list!</li>				
+				
 		{% endfor %}
 		
 		</div>
