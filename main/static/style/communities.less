@@ -20,7 +20,9 @@ ul.community_list	li{
 	padding-right:140px;
 	box-sizing: border-box;
 
-	background-color: lighten(@backcolor, 10%);
+	//background-color: lighten(@backcolor, 10%);
+	border: 1px solid lightgray;
+
 	overflow:hidden;
 	white-space:nowrap;
 	transition:0.5s;
@@ -101,7 +103,7 @@ ul.community_list	li{
 		left:20px; }
 	.i_tags{
 		left:120px;
-		overflow:hidden;  
+		overflow:hidden; 	
 		max-width:300px; }
 	.i_tags span{
 		cursor:pointer;
@@ -110,6 +112,7 @@ ul.community_list	li{
 		padding:0 15px;
 		font-family:'Tenor Sans', sans-serif;
 		transition:1s;
+		background-color: lighten(@backcolor, 10%);	
 		border-radius:5px;}
 	.i_tags span:hover{
 		background-color: spin(@backcolor, 5%);
@@ -164,4 +167,6 @@ ul.community_list	li{
 	}	
   
 }
+
+@import "communities__add_one.less";
 

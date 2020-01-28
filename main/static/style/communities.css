@@ -36,7 +36,7 @@ ul.community_list li {
   height: 7em;
   padding-right: 140px;
   box-sizing: border-box;
-  background-color: #d4ebf2;
+  border: 1px solid lightgray;
   overflow: hidden;
   white-space: nowrap;
   transition: 0.5s;
@@ -109,6 +109,7 @@ ul.community_list li .i_tags span {
   padding: 0 15px;
   font-family: 'Tenor Sans', sans-serif;
   transition: 1s;
+  background-color: #d4ebf2;
   border-radius: 5px;
 }
 ul.community_list li .i_tags span:hover {
@@ -147,4 +148,96 @@ ul.community_list li .i_tags span:hover {
 .i_mnu button:hover {
   background-color: orange;
   color: black;
+}
+/*create community:*/
+.add_button {
+  height: 50px;
+  width: 50px;
+  background-color: #A0A0A0;
+  cursor: pointer;
+  position: absolute;
+  bottom: -25px;
+  left: -25px;
+  border-radius: 25px;
+  transition: 1s;
+  text-align: center;
+  line-height: 50px;
+  z-index: 5;
+  opacity: 0.95;
+}
+.add_button:hover {
+  background-color: #efcb56;
+  box-shadow: 0 0 5px 5px gray;
+}
+.insert_group {
+  z-index: 10;
+  position: fixed;
+  top: 30%;
+  left: 30%;
+  /*20*/
+  background-color: bisque;
+  width: 40%;
+  /*60*/
+  height: 40%;
+  opacity: 0.1;
+  transition: 1s;
+  padding: 30px 25px;
+}
+.insert_group input,
+textarea {
+  width: 100%;
+  box-sizing: border-box;
+  margin: 5px 0 0 0;
+  /*5%*/
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid burlywood;
+  outline: none;
+  transition: 0.4s;
+}
+.insert_group input:focus,
+textarea:focus {
+  border: 1px solid gray;
+}
+.insert_group textarea {
+  height: 80%;
+  z-index: 10;
+}
+.logo_plus {
+  width: 40px;
+  height: 1em;
+  margin: 5px;
+  background-color: orange;
+  border-radius: 15px;
+  display: inline-block;
+  outline: none;
+}
+.mc_btn {
+  position: absolute;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  border-radius: 50px;
+  transition: 0.5s;
+}
+.pp_close:hover {
+  border-radius: 20%;
+  background-color: orangered;
+  opacity: 1;
+}
+.insert_group:hover {
+  opacity: 0.9;
+}
+.fon {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  background-color: gray;
+  z-index: 5;
+  opacity: 0.7;
+}
+#aside {
+  z-index: 15;
 }
