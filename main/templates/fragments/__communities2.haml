@@ -1,0 +1,26 @@
+-load staticfiles
+
+ul.community_list
+	
+	~static "images/_default_group.png" as i_logo
+	
+	~csrf_token
+	
+	-for community in object_list
+		li#={community.id}
+			a.object_link(href='~url "group" community.id')
+				h4 =community.title
+				p =community.definition
+				img.logo_item(
+					src='={community.logo.url|default:i_logo}'
+					alt='a')
+					
+				button.micro(style='bottom:0;') #
+				
+	-empty 
+		div(
+			style='width:100%;line-height:70vh;text-align:center;'
+		)
+			У вас еще нет групп
+			
+			

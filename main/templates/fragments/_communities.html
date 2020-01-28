@@ -1,39 +1,71 @@
 {% load staticfiles %}
 
 <ul class='community_list'>
-	{% if object_list|length == 0 %}
-		<div style='width:100%;line-height:70vh;text-align:center;'>У вас еще нет групп</div>
-	{% endif %}
-		
-	{% for community in object_list %}
-		<li id='{{community.id}}'>
-			<a href='{% url "group" community.id %}' class='object_link' onclick=''>
-			
-				<h4>{{community.title}}</h4>
-				
-				<p>{{community.definition}}</p>
-				
-				
-				<img src=
-					{% if community.logo %} 
-						'{{ MEDIA_URL }}{{community.logo}}'
-					{% else %}
-						'{% static "images/_default_group.png" %}'
-					{% endif %}
 
-				class='logo_item' alt='a'/>
-			
-				<button class='micro' style='bottom:0;'>#</button>
-			
-			
-				
-			</a>
-			
-		</li>
-	{% endfor  %}
+	{% static "images/_default_group.png" as i_logo %}
+
 	
 	{% csrf_token %}
+		
+	{% with STATIC_URL|add:","|add:"MEDIA_URL" as i_prefix %}		
+		
+		{% for community in object_list %}
+		
+		
+			<li class="community__item" tabindex=0>
+		
+				<a href="{% url "group" community.id %}">
+				
+					<h3>{{community.title}}</h3>
+				</a>			
+			  
+				<div class='i_desc'>
+					{{community.definition}}
+				</div>  
+			  
+				<div class="logo" style=	
+					"background-image:url({{i_logo}})">
+				
+					{% if community.logo %}
+						<img 
+							src='{{community.logo.url}}'
+							class='logo_item'
+						/>	
+					{% endif %}
+					
+				</div>
+			  
+					  
+				<div class="i_people">
+					 <div class="i_participant"></div>  
+					 <div class="i_participant"></div>  
+					 <div class="i_participant"></div>    
+
+					 
+				</div>		  
+					  
+				<div class="i_tags">
+					 <span>кулинария111</span>
+					 <span>блюда</span>
+				</div>   
+			  
+				<div class="i_mnu">      
+					
+				 <button class="">Поделиться</button>
+				 <button class="">Поделиться</button>
+				 
+			  </div>
+			  
+
+			  
+			</li>	
+		
+		{% empty %}
+		
+			<div style='width:100%;line-height:70vh;text-align:center;'>У вас еще нет групп</div>		
+		
+		{% endfor  %}
 	
-	<div style="z-index: 10; position: fixed; top: 40vh; left: 40vw; background-color: red;"></div>
+	{% endwith %}
 			
 <ul>		

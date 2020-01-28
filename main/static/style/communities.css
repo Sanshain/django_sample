@@ -1,218 +1,150 @@
-.community_list{
-	background-color:beige;
-	margin: 0 0 0 1em;
-	min-height:70vh;
-	padding:0 1em;
-	list-style-type: none;
-	box-sizing: border-box;
-	position: relative;
-	/*background: linear-gradient(0deg, transparent, beige);*/ /*тормозит*/
-}	
-
-.community_list li{
-	height:5em;
-	border:1px solid lightgray;
-	margin:3px 0px;	
-	border-radius: 5px;
+@font-face {
+  font-family: 'PT Serif';
+  font-style: italic;
+  font-weight: 400;
+  src: local('PT Serif Italic'), local('PTSerif-Italic'), url(https://fonts.gstatic.com/s/ptserif/v11/EJRTQgYoZZY2vCFuvAFT_rm1dw.ttf) format('truetype');
 }
-
-
-
-
-.object_link{
-	height:100%; 
-	display: inline-block; 
-	width: 100%;
-	padding:0.5em 5em 5px 1em;
-	box-sizing: border-box;
-	text-decoration:none;
-	color:black;
-	border-radius:5px;
-	transition: 1.5s;
-	padding-right: 7em;
-	padding-left: 
+@font-face {
+  font-family: 'PT Serif';
+  font-style: italic;
+  font-weight: 700;
+  src: local('PT Serif Bold Italic'), local('PTSerif-BoldItalic'), url(https://fonts.gstatic.com/s/ptserif/v11/EJRQQgYoZZY2vCFuvAFT9gaQZy3fpQ.ttf) format('truetype');
 }
-
-.object_link h4{
-	margin-top:3px;
+@font-face {
+  font-family: 'PT Serif';
+  font-style: normal;
+  font-weight: 400;
+  src: local('PT Serif'), local('PTSerif-Regular'), url(https://fonts.gstatic.com/s/ptserif/v11/EJRVQgYoZZY2vCFuvAFSzro.ttf) format('truetype');
 }
-
-.object_link p{
-	color:darkolivegreen;
-	height: 1.1em;
-	overflow:hidden;
+@font-face {
+  font-family: 'PT Serif';
+  font-style: normal;
+  font-weight: 700;
+  src: local('PT Serif Bold'), local('PTSerif-Bold'), url(https://fonts.gstatic.com/s/ptserif/v11/EJRSQgYoZZY2vCFuvAnt66qWVy4.ttf) format('truetype');
 }
-
-
-
-
-
-.object_link:hover{
-	background-color: darkkhaki;
-	padding-right: 7em;
+@font-face {
+  font-family: 'Tenor Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Tenor Sans'), local('TenorSans'), url(https://fonts.gstatic.com/s/tenorsans/v11/bx6ANxqUneKx06UkIXISn3F4Dw.ttf) format('truetype');
 }
-
-.object_link:hover>img{
-	right: 1.5em;
-/*!*/	
-	background-color: darkkhaki;
+ul.community_list {
+  font-family: 'Tenor Sans', sans-serif;
 }
-
-.object_link:hover>.micro{
-	opacity:1;
-	z-index:3;
+ul.community_list li {
+  position: relative;
+  height: 7em;
+  padding-right: 140px;
+  box-sizing: border-box;
+  background-color: #d4ebf2;
+  overflow: hidden;
+  white-space: nowrap;
+  transition: 0.5s;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 10px;
 }
-
-.object_link:active{
-	transition: none;
-	background-color: orange;
-	
+ul.community_list li a {
+  text-decoration: none;
+  color: black;
 }
-
-.logo_item{
-    position: absolute;
-    height: 100%;
-    top: 0;
-    right: 0;    
-	border-radius:5px;
-	border:none;
-	outline:none;
-	transition: 1.5s;
-	z-index:2;
-/*!*/
-	background-color:beige;
+ul.community_list li h3 {
+  margin: 10px 0 0 20px;
+  font-family: 'Tenor Sans', sans-serif;
+  display: inline-block;
 }
-
-.logo_item:before{
-	content: "No";
-	text-align:center;
-	line-height:4em;
-	margin:auto;
-	position:absolute;
-	background-color:green;
-	border-radius:15px;	
-	
-	height:100%;
-	width:100%;
+ul.community_list li .i_desc {
+  margin: 10px 0 0 20px;
+  font-size: large;
+  color: brown;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /*just for ie*/
 }
-
-
-.micro{
-	position:absolute;
-	right:0;
-	width:1em;
-	height:1em;
-	border-radius:0.3em;
-	z-index:1;
-	opacity:0;
-	/*transition:1s 0.5s;*/
-	transition: opacity 1s 0.5s, background-color 1s;
+ul.community_list li:hover {
+  background-color: #e8f4f8;
+  background-color: #ffd280;
 }
-
-.micro:hover{
-	background-color:orangered;
+ul.community_list li:focus {
+  outline: none;
+  transition: 0;
+  background-color: #ffd280;
 }
-
-
-
-
-
-
-
-
-
-/*create community:*/
-
-.add_button{
-	height:50px;
-	width:50px;
-	background-color:#A0A0A0;
-	cursor:pointer;
-	position:absolute;
-	bottom:-25px;
-	left:-25px;
-	border-radius:25px;
-	transition:1s;
-	text-align:center;
-	line-height:50px;
-	z-index:5;
-	opacity:0.95;
+ul.community_list li:hover > .i_mnu {
+  bottom: 0px;
+  opacity: 0.95;
 }
-.add_button:hover{
-	background-color:#efcb56;
-	box-shadow: 0 0 5px 5px gray;	
+ul.community_list li .logo {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: green;
+  width: 7em;
+  height: 7em;
+  transition: 1s;
+  opacity: 0.8;
+  background: url(http://raduga-shop.ru/wa-data/public/shop/products/18/14/21418/images/23955/23955.96x96.jpg) no-repeat center;
+  background-size: contain;
+  border: 1px solid lightgray;
 }
-.insert_group{
-	z-index:10;
-	position:fixed;
-	top:30%;
-	left:30%; /*20*/
-	background-color:bisque;
-	width: 40%; /*60*/
-	height: 40%;
-	opacity:0.1;
-	transition:1s;
-	padding: 30px 25px;
+ul.community_list li .i_people,
+ul.community_list li .i_tags {
+  position: absolute;
+  bottom: 10px;
 }
-
-.insert_group input, textarea{
-	width:100%;
-	box-sizing:border-box;
-	margin: 5px 0 0 0;/*5%*/
-	padding:5px;
-	border-radius:5px;
-	border: 1px solid burlywood;
-	outline:none;
-	transition:0.4s;
+ul.community_list li .i_people {
+  bottom: 2px;
+  left: 20px;
 }
-.insert_group input:focus, textarea:focus{
-	border: 1px solid gray;
-}	
-
-.insert_group textarea{
-	height:80%;
-	z-index:10;
+ul.community_list li .i_tags {
+  left: 120px;
+  overflow: hidden;
+  max-width: 300px;
 }
-
-.logo_plus{
-	width:40px;
-	height:1em;
-	margin:5px;
-	background-color: orange;
-	border-radius: 15px;
-	display:inline-block;
-	outline:none;
+ul.community_list li .i_tags span {
+  cursor: pointer;
+  /*display: inline-block;*/
+  background-color: #fff;
+  padding: 0 15px;
+  font-family: 'Tenor Sans', sans-serif;
+  transition: 1s;
+  border-radius: 5px;
 }
-
-.mc_btn{
-	position:absolute;
-	cursor:pointer;
-	width:40px;
-	height:40px;
-	border-radius:50px;
-	transition:0.5s;
+ul.community_list li .i_tags span:hover {
+  background-color: #add3e6;
 }
-
-
-.pp_close:hover{
-	border-radius:20%;
-	background-color:orangered;
-	opacity:1;
+.i_people .i_participant {
+  transition: 1s;
+  cursor: pointer;
+  margin-right: -10px;
+  display: inline-block;
+  height: 30px;
+  width: 30px;
+  border-radius: 15px;
+  background: url(http://raduga-shop.ru/wa-data/public/shop/products/18/14/21418/images/23955/23955.96x96.jpg) no-repeat center;
 }
-.insert_group:hover{
-	opacity: 0.9;
+.i_mnu {
+  position: absolute;
+  bottom: -40px;
+  border-radius: 15px 0px 0 0;
+  overflow: hidden;
+  right: 7em;
+  background-color: beige;
+  transition: opacity 1s, bottom 1s ease-out;
+  opacity: 0;
 }
-.fon{
-	position:fixed;
-	left:0;
-	top:0;
-	bottom:0;
-	right:0;
-	background-color:gray;
-	z-index:5;
-	opacity:0.7;
+.i_mnu:hover {
+  opacity: 1;
 }
-
-#aside{
-	z-index:15;
+.i_mnu button {
+  transition: 1s;
+  padding: 10px;
+  cursor: pointer;
+  color: #98846d;
+  border: none;
+}
+.i_mnu button:hover {
+  background-color: orange;
+  color: black;
 }
