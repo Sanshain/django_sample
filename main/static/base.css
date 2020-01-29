@@ -2,11 +2,11 @@
 	position:relative;
 	margin: 0;
 }
-form p {
-	margin: 1em;
-}
 
 
+/*!
+	Меню навигации
+*/
 .nav{
 	background-color: bisque;
 	min-height:60px;
@@ -67,38 +67,9 @@ form p {
 
 
 
-
-.sign{
-	position:fixed;
-	top: 10px;
-	right: 30px;
-	padding: 5px;
-	padding-left: 15px;
-	padding-right: 15px;	
-	background-color:white;					
-	border: 1px solid burlywood;
-	border-radius: 5px;
-	text-decoration: none;
-	color: black;				
-	transition: 1s;
-}
-.sign:hover{
-	background-color: lightcyan;
-	border: 1px solid chocolate;
-}		
-
-.me{
-	left: 50px;
-	right: auto;
-	padding-left: 30px;
-	padding-right: 30px;
-	
-}			
-
-
-
-
-
+/*!
+	Дизайн button-ов на сайт
+*/
 .btn{
 	border:0px solid black;
 	border-radius:5px;
@@ -131,4 +102,58 @@ button{
 	margin:5px;
 	box-sizing:content-box;		
 	cursor:pointer;	
+}
+
+
+
+/*
+	Формы входа и регистрации
+*/
+.sign{
+	position:fixed;
+	top: 10px;
+	right: 30px;
+	padding: 5px;
+	padding-left: 15px;
+	padding-right: 15px;	
+	background-color:white;					
+	border: 1px solid burlywood;
+	border-radius: 5px;
+	text-decoration: none;
+	color: black;				
+	transition: 1s;
+}
+.sign:hover{
+	background-color: lightcyan;
+	border: 1px solid chocolate;
+}		
+
+.me{
+	left: 50px;
+	right: auto;
+	padding-left: 30px;
+	padding-right: 30px;
+	
+}		
+	
+form p {
+	margin: 1em;
+}
+
+
+/*!
+	Стили анимации
+*/
+.come_out{
+	transition : 0.5s ease-out;
+	opacity : 0;			
+	transform : scale(0.9,0.9);		
+}
+.come_in{
+	opacity : 1;		
+	transform : scale(1,1);		
+}
+.come{
+	transition : none;		
+	transform : none;
 }

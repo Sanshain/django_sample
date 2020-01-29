@@ -1,8 +1,12 @@
 
 var leaser = {
-	r_time : 500,	// response time waiting
-	wait : 7		// quantity of attempts to catch response
-	
+	r_time : 500,									// response time waiting
+	wait : 7,										// quantity of attempts to catch response
+	style : {										// style for animation
+		'out' : 'come_out', 						
+		'in' : 'come_out',
+		'none' : 'come'				
+	},		
 }
 
 
@@ -310,9 +314,8 @@ function RefreshManager(e, root_elem){
 			//назначаем класс трансформации in:			
 			//elem.classList.add('a_hide');
 			
-			elem.style.transition='0.5s ease-out';
-			elem.style.opacity = 0;			
-			elem.style.transform = 'scale(0.9,0.9)';								
+			elem.classList.remove(leaser.style['in'],leaser.style['none']);
+			elem.classList.add(leaser.style['out']);	
 			var _content = search_fixed(elem);
 			
 			var tmp = 0;
@@ -343,6 +346,18 @@ function RefreshManager(e, root_elem){
 				propy : 'top',						
 				origin : 0,						
 				_cstyle : null,
+				/*!
+					\brief
+						Берет элемент со статическим позиционированием и его свойство, 
+						заданное в style и соответствующее tmp_poser.propy из его style, 
+						(возможны два варианта: top и bottom), получает его значение в пикселях.
+						Вычисляют разницу его с глобальным значением в пикселях temp, 
+						сохраняет старое значение в origin и назначает свойству propy 
+						значение temp в пикселях
+					
+					\param
+						 _content - элемент, имеющий фиксрованное позиционирование			
+				*/
 				init : function(_content){
 					var cstyle = _content.style;
 					
@@ -395,8 +410,7 @@ function RefreshManager(e, root_elem){
 				if (_content){
 //!
 					tmp_poser.init(_content);
-				}
-				
+				}				
 			}
 
 			
@@ -408,8 +422,10 @@ function RefreshManager(e, root_elem){
 				//убираем класс out
 				//elem.classList.remove('a_show');
 				
-				elem.style.transition = 'none';		
-				elem.style.transform = 'none';//''
+				
+				elem.classList.remove(leaser.style['in'],leaser.style['out']);
+				elem.classList.add(leaser.style['none']);		//turn to none style transfer
+				//*/
 			
 				if (_content) tmp_poser.revive();
 				
@@ -422,11 +438,14 @@ function RefreshManager(e, root_elem){
 				
 			},1000);						
 
-			//назначаем класс трансформации out:
-			//elem.classList.add('a_show');
+			//назначаем класс трансформации in:
 			
-			elem.style.opacity =1;		
-			elem.style.transform='scale(1,1)';			
+			elem.classList.remove(leaser.style['out']);
+			elem.classList.add(leaser.style['in']);	
+			//*/		
+			
+			//elem.style.opacity =1;		
+			//elem.style.transform='scale(1,1)';			
 
 		}
 	}							
