@@ -4,7 +4,7 @@ var leaser = {
 	wait : 7,										// quantity of attempts to catch response
 	style : {										// style for animation
 		'out' : 'come_out', 						
-		'in' : 'come_out',
+		'in' : 'come_in',
 		'none' : 'come'				
 	},		
 }
@@ -433,7 +433,7 @@ function RefreshManager(e, root_elem){
 //!					
 					//вместо этого можно восстановить исходный: elem.style.transition = '';
 					
-					elem.style.transition = '0.5s';
+					// elem.style.transition = '0.5s';
 				}, 40);//for slow transfer!*/
 				
 			},1000);						

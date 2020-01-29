@@ -150,6 +150,7 @@ form p {
 	transform : scale(0.9,0.9);		
 }
 .come_in{
+	transition : 0.5s ease-out;
 	opacity : 1;		
 	transform : scale(1,1);		
 }
