@@ -1,4 +1,4 @@
-.blocklist {
+.profiles_list {
   list-style-type: none;
   padding: 0;
   border-left: 1px solid #f2f2f2;
@@ -6,7 +6,7 @@
   border-radius: 15px;
   margin-left: 20px;
 }
-.blocklist > li {
+.profiles_list > li {
   transition: 1.5s;
   position: relative;
   height: 7em;
@@ -20,11 +20,11 @@
   border: 1px solid #ffd19b;
   cursor: pointer;
 }
-.blocklist > li:hover {
+.profiles_list > li:hover {
   background-color: #ffedcc;
   border: 1px solid #f78600;
 }
-.blocklist > li h3 {
+.profiles_list > li h3 {
   margin: 10px 0 0 20px;
   font-family: 'Tenor Sans';
 }
@@ -69,7 +69,7 @@
   transition: opacity 1s, bottom 1s ease-out;
   opacity: 0;
 }
-.blocklist > li:hover .i_mnu {
+.profiles_list > li:hover .i_mnu {
   bottom: 0px;
   opacity: 0.95;
 }

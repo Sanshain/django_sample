@@ -1,6 +1,7 @@
 
 var leaser = {
 	r_time : 500,									// response time waiting
+	a_time : 500,									// animation time (must match vs in/out css)
 	wait : 7,										// quantity of attempts to catch response
 	style : {										// style for animation
 		'out' : 'come_out', 						
@@ -315,7 +316,8 @@ function RefreshManager(e, root_elem){
 			//elem.classList.add('a_hide');
 			
 			elem.classList.remove(leaser.style['in'],leaser.style['none']);
-			elem.classList.add(leaser.style['out']);	
+			elem.classList.add(leaser.style['out']);
+				
 			var _content = search_fixed(elem);
 			
 			var tmp = 0;
@@ -331,7 +333,7 @@ function RefreshManager(e, root_elem){
 				//elem.classList.remove('a_hide');
 				
 				_content.style.top = tmp;
-			}, 500);
+			}, leaser.a_time);
 			
 		}
 		else{
@@ -436,16 +438,16 @@ function RefreshManager(e, root_elem){
 					// elem.style.transition = '0.5s';
 				}, 40);//for slow transfer!*/
 				
-			},1000);						
+			}, leaser.a_time * 2);						
 
 			//назначаем класс трансформации in:
 			
+
 			elem.classList.remove(leaser.style['out']);
-			elem.classList.add(leaser.style['in']);	
+			elem.classList.add(leaser.style['in']);					
+			
 			//*/		
 			
-			//elem.style.opacity =1;		
-			//elem.style.transform='scale(1,1)';			
 
 		}
 	}							

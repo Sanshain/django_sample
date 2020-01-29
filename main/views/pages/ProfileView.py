@@ -11,6 +11,7 @@ from PIL import Image
 
 from django.conf import settings
 from django.core import serializers
+from django.core.paginator import Paginator
 
 
 from django.shortcuts import render						# для страниц, или ниже:
@@ -21,6 +22,7 @@ from django.http import HttpResponse, JsonResponse
 from django.views.generic.base import ContextMixin
 from django.views.generic import ListView, TemplateView, CreateView, DetailView, UpdateView               # для страниц
 from django.shortcuts import redirect														              # для переадресации псле валидации
+from django.shortcuts import get_object_or_404
 from django.db.models import Q
 from django.conf import settings
 from django.contrib.auth import logout
@@ -101,6 +103,7 @@ class UserView(CSSMixin, DetailView):
     template_name = "user.html"
     context_object_name = 'profile'                                                 # по умолчанию object
     #login_url = '/signin/'                                                         # для LoginRequiredMixin
+    page_size = 5
 
     def _set_css(self, context):
 
@@ -158,7 +161,11 @@ class UserView(CSSMixin, DetailView):
         context = super(UserView, self).get_context_data(*args, **kwargs)
 
         context['header'] = "Профиль"
-        context['articles'] = Article.objects.filter(From = self.object)[::-1]  #
+
+        article_list = Article.objects.filter(From = self.object)[::-1]  #
+        paginator = Paginator(article_list, self.page_size)
+        context['articles'] = paginator.page(1)
+
         context['create_articles'] = create_note
         #context['to_dialog'] = reverse('get_dialog').strip('/')
         if self.request.user.id == kwargs['object'].id:
@@ -202,18 +209,34 @@ class UserView(CSSMixin, DetailView):
 
         blocks = q.pop()
         print q
-        user_id = q.pop()[0]
+
+        context_args = q.pop()
+
+        # Проверка на валидность аргументов
+        for arg in context_args:
+            if not arg.isdigit():                                               # not re.match('^\d+$')
+                return HttpResponseRedirect(reverse('user', kwargs={
+                    'pk': self.request.user.id
+                }))
+
+
+        user_id = context_args[0]
+        article_page = 1 if len(context_args) < 2 else context_args[1]
+
         print user_id
-
-##        user_id= self.request.body.split('&')[-1:][0]
-##        print user_id
-
+        print article_page
 
 
 
         cuser = Profile.objects.get(id=user_id)                                      # .values('id','username')
-        articles = Article.objects.filter(From=cuser)                               ## articles = cuser.inote.select_related('article').filter(article__isnull=False))
+        # cuser = get_object_or_404(Profile, pk=user_id) # так правильнее
+        article_list = Article.objects.filter(From=cuser)                            ## articles = cuser.inote.select_related('article').filter(article__isnull=False))
+        paginator = Paginator(article_list, self.page_size)
 
+        try:
+            articles = paginator.page(article_page)
+        except EmptyPage:
+            articles = paginator.page(paginator.num_pages)
 
         def _render_fragment(args):
 

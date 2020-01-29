@@ -30,9 +30,7 @@
 	/*transform:scale(1.1,1.1);*/
 }
 
-.content{
-	/*top: 80px;*/
-}
+
 form{
 	position:fixed;
 	bottom:3.5vw;
@@ -132,7 +130,7 @@ li img, .img_in_message{
 	
 @media screen and (max-height: 638px) { /* для экранов <766 с учетом нижнего и верхнего отступа */
 	form{
-		right:16em;
+		margin-right:16em;
 	}
 	.dialog{
 		height:62vh;

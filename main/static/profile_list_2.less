@@ -6,7 +6,7 @@
 
 @_block_side : lighten(lightgray, 12%);
 
-.blocklist{
+.profiles_list{
 	list-style-type: none;
 	padding: 0;
 	border-left:1px solid @_block_side;
@@ -14,7 +14,7 @@
 	
 	border-radius:@border_r;
 	margin-left: 20px; }
-.blocklist > li{
+.profiles_list > li{
 	transition: 1.5s;
 			
 	position: relative;
@@ -31,12 +31,12 @@
 	border-radius:@border_r;
 	border:1px solid darken(@backcolor, 8%);
 	cursor:pointer;	}
-.blocklist>li:hover{
+.profiles_list>li:hover{
 	background-color:lighten(orange, 40%);
 	border:1px solid darken(@backcolor, 40%);
 }
 
-.blocklist > li h3{
+.profiles_list > li h3{
   margin:10px 0 0 20px;
   font-family:'Tenor Sans';
 }
@@ -85,7 +85,7 @@
 
   opacity:0;
 }
-.blocklist>li:hover .i_mnu{
+.profiles_list>li:hover .i_mnu{
   bottom:0px;
   opacity:0.95;
 }

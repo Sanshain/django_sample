@@ -1,12 +1,9 @@
 <div id="win" style="visibility:hidden;" onkeydown ="
 	{		
 		if (event.keyCode == 27) Note.hideView();		
-	}
-">
+	}">
 
-	<div id="article__imgpreviewer" style=''>
-		
-	</div>
+	<div id="article__imgpreviewer" style=''></div>
 
 	<form action='#' onsubmit='Note.post_View(this, event);' method='post' id='note'>
 	
@@ -52,6 +49,7 @@
 	</form>	
 
 </div>
+
 
 <article>
 	{% if articles %}				
@@ -134,3 +132,37 @@
 			
 	{%endif%}
 </article>
+
+
+{% load i18n %}
+
+{% with articles as object_list %}
+
+	<div class="pagination">
+		 <span class="step-links">
+			  {% if object_list.has_previous %}
+					<a href=
+					"?page={{ object_list.previous_page_number }}">
+					{% trans "previous" noop %}
+					</a>
+			  {% endif %}
+
+			  <span class="current">
+			      {% trans "Page" noop %}
+					{{ object_list.number }} 
+				   {% trans "of" noop %}
+					{{ object_list.paginator.num_pages }}.
+			  </span>
+
+			  {% if object_list.has_next %}
+					<a href=
+					"?page={{ object_list.next_page_number }}">
+						{% trans "next" noop %}
+					</a>
+			  {% endif %}
+		 </span>
+	</div>
+	
+
+
+{% endwith %}
