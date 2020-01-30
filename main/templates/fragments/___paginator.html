@@ -1,0 +1,41 @@
+{% load i18n %}
+
+
+{% if object_list %}
+
+	<div class="pagination">
+		 <span class="step_links">
+			  {% if object_list.has_previous %}
+					<a href=
+					"?page={{ object_list.previous_page_number }}">
+					{% trans "previous" noop %}
+					</a>
+			  {% else %}
+					<a href= 
+						"?page={{ object_list.paginator.num_pages }}">
+						{% trans "previous" noop %}
+					</a>						
+			  {% endif %}
+
+			  <span class="current">
+			      {% trans "Page" noop %}
+					{{ object_list.number }} 
+				   {% trans "of" noop %}
+					{{ object_list.paginator.num_pages }}
+			  </span>
+
+			  {% if object_list.has_next %}
+					<a href=
+					"?page={{ object_list.next_page_number }}">
+						{% trans "next" noop %}
+					</a>
+				{% else %}
+					<a href= "?page=1">
+						{% trans "next" noop %}
+					</a>					
+			  {% endif %}
+		 </span>
+	</div>
+	
+
+{% endif %}

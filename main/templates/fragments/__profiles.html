@@ -47,8 +47,11 @@
 
 				{% endif %}
 			</div>
-			{% csrf_token %}
 		</li>
 	{% endfor %}
+
+	{% csrf_token %}
+
+	{% include "fragments/___paginator.html" with object_list=page_obj|default:Users %}
 
 </ul>

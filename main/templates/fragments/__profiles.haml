@@ -1,11 +1,11 @@
 ul.profiles_list
 	-for User in Users
 	
-		/ User.Status
+		/User.Status
 	
 		li(id='us_={User.id}' 
-			data-_refresh='content'
-			data-to='~url "user" User.id')
+			data-_refresh ='content'
+			data-to ='~url "user" User.id')
 			
 			h3
 				={User.username}
@@ -46,4 +46,8 @@ ul.profiles_list
 				-else
 					button.to_friend To_friend
 					
-			-csrf_token
+	-csrf_token
+	
+	-include "fragments/___paginator.html" with object_list=page_obj|default:Users
+	
+	

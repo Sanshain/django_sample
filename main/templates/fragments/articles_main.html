@@ -53,7 +53,7 @@
 
 <article>
 	{% if articles %}				
-				
+		
 		<div class='articles_list'>
 		
 		{% for article in articles %}
@@ -96,13 +96,7 @@
 							<span class="i_tags">Ntu</span>
 						</div>
 					  					  
-					</div>						
-				
-		
-				
-				
-				
-				
+					</div>										
 				
 				{% comment %}
 				
@@ -134,35 +128,8 @@
 </article>
 
 
-{% load i18n %}
-
-{% with articles as object_list %}
-
-	<div class="pagination">
-		 <span class="step_links">
-			  {% if object_list.has_previous %}
-					<a href=
-					"?page={{ object_list.previous_page_number }}">
-					{% trans "previous" noop %}
-					</a>
-			  {% endif %}
-
-			  <span class="current">
-			      {% trans "Page" noop %}
-					{{ object_list.number }} 
-				   {% trans "of" noop %}
-					{{ object_list.paginator.num_pages }}
-			  </span>
-
-			  {% if object_list.has_next %}
-					<a href=
-					"?page={{ object_list.next_page_number }}">
-						{% trans "next" noop %}
-					</a>
-			  {% endif %}
-		 </span>
-	</div>
-	
 
 
-{% endwith %}
+{% include "fragments/___paginator.html" with object_list=articles%}
+
+

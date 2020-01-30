@@ -222,7 +222,7 @@ class UserView(CSSMixin, DetailView):
 
 
         user_id = context_args[0]
-        article_page = 1 if len(context_args) < 2 else context_args[1]
+        article_page = self.request.GET.get("page", 1)                             # if len(context_args) < 2 else context_args[1]
 
         print user_id
         print article_page
@@ -500,6 +500,7 @@ class UserList(LoginRequiredMixin, ReactMixin, ListView):
     template_name = 'main/profile_list_2.haml'
     context_object_name = 'Users'							                    	# object_list by default
     login_url = '/signin/'
+    paginate_by = 5
 
     def get_context_data(self, **kwargs):
         context = super(UserList, self).get_context_data(**kwargs)
@@ -587,11 +588,27 @@ class UserList(LoginRequiredMixin, ReactMixin, ListView):
             # можно так же вычислять на основе template_name.split('/')[-1].split('.')[0]
             _template_name = _template or '_%s%s%s'%('_' if s else '', self.model.__name__.lower(), s)
             _prime_key = self.context_object_name or ('object_list' if s else 'object')
+
             _prime_value = self.get_queryset(**filter_param) if s else self.get_object()
 
+            _context = {'request' :self.request }
 
-            prime_env = [
-                _template_name, {_prime_key : _prime_value,  'request' :self.request }]
+
+            if self.paginate_by:
+
+                paginator = Paginator(_prime_value, self.paginate_by)
+
+                page = self.request.GET.get('page', 1)
+
+                _prime_value = paginator.page(page if type(page) == int else 1)
+
+
+                # paginator, page, queryset, is_paginated = self.paginate_queryset(queryset, page_size)
+
+
+            _context[_prime_key] = _prime_value
+
+            prime_env = [ _template_name, _context]
 
             if css__cls_id: prime_env.append(css__cls_id)
 
