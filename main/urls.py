@@ -36,8 +36,13 @@ from .views.Communities import Communie_List, Communie
 from .views.Mixins import my_view
 
 urlpatterns = [
+
     url(r'^user/$', ProfileView.Mirror, name='Me'),                                             # я сам
     url(r'^users/(?P<pk>[0-9]+)/$',login_required(ProfileView.UserView.as_view()), name = 'user'),         # число в аргументе, страница польз-ля
+
+    url(r'^users/(?P<pk>[0-9]+)/?page=(?P<pk_a>[0-9]+)/$',
+        ProfileView.Load, name = 'user_pub'),
+
     url(r'^users/$', ProfileView.UserList.as_view(), name='users'),                                         # список друзей
 
     url(r'^$', ProfileView.Load, name='Profile_Load'),

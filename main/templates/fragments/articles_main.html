@@ -139,7 +139,7 @@
 {% with articles as object_list %}
 
 	<div class="pagination">
-		 <span class="step-links">
+		 <span class="step_links">
 			  {% if object_list.has_previous %}
 					<a href=
 					"?page={{ object_list.previous_page_number }}">
@@ -151,7 +151,7 @@
 			      {% trans "Page" noop %}
 					{{ object_list.number }} 
 				   {% trans "of" noop %}
-					{{ object_list.paginator.num_pages }}.
+					{{ object_list.paginator.num_pages }}
 			  </span>
 
 			  {% if object_list.has_next %}

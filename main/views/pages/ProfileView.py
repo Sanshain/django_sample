@@ -56,8 +56,8 @@ if settings.DEBUG:
 # Create your views here. В процедурном стиле:
 @login_required
 def Load(request):
-    # return HttpResponse("Hello World!")
-	return render(request, "load.html")
+
+    return render(request, "load.html")                                            # return HttpResponse("Hello World!")
 
 ##        print user.from_friend
 ##        username = request.POST.get("login",'')
@@ -111,7 +111,7 @@ class UserView(CSSMixin, DetailView):
         if not profile.Image:
             context['links'].append(context['links'][0][:-4] + u'/default_avatar.css')
 
-
+    # overrided for Mixin LightReact
     def _get_model_fields(self, args):
 
         cuser, user_id = args
@@ -155,16 +155,17 @@ class UserView(CSSMixin, DetailView):
         return user_dict
 
 
-
     def get_context_data(self, *args, **kwargs):                                    # расширение контекста
 
         context = super(UserView, self).get_context_data(*args, **kwargs)
-
         context['header'] = "Профиль"
+
+
+        page = self.request.GET.get('page', 1)
 
         article_list = Article.objects.filter(From = self.object)[::-1]  #
         paginator = Paginator(article_list, self.page_size)
-        context['articles'] = paginator.page(1)
+        context['articles'] = paginator.page(page)
 
         context['create_articles'] = create_note
         #context['to_dialog'] = reverse('get_dialog').strip('/')
@@ -228,15 +229,17 @@ class UserView(CSSMixin, DetailView):
 
 
 
-        cuser = Profile.objects.get(id=user_id)                                      # .values('id','username')
-        # cuser = get_object_or_404(Profile, pk=user_id) # так правильнее
-        article_list = Article.objects.filter(From=cuser)                            ## articles = cuser.inote.select_related('article').filter(article__isnull=False))
+        # cuser = Profile.objects.get(id=user_id)                                   # .values('id','username')
+        cuser = get_object_or_404(Profile, pk=user_id)                              # так правильнее
+        article_list = Article.objects.filter(From=cuser)                           ## articles = cuser.inote.select_related('article').filter(article__isnull=False))
         paginator = Paginator(article_list, self.page_size)
 
         try:
             articles = paginator.page(article_page)
         except EmptyPage:
             articles = paginator.page(paginator.num_pages)
+
+
 
         def _render_fragment(args):
 
