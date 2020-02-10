@@ -1,4 +1,6 @@
-String.prototype.trim = function () {
+import "subtest";
+
+String.prototype.trimw = function() {
   return this.replace(/^\s+|\s+$/g, '');
 }; 
 

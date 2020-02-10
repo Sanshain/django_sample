@@ -16,6 +16,13 @@
 	-block script
 	
 		={block.super}
+		
+		var to_friend = '{% url 'to_friend' %}',
+		    edit_self = "{% url 'edit_self' 0 %}",
+		    user = "{% url 'user' 0 %}";
+			 
+		
+		
 		-include 'main/profile_list/behavior.js'
 	
 	-block header

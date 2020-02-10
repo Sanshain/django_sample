@@ -25,11 +25,25 @@ function getCookie(name) {
 //подробно https://learn.javascript.ru/ajax-xmlhttprequest
 
 ///без подтверждения
+/*!
+
+    Принимает в качестве data строку в виде get-параметров или объект, который преобрзуется в эту строку.
+
+*/
 function POST_AJAX(data, url){
 					
 	if (url == undefined) url = window.location.href;
 					
 	var csrftoken = getCookie('csrftoken');	
+
+
+   if (typeof data == typeof null){        // "object"
+		
+		var s = "";
+		for (var k in data) s += k + '=' + data[k] + '&';
+		if (s) data = s.slice(0,-1);
+	}
+	
 
 	data = 'csrfmiddlewaretoken=' + csrftoken + '&' + data;		
 
