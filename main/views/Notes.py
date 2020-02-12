@@ -112,7 +112,7 @@ class note_create(CreateView):
 
 class ArticleView(CSSMixin, ReactMixin, DetailView):
     model = Article
-    template_name = '{}.haml'.format(model._meta.object_name.lower())
+    template_name = '{}.h{}ml'.format(model._meta.object_name.lower(), settings.TEMPLATE_SIGN)
 
     def get_object(self, queryset=None):
 

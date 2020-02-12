@@ -497,7 +497,7 @@ class UserUpdate(UpdateView):
 class UserList(LoginRequiredMixin, ReactMixin, ListView):
     model = Profile
     # template_name = "home.html" 							                       	# по умолчанию main/profile_list.html
-    template_name = 'main/profile_list_2.haml'
+    template_name = 'main/profile_list_2.h{}ml'.format(settings.TEMPLATE_SIGN)
     context_object_name = 'Users'							                    	# object_list by default
     login_url = '/signin/'
     paginate_by = 5

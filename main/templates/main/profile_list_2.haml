@@ -4,6 +4,7 @@
 	
 		={block.super}
 		-load staticfiles
+		-load dev_tags
 	
 		/[if IE 8] 
 			script(src='~static "ie8.js"')
@@ -26,10 +27,11 @@
 		-include 'main/profile_list/behavior.js'
 	
 	-block header
+		1111111111111111111
 		/Users:
 		
 	-block main
-		-include "fragments/__profiles.haml"
+		-dev_include "fragments/__profiles.haml"
 	
 	-block section
 	/-block aside

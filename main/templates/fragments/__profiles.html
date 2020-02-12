@@ -4,11 +4,8 @@
 <!-- User.Status -->
 		<li data-_refresh='content' data-to='{% url "user" User.id %}' id='us_{{ User.id }}'>
 
-			<h3>
-				{{ User.username }}
-				{{ User.last_name }}
+			<h3>{{ User.username }} {{ User.last_name }} 123123</h3>
 
-			</h3>
 			<div class='i_desc'>
 				Male: 29
 				Sex: jenshina
@@ -16,13 +13,16 @@
 			</div>
 			{% if User.Image %}
 				<div class='logo'>
-					<image src='{{ User.Image.url }}'></image>
+					<div></div>
 				</div>
 			{% else %}
 				<div class='logo'></div>
 			{% endif %}
+			{% if User.Image %}
+
+			{% endif %}
+
 			<div onclick='friend_act(this,event)' class='i_mnu'>
-<!-- button 12456 -->
 <!-- button 12456 -->
 				{% if User.Recipient %}
 					<button class='to_friend sended'>Reconside</button>
@@ -53,5 +53,6 @@
 	{% csrf_token %}
 
 	{% include "fragments/___paginator.html" with object_list=page_obj|default:Users %}
+
 
 </ul>

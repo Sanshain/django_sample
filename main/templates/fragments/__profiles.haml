@@ -1,28 +1,27 @@
 ul.profiles_list
 	-for User in Users
 	
-		/User.Status
+		/User.Status		
 	
 		li(id='us_={User.id}' 
 			data-_refresh ='content'
 			data-to ='~url "user" User.id')
 			
-			h3
-				={User.username}
-				={User.last_name}
+			h3 ={User.username} ={User.last_name} 123123
 			
 			.i_desc
 				Male: 29
 				Sex: jenshina
 			
 			-if User.Image	
-				.logo
-					%image(src='={User.Image.url}')
+				.logo %image(src='={User.Image.url}')
 			-else
-				.logo
+				.logo 
+			
+			
+			-if User.Image
 			
 			.i_mnu(onclick='friend_act(this,event)')
-				/button 12456
 				/button 12456
 			
 				-if User.Recipient
@@ -50,4 +49,183 @@ ul.profiles_list
 	
 	-include "fragments/___paginator.html" with object_list=page_obj|default:Users
 	
+
+*************************
+
+
+
+
+function friend_act(sender, event){
+    
+   event.stopPropagation();    
+    
+	var target = event.srcElement || event.target;//IE8+other
+
+	var addressee = 
+	    Number(sender.parentNode.id) 
+	    || sender.parentNode.id.substring(3);
 	
+	// если элемент, по которому жмакнули - кнопка to_friend
+	if (target.className.indexOf("friend") >= 0) {  
+	
+		if (target.name == 'self') ToFriend(); 
+		else ToFriend(addressee);
+
+	} else ToUser(addressee, event.which == 2);	
+	
+}
+
+
+
+
+/*! Отправляем заявку о дружбе
+
+*/
+function ToFriend(addressee){
+
+	if (addressee) POST_AJAX({id : addressee}, to_friend); 
+	
+	else {
+		
+		alert('ToFriend');
+		
+		// move to edit Profile (`Profile` btn)
+		
+		var addressee = document.getElementById('me').name; 	//get id from buttom `To me` at top-menu
+
+		var base_url = edit_self;
+		base_url = base_url.replace('0', addressee); //can add links for return to list users after save
+		document.location.href = base_url;//*/
+	}
+}
+
+
+/*! \brief 
+
+	@param addressee - id страницы для перехода
+	@param tab_fl - колесиком - открываем в новой вкладке
+*/
+function ToUser(addressee, tab_fl){
+	
+	alert('ToUser');
+	
+	var base_url = user;
+
+	base_url = base_url.replace('0', addressee);
+
+	if (tab_fl && !ie()) {
+		window.open(addressee, '_blank');	
+	}
+	else 
+		document.location.href = base_url;
+}
+
+
+-------------------------
+
+
+.less{}								// less sign
+@i_height : 7em;
+@backcolor: bisque; 				//azure;
+@border_r : 15px;
+
+@_block_side : lighten(lightgray, 12%);
+
+.profiles_list{
+	list-style-type: none;
+	padding: 0;
+	border-left:1px solid @_block_side;
+	border-right:1px solid @_block_side;
+	
+	border-radius:@border_r;
+	margin-left: 20px; }
+.profiles_list > li{
+	transition: 1.5s;
+			
+	position: relative;
+	height:@i_height;
+	padding: 10px 140px 5px 20px;
+	box-sizing: border-box;
+
+	background-color: lighten(@backcolor, 8%);
+	overflow:hidden;
+	white-space:nowrap;	
+	
+	margin-bottom:10px;
+	
+	border-radius:@border_r;
+	border:1px solid darken(@backcolor, 8%);
+	cursor:pointer;	}
+.profiles_list>li:hover{
+	background-color:lighten(orange, 40%);
+	border:1px solid darken(@backcolor, 40%);
+}
+
+.profiles_list > li h3{
+  margin:10px 0 0 20px;
+  font-family:'Tenor Sans';
+}
+.i_desc{
+  margin:10px 0 0 20px;
+  display:inline-block;
+  font-size: large;
+  color:brown;
+  width:100%;
+  overflow:hidden;
+  text-overflow:ellipsis;/*just for ie*/
+}
+
+.logo{
+  position: absolute;
+  top:0;
+  right:0;
+  background-color: green;
+  width: @i_height;
+  height: @i_height;
+  
+  transition:1s;
+  opacity:0.8;
+  background: url(http://raduga-shop.ru/wa-data/public/shop/products/18/14/21418/images/23955/23955.96x96.jpg) no-repeat center;  
+  background-size:cover;
+  border:1px solid lightgray;
+  border-radius: @border_r;
+  overflow:hidden;
+  box-sizing:border-box;}
+.logo img{
+  transition:1s;
+  width: @i_height;
+  height: @i_height;	
+}
+
+.i_mnu{
+  position:absolute;
+  bottom:-40px;
+  
+  border-radius:15px 0px 0 0;
+  overflow:hidden;
+  right:@i_height;
+  
+  background-color: beige;
+  transition: opacity 1s, bottom 1s ease-out;
+
+  opacity:0;
+}
+.profiles_list>li:hover .i_mnu{
+  bottom:0px;
+  opacity:0.95;
+}
+
+
+.i_mnu>button{
+  transition:1s;
+  
+  padding:10px;
+  cursor: pointer; 
+  color:#98846d;
+  border:none;
+  /*border:1px burlywood solid;*/
+}
+.i_mnu>button:hover{
+  background-color: orange;
+  color:black;
+}

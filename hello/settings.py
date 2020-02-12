@@ -17,6 +17,10 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
+
+
+
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
@@ -25,6 +29,50 @@ SECRET_KEY = '_iwhfi57@g&yy3dyb6^2b2n9^@3mdxholivu&04x(uk!kg#nxk'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+
+
+
+
+
+
+# html or haml templates
+HAML_COMPILE = True
+
+TEMPLATE_SIGN = 'a' if HAML_COMPILE else 't'
+
+TEMPLATE_EXTENSION = 'h{}ml'.format(TEMPLATE_SIGN)
+
+
+# for HAMLPY component package settings:
+
+# divides sign for component model:
+LIGHT_UNITS = {
+    'js' : '*****' * 5,
+    'style' : '-----' * 5
+}
+
+
+
+import lesscpy
+from six import StringIO
+
+# lesscpy.compile(StringIO(u"a { border-width: 2px * 3; }"), minify=True)
+
+def less_compile(less, tgt):
+    css = lesscpy.compile(StringIO(less), minify=True)
+    with open(tgt, 'w') as tgt_file: tgt_file.write(r_less)
+    print "less compiled to {}".format(tgt)
+
+
+STYLE_PREPROCS = {
+    'less' : lambda x: os.system('gulp less_apply --tgt %s'%x)
+##    'less' : (less_compile,)
+}
+
+
+
+
+
 
 DEBUG_TOOLBAR_PANELS = (
     'debug_toolbar.panels.versions.VersionsPanel',
@@ -71,7 +119,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
 
-	#'debug_toolbar.middleware.DebugToolbarMiddleware',
+	'debug_toolbar.middleware.DebugToolbarMiddleware',
 
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
