@@ -58,15 +58,27 @@ from six import StringIO
 
 # lesscpy.compile(StringIO(u"a { border-width: 2px * 3; }"), minify=True)
 
-def less_compile(less, tgt):
-    css = lesscpy.compile(StringIO(less), minify=True)
-    with open(tgt, 'w') as tgt_file: tgt_file.write(r_less)
+import re
+
+def less_compile(less_src, tgt):
+
+    less_src = re.sub('(((?<!:)//.+)|(/\*[\S\s]+?\*\/))','', less_src)           # убирает комментари
+    less_src = re.sub(r'url\(([\w\d\.\:\_\-\/]+)\)', 'url("\1")', less_src)      # добавляет кавычки внутри url()
+
+    css = lesscpy.compile(StringIO(less_src))                                       # minify=True
+
+    # css = re.sub(r'url\("([\w\d\.\:\_\-\/]+)"\)', 'url(\1)', css)      # убирает кавычки внутри url()
+
+    with open(tgt, 'w') as tgt_file: tgt_file.write(css)
+
     print "less compiled to {}".format(tgt)
 
 
 STYLE_PREPROCS = {
-    'less' : lambda x: os.system('gulp less_apply --tgt %s'%x)
-##    'less' : (less_compile,)
+    # 'less' : lambda x: os.system('gulp less_apply --tgt %s'%x),
+    # 'less' : lambda x: os.system('cd ../ & node "./node_modules/gulp/bin/gulp.js" less_apply --tgt %s'%x)
+    # 'less' : None,
+    'less' : (less_compile,)
 }
 
 
