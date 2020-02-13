@@ -15,12 +15,7 @@
 
 	{% block script %}
 
-		{{ block.super }}
-
-		var to_friend = '{% url 'to_friend' %}',
-						edit_self = "{% url 'edit_self' 0 %}",
-						user = "{% url 'user' 0 %}";
-
+		{{ block.super }} //- inittialize
 
 
 		{% include 'main/profile_list/behavior.js' %}
@@ -32,7 +27,7 @@
 <!-- Users: -->
 	{% endblock %}
 	{% block main %}
-		{% dev_include "fragments/__profiles.haml" %}
+		{% frag "__profiles" %}
 
 	{% endblock %}
 	{% block section %}

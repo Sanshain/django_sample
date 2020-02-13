@@ -1,3 +1,81 @@
+function ____profiles____(){}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/// init
+
+var to_friend = '{% url 'to_friend' %}',
+	 edit_self = "{% url 'edit_self' 0 %}",
+	 user = "{% url 'user' 0 %}";
+
+///
+
+
 function friend_act(sender, event){
     
    event.stopPropagation();    
@@ -17,8 +95,6 @@ function friend_act(sender, event){
 	} else ToUser(addressee, event.which == 2);	
 	
 }
-
-
 
 
 /*! Отправляем заявку о дружбе

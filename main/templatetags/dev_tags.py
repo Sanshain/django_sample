@@ -17,7 +17,9 @@ def dev_include(parser, token):
 @register.tag('frag')
 def frag_include(parser, token):
 
-    token = 'fragments/{}.{}'.format(token, settings.TEMPLATE_EXTENSION)
+    _name = token.contents[token.contents.find("\"")+1 : token.contents.rfind("\"")]
+
+    token.contents = 'include "fragments/{}.{}"'.format(_name, settings.TEMPLATE_EXTENSION)
 
     return do_include(parser, token)
 
@@ -25,7 +27,7 @@ def frag_include(parser, token):
 @register.tag('unit')
 def frag_include(parser, token):
 
-    token = 'components/{}.{}'.format(token, settings.TEMPLATE_EXTENSION)
+    token.contents = 'components/{}.{}'.format(token.contents, settings.TEMPLATE_EXTENSION)
 
     return do_include(parser, token)
 
