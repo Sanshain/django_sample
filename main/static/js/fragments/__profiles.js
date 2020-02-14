@@ -50,23 +50,6 @@ function ____profiles____(){}
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /// init
 
 var to_friend = '{% url 'to_friend' %}',
