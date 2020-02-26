@@ -84,14 +84,17 @@ def read_friends(request):
             img = None
             people = buffer(b'')
 
+            print '______profiling for read_friends()_______'
+            a = timeit.default_timer()
+
             for friend in friends:
                 img = friend.pop(image)
 
                 t = time.time()
-                a = timeit.default_timer()
+
 
                 buf = json.dumps(friend) + chr(30)                                      # str(len(buf)).zfill(3)
-                print len(img)
+                print 'source len of convert img is %s bytes'%len(img)
 
                 #Image.fromarray(img)
                 #Image.frombytes(img)
@@ -100,7 +103,7 @@ def read_friends(request):
                 img = buffer(base64.b64encode(img))                                     # base64
                 people += buffer(buf + str(len(img)).rjust(5, b'0')) + img      # http://qaru.site/questions/49614/what-is-python-buffer-type-for
 
-                print a - timeit.default_timer()
+            print 'preparation convert img to base64 holds %s ms'%(timeit.default_timer()- a)
 
 
 ##                one_man = ''
@@ -113,7 +116,9 @@ def read_friends(request):
 ##            response = HttpResponse(people, content_type='image/jpeg')
 ##            response = HttpResponse(people, content_type='application/zip')
 
-            print len(people[:])
+            print 'agregated by async friends reading data:uri hold %s bts'%len(people[:])
+            print '______end profiling for read_friends()_______'
+
             response = HttpResponse(people, content_type='application/x-binary')
 
             return response

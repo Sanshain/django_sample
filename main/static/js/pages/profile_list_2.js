@@ -1,7 +1,12 @@
+
+
 var profile_list = {}
 function test(){
 	
 }
+
+
+/*fragments __profiles.haml*/
 
 
 
@@ -53,17 +58,14 @@ function ____profiles____(){}
 
 
 
+/*~const block*/
 
-
-
-
-/// init
-
-var to_friend = '{% url 'to_friend' %}',
-	 edit_self = "{% url 'edit_self' 0 %}",
-	 user = "{% url 'user' 0 %}";
-
-///
+var to_friend = '/to_friend/',
+	 edit_self = "/edit_self/0/",
+	 user = "/users/0/",
+	 lnk = "/static/1/ie8.js"
+	 
+/*~*/
 
 
 function friend_act(sender, event){

@@ -18,7 +18,7 @@ def less_compile(content=None):
 
 
     less_src = re.sub('(((?<!:)//.+)|(/\*[\S\s]+?\*\/))','',less_src)           # убирает комментарии
-    content = re.sub(r'url\("([\w\d\.\:\_\-\/]+)"\)', 'url(\1)',less_src)      # убирает кавычки внутри url()
+    content = re.sub(r'url\("([\w\d\.\:\_\-\/]+)"\)', 'url(\1)',less_src)       # убирает кавычки внутри url()
 
     css = lesscpy.compile(StringIO(content))
 

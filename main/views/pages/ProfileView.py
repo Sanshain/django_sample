@@ -92,7 +92,7 @@ def ToFriend(request):
 """
 @login_required
 def Mirror(request):
-	return HttpResponseRedirect(reverse('user', kwargs={'pk': request.user.id}))
+	return HttpResponseRedirect(reverse('user', kwargs={'pk': request.user.id}))          #   args=[request.user.id]
 
 
 

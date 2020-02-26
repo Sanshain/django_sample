@@ -1,0 +1,17 @@
+{
+  "name": "less_connection",
+  "version": "1.0.0",
+  "description": "less compiler implementation by socket cooperation for fast compile for other paltforms. Faster then watch (by gulp). Created just for development",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Test works\" && exit 0"
+  },
+  "author": "Sanshain",
+  "license": "ISC",
+  "devDependencies": {
+    "gulp-less": "^4.0.1"
+  },
+  "dependencies": {
+
+  }
+}

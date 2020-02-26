@@ -12,23 +12,23 @@ ul.profiles_list
 			.i_desc Male: 29
 				Sex: jenshina
 			
-			-if User.Image	
-				.logo %image(src='={User.Image.url}')
-			-else
+			-if User.Image:
+				.logo %img(src='={User.Image.url}')
+			-else:
 				.logo 
 			
 			
 			.i_mnu(onclick='friend_act(this,event)')
 				/button 12456
 			
-				-if User.Recipient
+				-if User.Recipient:
 					button.to_friend.sended Reconside
 					
 				-elif User.Sender				
 					button.to_friend.sended.out Refuse
 					button.to_friend.sended Accept
 					
-				-elif User.Friend
+				-elif User.Friend: 
 					button.to_friend Remove friend
 					
 				-elif User.Me
@@ -36,7 +36,7 @@ ul.profiles_list
 						name='self'
 						style='border:1px solid orange;') Profile
 						
-				-else
+				-else: 
 					button.to_friend To_friend
 					
 	-csrf_token
@@ -94,17 +94,14 @@ function ____profiles____(){}
 
 
 
+/*~const block*/
 
-
-
-
-/// init
-
-var to_friend = '{% url 'to_friend' %}',
+var to_friend = '{% url "to_friend"	%}',
 	 edit_self = "{% url 'edit_self' 0 %}",
-	 user = "{% url 'user' 0 %}";
-
-///
+	 user = "{% url 'user' 0 %}",
+	 lnk = "{% static "1/ie8.js" %}"
+	 
+/*~*/
 
 
 function friend_act(sender, event){
@@ -251,7 +248,7 @@ function ToUser(addressee, tab_fl){
   
   transition:1s;
   opacity:0.8;
-  background: url(http://raduga-shop.ru/wa-data/public/shop/products/18/14/21418/images/23955/23955.96x96.jpg) no-repeat center;  
+  background: url("http://raduga-shop.ru/wa-data/public/shop/products/18/14/21418/images/23955/23955.96x96.jpg") no-repeat center;  
   background-size:cover;
   border:1px solid lightgray;
   border-radius: @border_r;

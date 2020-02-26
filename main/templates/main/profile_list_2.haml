@@ -6,20 +6,21 @@
 		-load staticfiles
 		-load dev_tags
 	
-		/[if IE 8] 
+		/[if IE 8]
 			script(src='~static "ie8.js"')
 		link(
 			id="dynamic_link"
 			rel="stylesheet" 
-			href='~static "profile_list_2.css"')
+			href='~static "style/pages/profile_list_2.css"')
 		script(src='~static "ajax.js"')		
+		script(src='~static "js/pages/profile_list_2.js"')
 
 	-block script
 	
 		={block.super} //- inittialize
 		
 		
-		-include 'main/profile_list/behavior.js'
+		/-include 'main/profile_list/behavior.js'
 	
 	-block header
 		1111111111111111111

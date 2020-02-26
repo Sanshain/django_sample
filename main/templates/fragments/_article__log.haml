@@ -1,0 +1,11 @@
+-load i18n 
+
+.title 
+	/-url "user" object.From.id as back
+	-trans "Without Title" noop as title 
+
+	%button#close(title='' data-_refresh='<article' formAction='{% url "user" object.From.id %}') -	
+
+	%h3 ={object.Title|default:title }
+	
+.content ={object.Content}
