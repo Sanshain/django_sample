@@ -52,6 +52,7 @@ if settings.DEBUG:
     from datetime import timedelta, datetime
     import time
     import timeit
+    import pdb
 
 # Create your views here. В процедурном стиле:
 @login_required
@@ -569,6 +570,8 @@ class UserList(LoginRequiredMixin, ReactMixin, ListView):
         def _get_samples(
                 _block_name=None, _filter_param=None, _template=None, css__cls_id=None):
             """
+            get base response for this model (I think)
+
             _block_name - имя блока (id) на странице. По дефолту = block_name класса
             _filter_param - должен быть словарем
             _template - имя шаблона, по дефолту равно _(_)model_name(s)
@@ -586,6 +589,7 @@ class UserList(LoginRequiredMixin, ReactMixin, ListView):
             s = 's' if ListView in self.__class__.__mro__ else ''
 
             # можно так же вычислять на основе template_name.split('/')[-1].split('.')[0]
+
             _template_name = _template or '_%s%s%s'%('_' if s else '', self.model.__name__.lower(), s)
             _prime_key = self.context_object_name or ('object_list' if s else 'object')
 
@@ -610,6 +614,8 @@ class UserList(LoginRequiredMixin, ReactMixin, ListView):
 
             prime_env = [ _template_name, _context]
 
+
+
             if css__cls_id: prime_env.append(css__cls_id)
 
             sample = (self._render_root_fragment, [prime_env, '']) \
@@ -617,11 +623,8 @@ class UserList(LoginRequiredMixin, ReactMixin, ListView):
                 else (self._render_fragment, prime_env)
 
 
-            sample_dict = {
-                _block_name : sample
-            }
 
-            return sample_dict
+            return { _block_name : sample }
 
         def fill_response_for(_requested_blocks, _by_samples = None):
             """
@@ -649,6 +652,7 @@ class UserList(LoginRequiredMixin, ReactMixin, ListView):
 
 
         # render_root_fragment
+
 
 
         field_dict = fill_response_for(requested_blocks)

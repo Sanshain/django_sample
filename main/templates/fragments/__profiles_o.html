@@ -4,14 +4,14 @@
 <!-- User.Status -->
 		<li data-_refresh='content' data-to='{% url "user" User.id %}' id='us_{{ User.id }}'>
 
-			<h3>{{ User.username }} {{ User.last_name }}</h3>
+			<h3>{{ User.username }} {{ User.last_name }} 123123</h3>
 
 			<div class='i_desc'>Male: 29				Sex: jenshina
 
 </div>
 			{% if User.Image %}
 				<div class='logo'>
-					<img src='{{ User.Image.url }}'>
+					<div></div>
 				</div>
 			{% else %}
 				<div class='logo'></div>

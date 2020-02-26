@@ -11,7 +11,8 @@ from django.template.loader import render_to_string
 from django.http import HttpResponse
 from django.utils.translation import ugettext as _
 
-
+import pdb
+from warnings import warn
 
 def my_view(request):
     output = _("Welcome to my site.")
@@ -147,18 +148,25 @@ def render_fragment(args):
 
     templ = ''
 
+
+
+    ext = settings.TEMPLATE_EXTENSION
+
     try:
 
         templ = render_to_string(
-            'fragments/%s%s'%(args[0], '' if '.' in args[0] else '.haml'),
+            'fragments/%s%s'%(args[0], ('') if ('.' in args[0]) else ('.'+ext)),
             context=args[1],
             request=request
         ).strip().replace('\t','')                                                         # .replace('\t','') - для оптимизации
 
-    except:
+    except Exception as error:
+
+        warn('%s for %s'%(error.__str__(), args[0]))
+
 
         templ = render_to_string(
-            'fragments/%s%s'%(args[0], '' if '.' in args[0] else '.html'),
+            'fragments/%s%s'%(args[0], ('') if '.' in args[0] else '.html'),
             context=args[1],
             request=request
         ).strip().replace('\t','')
@@ -183,6 +191,9 @@ def render_root_fragment(templates, root_pattern = None):
     Принимает в качестве аргумента кортеж/список по умолчанию из двух 2-х элементов
     """
     blocks = []
+
+
+
     for tmpl in templates:
         blocks.append(render_fragment(tmpl) if type(tmpl) is list else tmpl)
 
