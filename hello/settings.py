@@ -30,53 +30,29 @@ SECRET_KEY = '_iwhfi57@g&yy3dyb6^2b2n9^@3mdxholivu&04x(uk!kg#nxk'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-
+HAML_COMPILE = True                                                             # need rename => HAML_ENABLE
 
 
 
 
 # html or haml templates
-HAML_COMPILE = True
 
 TEMPLATE_SIGN = 'a' if HAML_COMPILE else 't'
 
 TEMPLATE_EXTENSION = 'h{}ml'.format(TEMPLATE_SIGN)
 
 
+
+
+
+
+
+
 # for HAMLPY component package settings:
 
-# divides sign for component model:
-LIGHT_UNITS = {
-    'js' : '*****' * 5,
-    'style' : '-----' * 5
-}
+LIGHT_UNITS = { 'js' : '*' * 25, 'style' : '-' * 25}                            # divides sign for component model
 
-
-
-import lesscpy
-from six import StringIO
-
-# lesscpy.compile(StringIO(u"a { border-width: 2px * 3; }"), minify=True)
-
-import re
-
-def less_compile(less_src, tgt, o='w'):
-
-    less_src = re.sub('(((?<!:)//.+)|(/\*[\S\s]+?\*\/))','', less_src)           # убирает комментари
-    # less_src = re.sub(r'url\(([\w\d\.\:\_\-\/]+)\)', 'url("\1")', less_src)      # добавляет кавычки внутри url()
-
-    with open(r'C:\Users\admin\Desktop\test.less', 'w') as p: p.write(less_src)
-
-    css = lesscpy.compile(StringIO(less_src))                                       # minify=True
-
-    # css = re.sub(r'url\("([\w\d\.\:\_\-\/]+)"\)', 'url(\1)', css)      # убирает кавычки внутри url()
-
-    css = '\n\n' + css
-
-    with open(tgt, o) as tgt_file: tgt_file.write(css)
-
-    print "less compiled to {}".format(tgt)
-
+from utils import less_compile
 
 STYLE_PREPROCS = {
     # 'less' : lambda x, o: os.system('gulp less_apply --tgt %s --%s'%(x,o),
