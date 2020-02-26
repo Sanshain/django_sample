@@ -36,30 +36,28 @@
             			data-_refresh ='content'
             			data-to ='{% url "user" User.id %}')
             			
-            			%h3 ={User.username} ={User.last_name} 123123
+            			%h3 ={User.username} ={User.last_name} 
             			
             			.i_desc Male: 29
             				Sex: jenshina
             			
             			-if User.Image
-            				            				.logo 
+            				.logo 
             					%img(src='={User.Image.url}')
             			-else
-            				            				.logo 
-            			
+            				.logo 		
             			
             			.i_mnu(onclick='friend_act(this,event)')
             				/button 12456
             			
             				-if User.Recipient
-            					            					%button.to_friend.sended Reconside
+            					%button.to_friend.sended Reconside
             					
             				-elif User.Sender				
             					%button.to_friend.sended.out Refuse
             					%button.to_friend.sended Accept
             					
             				-elif User.Friend
-            					 
             					%button.to_friend Remove friend
             					
             				-elif User.Me
@@ -68,7 +66,6 @@
             						style='border:1px solid orange;') Profile
             						
             				-else
-            					 
             					%button.to_friend To_friend
             					
             	-csrf_token
