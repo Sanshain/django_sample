@@ -9,15 +9,14 @@ ul.profiles_list
 			
 			h3 ={User.username} ={User.last_name} 
 			
-			.i_desc Male: 29
-				Sex: jenshina
+			.i_desc Male: 2. Sex: jenshina
 			
 			-if User.Image: .logo %img(src='={User.Image.url}')
 			-else: .logo 		
 			
 			.i_mnu(onclick='friend_act(this,event)')
 				/button 12456
-			
+
 				-if User.Recipient
 					button.to_friend.sended Reconside
 					
