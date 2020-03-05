@@ -46,19 +46,18 @@ TEMPLATE_EXTENSION = 'h{}ml'.format(TEMPLATE_SIGN)
 
 
 
-
-
 # for HAMLPY component package settings:
 
 LIGHT_UNITS = { 'js' : '*' * 25, 'style' : '-' * 25}                            # divides sign for component model
 
-from utils import less_compile
+from utils import less_compile, SockLiaison
 
 STYLE_PREPROCS = {
-    # 'less' : lambda x, o: os.system('gulp less_apply --tgt %s --%s'%(x,o),
+    # 'less' : lambda x, o: os.system('gulp less_apply --tgt %s --%s'%(x,o),    # call by global gulp task (very slow)
     # 'less' : lambda x, o: os.system('cd ../ & node "./node_modules/gulp/bin/gulp.js" less_apply --tgt %s --%s'%(x,o)
-    # 'less' : None,
-    'less' : (less_compile,)
+    # 'less' : None,                                                            # nothing doing
+    # 'less' : (less_compile,)                                                  # work good, but slowly
+    'less' : (SockLiaison().style_compile, '')
 }
 
 
