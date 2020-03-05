@@ -48,17 +48,13 @@
 <!-- button 12456 -->
                 {% if User.Recipient %}
                  <button class='to_friend sended'>Reconside</button>
-
                 {% elif User.Sender %}
                  <button class='to_friend sended out'>Refuse</button>
                  <button class='to_friend sended'>Accept</button>
-
                 {% elif User.Friend %}
                  <button class='to_friend'>Remove friend</button>
-
                 {% elif User.Me %}
                  <button name='self' style='border:1px solid orange;' class='to_friend'>Profile</button>
-
                 {% else %}
                  <button class='to_friend'>To_friend</button>
 
@@ -70,6 +66,14 @@
              {% csrf_token %}
 
              {% include "fragments/___paginator.html" with object_list=page_obj|default:Users %}
+
+
+
+
+
+
+
+
 
 
 

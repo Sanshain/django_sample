@@ -30,8 +30,8 @@
             %ul.profiles_list
             	-for User in Users
             	
-            		/User.Status		
-            	
+            		/User.Status  
+            		
             		%li(id='us_={User.id}' 
             			data-_refresh ='content'
             			data-to ='{% url "user" User.id %}')
@@ -51,25 +51,29 @@
             
             				-if User.Recipient
             					%button.to_friend.sended Reconside
-            					
-            				-elif User.Sender				
+            				-elif User.Sender
             					%button.to_friend.sended.out Refuse
             					%button.to_friend.sended Accept
-            					
             				-elif User.Friend
             					%button.to_friend Remove friend
-            					
             				-elif User.Me
             					%button.to_friend(
             						name='self'
             						style='border:1px solid orange;') Profile
-            						
             				-else
             					%button.to_friend To_friend
             					
             	-csrf_token
             	
             	-include "fragments/___paginator.html" with object_list=page_obj|default:Users
+            	
+            	
+            	
+            	
+            	
+            	
+            	
+            	
             	
             
             

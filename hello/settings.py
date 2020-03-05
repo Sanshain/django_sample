@@ -57,7 +57,7 @@ STYLE_PREPROCS = {
     # 'less' : lambda x, o: os.system('cd ../ & node "./node_modules/gulp/bin/gulp.js" less_apply --tgt %s --%s'%(x,o)
     # 'less' : None,                                                            # nothing doing
     # 'less' : (less_compile,)                                                  # work good, but slowly
-    'less' : (SockLiaison().style_compile, '')
+    'less' : (SockLiaison().file_compile, )
 }
 
 
